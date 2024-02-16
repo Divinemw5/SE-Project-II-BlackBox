@@ -31,10 +31,16 @@ public class Util {
             onea.append(one);
             twoa.append(two);
             threea.append(three);
+            if(i == 4){
+                threea.append(three.trim());
+            }
         }
         System.out.println(onea.toString());
         System.out.println(twoa.toString());
         System.out.println(threea.toString());
+        System.out.println(threea.toString());
+
+
 /*
         System.out.println("     ██      ██");
         System.out.println("   ██  ██  ██  ██");
