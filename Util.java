@@ -17,6 +17,14 @@ public class Util {
     public static void main(String[] args) {
         printBoard();
     }
+
+    private static String printIndent(int x){
+        StringBuilder return_val = new StringBuilder();
+        for(int i = 0; i < x; i++){
+            return_val.append("  ");
+        }
+        return return_val.toString();
+    }
     public static void printBoard(){
 
         StringBuilder onea = new StringBuilder();
@@ -27,6 +35,7 @@ public class Util {
         String two = "  ██  ██";
         String three="██      ";
 
+
         for(int i = 0; i <5; i++){
             onea.append(one);
             twoa.append(two);
@@ -35,10 +44,14 @@ public class Util {
                 threea.append(three.trim());
             }
         }
-        System.out.println(onea.toString());
-        System.out.println(twoa.toString());
-        System.out.println(threea.toString());
-        System.out.println(threea.toString());
+
+        //for(int i = 0; i < )
+        System.out.println(printIndent(10) + onea.toString());
+        System.out.println(printIndent(10) + twoa.toString());
+        System.out.println(printIndent(10) + threea.toString());
+        System.out.println(printIndent(10) + threea.toString());
+        System.out.println(printIndent(10) + threea);
+
 
 
 /*
