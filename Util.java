@@ -31,6 +31,11 @@ public class Util {
         return return_str.toString();
     }
 
+    /**
+     * Function to get indent of length x ("  ")
+     * @param x
+     * @return
+     */
     private static String getIndent(int x){
         StringBuilder return_val = new StringBuilder();
         for(int i = 0; i < x; i++){
@@ -40,10 +45,9 @@ public class Util {
     }
 
     /**
-     * Function to print the board without atoms (for now)
-     */
-    public static void printBoard(){
-
+     * initializes empty_board
+     * */
+    public static void initializeEmptyBoard(){
         //init string builders
         String one = "    ██  "; //first line
         String two = "  ██  ██"; //single spacing
@@ -89,11 +93,16 @@ public class Util {
             }
         }
         System.out.println();
+    }
 
+    /**
+     * Function to print the board without atoms (for now)
+     */
+    public static void printBoard(){
+        initializeEmptyBoard();
         for(String str : empty_board){
             System.out.println(str);
         }
-
     }
 
 }
