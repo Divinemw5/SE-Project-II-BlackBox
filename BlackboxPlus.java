@@ -7,7 +7,6 @@ public class BlackboxPlus {
     public static void main(String[] args) {
         String username = Util.printWelcome();
     }
-
     //Create new Box with randomly generated atoms
 
 }

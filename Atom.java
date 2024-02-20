@@ -7,10 +7,7 @@ import java.util.Random;
  */
 public class Atom {
     //atom coordinates
-    private final int x;
-    private final int y;
-    private final int z;
-
+    private final Coordinate location;
     private static final Random rand = new Random();
 
     /**
@@ -20,10 +17,7 @@ public class Atom {
      * @param z - is the z coordinate
      */
     Atom(int x, int y, int z){
-        if((x+y+z != 12) || (x > 8 || x < 0) || (y > 8 || y < 0) || (z > 8 || z < 0)) {
-            throw new IllegalArgumentException();
-        }
-        this.x = x; this.y = y; this.z = z;
+        location = new Coordinate(x,y,z);
     }
 
     /**
@@ -39,10 +33,20 @@ public class Atom {
                 x = rand.nextInt(0,9);
                 y = rand.nextInt(0,9);
                 z = rand.nextInt(0,9);
-            }while((x+y+z != 12)); //TODO - NEEDS TO MAKE SURE ATOM ISN‘T ALREADY CONTAINED IN ARRAY
+            }while((x+y+z != 12) || containsAtom(atoms, new Coordinate(x,y,z)));
             atoms[i] = new Atom(x,y,z);
         }
         return atoms;
+    }
+
+    /*check if a location contains an atom*/
+    public static boolean containsAtom(Atom[] atoms, Coordinate location){
+        for(Atom atom : atoms) {
+            if (atom != null && atom.getLocation().equals(location)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -50,7 +54,7 @@ public class Atom {
      */
     @Override
     public String toString() {
-        return "Atom(" + "x:" + (x-4) + ", y:" + (y-4) + ", z:" + (z-4) + ')';
+        return "Atom(" + "x:" + (location.getX()-4) + ", y:" + (location.getY()-4) + ", z:" + (location.getZ()-4) + ')';
     }
 
     public static void main(String[] args) {
@@ -58,5 +62,9 @@ public class Atom {
         Atom[] arr = generateAtoms(6); //TESTING
         //System.out.println(a); //TESTING
         System.out.println(Arrays.deepToString(arr)); //TESTING
+    }
+
+    public Coordinate getLocation() {
+        return location;
     }
 }

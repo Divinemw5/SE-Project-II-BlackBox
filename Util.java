@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Util {
@@ -23,6 +22,12 @@ public class Util {
         printBoard();
     }
 
+    /**
+     * Function takes parameters
+     * @param str - String to be duplicated
+     * @param x   - Number of times to duplicate
+     * @return newly created String
+     */
     private static String duplicate(String str, int x) {
         StringBuilder return_str = new StringBuilder();
         for(int i = 0; i < x; i++) {
@@ -32,9 +37,9 @@ public class Util {
     }
 
     /**
-     * Function to get indent of length x ("  ")
-     * @param x
-     * @return
+     * Function takes parameters
+     * @param x - desired indent size
+     * @return a String of size 2x containing " " characters.
      */
     private static String getIndent(int x){
         StringBuilder return_val = new StringBuilder();

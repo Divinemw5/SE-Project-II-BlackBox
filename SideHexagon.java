@@ -3,7 +3,6 @@
  */
 public class SideHexagon extends Hexagon{
     private final int[][] sides;
-
     /**
      * This constructor generates a new Hexagon and takes :
      *
@@ -21,5 +20,8 @@ public class SideHexagon extends Hexagon{
         }
         //input validation for sides array //TODO
         else this.sides = sides;
+    }
+    public int[][] getSides() {
+        return sides;
     }
 }
