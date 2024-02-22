@@ -70,6 +70,7 @@ public class Util {
             //System.out.print(appendLength + ",");
 
             //update indent (decrement for i < 5, increment for i > 5), update appendLength(opposite inc/dec)
+            //top half of board
             if (i < 5) {
                 //store in arraylist (with indent)
                 empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
@@ -79,7 +80,7 @@ public class Util {
                 //update counter
                 indentSize -= 2;
                 appendLength++;
-            } else {
+            } else { //bottom half
                 if(i == 5){
                     appendLength--;
                 }
@@ -87,8 +88,8 @@ public class Util {
                 empty_board.add(getIndent(indentSize) + twoa + duplicate(two, appendLength));
                 if(i != 9) {
                     empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
-                    empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
-                } else empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
+                }
+                empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
                 //update counter
                 if(i == 5){
                     indentSize +=2;
@@ -97,14 +98,14 @@ public class Util {
                 appendLength--;
             }
         }
-        System.out.println();
+        //System.out.println();
     }
 
     /**
      * Function to print the board without atoms (for now)
      */
     public static void printBoard(){
-        initializeEmptyBoard();
+        initializeEmptyBoard(); //move to constructor
         for(String str : empty_board){
             System.out.println(str);
         }
