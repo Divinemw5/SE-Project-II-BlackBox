@@ -19,7 +19,7 @@ public class Box {
     public static int MOVE_DIAGONAL_DOWN_RIGHT = 1;
     public static int MOVE_DIAGONAL_DOWN_LEFT = 2;
     public static int MOVE_DIRECTLY_LEFT = 3;
-    public static int MOVE_DIAGONAL_UP_LEFT = 4;
+
     public static int MOVE_DIAGONAL_UP_RIGHT = 5;
 
     /** This constructor generates a new Box and fills it with three kinds of Hexagons. Takes
