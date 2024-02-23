@@ -1,4 +1,3 @@
-import java.util.concurrent.CompletableFuture;
 
 /**
  *  Main class (contains program flow throughout the game)
