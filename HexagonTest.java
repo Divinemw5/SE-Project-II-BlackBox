@@ -12,7 +12,7 @@ public class HexagonTest {
         Coordinate location2 = new Coordinate(4,4,4);
         Coordinate location3= new Coordinate(4,0,8);
         assertEquals(box.getIndexOf(location),0);
-       assertEquals(box.getIndexOf(location2),30);
+        assertEquals(box.getIndexOf(location2),30);
         assertEquals(box.getIndexOf(location3),60);
     }
     @Test
@@ -27,7 +27,6 @@ public class HexagonTest {
             assertTrue(box.getHexagon(index).checkHasAtom());
 
         }
-
     }
 
 

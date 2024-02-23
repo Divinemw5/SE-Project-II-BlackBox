@@ -1,3 +1,4 @@
+
 /**
  *  Main class (contains program flow throughout the game)
  *
@@ -8,34 +9,36 @@ public class BlackboxPlus {
     public static void main(String[] args) {
 
         String userInput = "";
-        Player player1;
-        Atom[] atoms;
-        Box box;
-        while(!userInput.equals("quit")) {
+        Player [] player = new Player[2];
+        int currentPlayer = 0; //set player who goes first
 
+        Util.printWelcome();                    //print welcome to user
+        player[0] = Util.createPlayer(1);
+        //player[1] = Util.createPlayer(2);
 
-            atoms = Atom.generateAtoms(6);//generate random atoms
-            box = new Box(atoms);               //create the empty board
-            Util.printWelcome();                    //print welcome to user
+        //player 1 start game message (add functionality into loop and allow switching between players, convert to function in Util)
+        System.out.println("Hello, "+player[currentPlayer].getName()+"!");
+        //System.out.println("It‘s your turn!");
 
-            //get username
-            while (true) {
-                try {
-                    player1 = new Player(Util.lineInput());
-                    // If input is valid, break out of the loop
-                    break;
-                } catch (IllegalArgumentException e) {
-                    // Handle invalid input by printing assigned error message from thrown exception
-                    System.out.println(e.getMessage());
-                }
+        while(!userInput.equals("quit"))
+        {
+            //initialize game state
+            Atom[] atoms = Atom.generateAtoms(6);   //generate random atoms
+            Box box = new Box(atoms);                  //create the empty board
+
+            //play round
+            while(!userInput.equals("end round")){
+                break;
             }
 
-            Util.printBoard(Util.getEmptyBoard());
-            System.out.println("WOULD YOU LIKE TO PLAY AGAIN OR NOT jhadsfKJHDFKSJDHFKJSHDFKJ");
+            //test functionality
+            if(userInput.equals("atoms")){
+                Util.printBoard(Util.getAtomizedBoard(atoms));
+            }
+            else Util.printBoard(Util.getEmptyBoard());
+
+            System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) (enter ‘atoms‘ to show hidden atoms)");
             userInput = Util.lineInput();
         }
     }
-
-    //Create new Box with randomly generated atoms
-
 }

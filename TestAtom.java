@@ -2,11 +2,10 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class TestAtom {
     @Test
-    public void geneatom()
+    public void testGenerateRandomAtoms()
     {
         Atom[] atoms = Atom.generateAtoms(6);
         assertEquals(6,atoms.length);
@@ -17,6 +16,4 @@ public class TestAtom {
         }
 
     }
-
-
 }
