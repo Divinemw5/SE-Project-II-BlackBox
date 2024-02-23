@@ -13,7 +13,7 @@ public class Atom {
     /**
      * This constructor generates a new atom and takes a tuple (x,y,z) where:
      * @param x - is the x coordinate
-     * @param y - is the y coordinate
+     *   @param y - is the y coordinate
      * @param z - is the z coordinate
      */
     Atom(int x, int y, int z){
@@ -53,9 +53,9 @@ public class Atom {
      * @return a string with stored values of (x,y,z) for an Atom
      */
     @Override
-    public String toString() {
-        return "Atom(" + "x:" + (location.getX()-4) + ", y:" + (location.getY()-4) + ", z:" + (location.getZ()-4) + ')';
-    }
+            public String toString() {
+                return "Atom(" + "x:" + (location.getX()-4) + ", y:" + (location.getY()-4) + ", z:" + (location.getZ()-4) + ')';
+            }
 
     public static void main(String[] args) {
         //Atom a = new Atom(8,0,4); //TESTING
