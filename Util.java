@@ -1,25 +1,26 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Util {
 
-    static ArrayList<String> empty_board = new ArrayList<>(); //empty string rep. of board //initialize once
-
-    public static void printWelcome(){
+    public static String printWelcome(){
         System.out.println("Welcome to BlackBox!!! :) :) :)");
         System.out.println("Please enter user information:\t");
-    }
-    public static String lineInput(){
         Scanner input = new Scanner(System.in);
-        return input.nextLine();
-    }
-
-    public static Boolean unIsValid(String username){
-        return !username.isBlank() && (username.length() > 2) && (username.length() <17);
+        String username = input.nextLine();
+        if(username.trim().isBlank()){
+            throw new IllegalArgumentException("WEONG USNERNAMEN");
+        }
+        else{
+            return username;
+        }
     }
 
     public static void main(String[] args) {
-        printBoard(Atom.generateAtoms(6));
+        Atom[] atoms = Atom.generateAtoms(6);
+        printBoard(getAtomizedBoard(atoms));
+        System.out.println(Arrays.toString(atoms));
     }
 
     /**
@@ -49,14 +50,22 @@ public class Util {
         return return_val.toString();
     }
 
+    public static void printBoard(ArrayList<String> board){
+        for(String str : board){
+            System.out.println(str);
+        }
+    }
     /**
-     * initializes empty_board
-     * */
-    public static void initializeEmptyBoard(){
+     *
+     * @return a basic empty board as an ArrayList of type:String
+     */
+    public static ArrayList<String> getEmptyBoard(){
+        ArrayList<String> empty_board = new ArrayList<>(); //empty string rep. of board //initialize once
+
         //init string builders
-        String one = "    ██  "; //first line
-        String two = "  ██  ██"; //single spacing
-        String three="██      "; //triple spacing
+        String one = "    ░█  "; //first line
+        String two = "  ░█  ░█"; //single spacing
+        String three="░█      "; //triple spacing
 
         StringBuilder onea = new StringBuilder(duplicate(one,5)); //for appending lines
         StringBuilder twoa = new StringBuilder(duplicate(two,5));
@@ -98,16 +107,20 @@ public class Util {
                 appendLength--;
             }
         }
-        //System.out.println();
+        return empty_board;
     }
 
     /**
-     * Function to print the board without atoms (for now)
+     *
+     * @param atoms - array filled with atoms
+     * @return a board filled with atoms as an ArrayList of type:String
      */
-    public static void printBoard(Atom[] atoms){
-        initializeEmptyBoard(); //move to constructor
+    public static ArrayList<String> getAtomizedBoard(Atom[] atoms){
 
-        int z = 0; //set z to -1
+        ArrayList<String> board = getEmptyBoard();
+        ArrayList<String> atomizedBoard = getEmptyBoard();
+
+        int z = 0; //set z (indexes 1-9)
         int z_wait = 0;
 
         Vector right = Box.directions[Box.MOVE_DIRECTLY_RIGHT];
@@ -119,41 +132,53 @@ public class Util {
         Coordinate pos =  new Coordinate(4,8,0);
         int line_width = 4;
 
-        for(int i = 0; i < empty_board.size(); i++){
-            if(empty_board.get(i).contains("██  ██  ██  ██  ██  ██  ██  ██  ██  ██  ██  ██" ) && z !=8){ //line with atom in it after 2
+        /*loop through box*/
+        for(int i = 0; i < board.size(); i++){
+            /*update line info*/
+            if(board.get(i).contains("░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█" )){ //line with atom in it after 2
                 z++; //update z by 1 (next line)
-                z_wait = 0;
+                z_wait = 0; //alignment
                 //update next line width and pos
                 if(z < 4 && z!=0){
                     line_width++;
-                    pos = first_half.moveN(down_left, z+1);//set pos to start of next line
-                } else if(z != 8 && z != 0) {
+                    pos = first_half.moveN(down_left, z);//set pos to start of next line
+                } else if(z != 0) {
                     line_width--;
-                    pos = second_half.moveN(down_right, (z-4)+1);//set pos to start of next line
+                    pos = second_half.moveN(down_right, (z-4));//set pos to start of next line
+                }
+                if(z == 4){
+                    line_width+=2;
                 }
             }
-            if(z_wait == 2){
-                String line = empty_board.get(i);
-                //check if pos contains atom
-                for(int j = 0; j < line_width; j++){ // j < line_width
-                    int first_index = line.indexOf("██");
-                    int curr_index = first_index+3;
-                    if(Atom.containsAtom(atoms, pos)){ //check position
-                        //update hexagon with atom
-
-                        line = line.replace("██      ██", "██  X   ██");
-                        curr_index += 6; //update hexagon index
+            /*check line for atoms*/
+            if((z == 0 && z_wait == 3) || (z!= 0 && z_wait == 2)){
+                /*lines to edit for each atom*/
+                String lineUp = board.get(i-1);
+                String line = board.get(i);
+                String lineDown = board.get(i+1);
+                /*below variables used for string manipulation*/
+                int first_index = line.indexOf("░█");
+                int curr_index = first_index+3;
+                /*check for each hexagon, whether it contains an atom*/
+                for(int j = 0; j < line_width+1; j++){ // j < line_width
+                    /*check current position*/
+                    if(Atom.containsAtom(atoms, pos.moveN(right,j))){
+                        /*update hexagon with atom*/
+                        lineUp = lineUp.substring(0,curr_index-1) + "  ╔╗" + lineUp.substring(3+curr_index);
+                        line = line.substring(0,curr_index-1) + "  ░░ " + line.substring(4+curr_index);
+                        lineDown = lineDown.substring(0,curr_index-1) + "  ╚╝" + lineDown.substring(3+curr_index);
                     }
-                    else if(j != line_width-1) {
-                        pos = pos.move(right); //get next pos
-                    }
+                    curr_index +=  8; /*atom offset (string manipulation)*/
                 }
-                System.out.println(line);
+                atomizedBoard.set(i, line);
+                atomizedBoard.set(i-1, lineUp);
+                atomizedBoard.set(i+1, lineDown);
             }
-            else System.out.println(empty_board.get(i));
-
-            //increment z_wait (aligned atoms)
+            //else atomizedBoard.add(board.get(i));//System.out.println(board.get(i));
+            //increment z_wait (changes alignment)
             z_wait++;
+            //System.out.print(z_wait);
         }
+        return atomizedBoard;
     }
 }
