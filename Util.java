@@ -14,7 +14,7 @@ public class Util {
     }
 
     public static Boolean unIsValid(String username){
-        return !username.isBlank() && (username.length() > 2) && (username.length() <17);
+        return !(username == null) && !username.isBlank() && (username.length() > 2) && (username.length() <17);
     }
 
     public static void main(String[] args) {
