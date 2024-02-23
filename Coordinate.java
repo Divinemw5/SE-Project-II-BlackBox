@@ -5,9 +5,9 @@ public class Coordinate {
     private final int z;
 
     Coordinate(int x, int y, int z){
-        if((x+y+z != 12) || (x > 8 || x < 0) || (y > 8 || y < 0) || (z > 8 || z < 0)) {
-            throw new IllegalArgumentException();
-        }
+      //  if((x+y+z != 12) || (x > 8 || x < 0) || (y > 8 || y < 0) || (z > 8 || z < 0)) {
+          //  throw new IllegalArgumentException();
+       // }
         this.x = x; this.y = y; this.z = z;
     }
     public int getX() {return x;}

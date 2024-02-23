@@ -141,7 +141,7 @@ public class Util {
                 //update next line width and pos
                 if(z < 4 && z!=0){
                     line_width++;
-                    pos = first_half.moveN(down_left, z);//set pos to start of next line
+                    pos = first_half.moveN(down_left, z); //set pos to start of next line
                 } else if(z != 0) {
                     line_width--;
                     pos = second_half.moveN(down_right, (z-4));//set pos to start of next line
