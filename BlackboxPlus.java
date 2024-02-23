@@ -24,7 +24,7 @@ public class BlackboxPlus {
         {
             //initialize game state
             Atom[] atoms = Atom.generateAtoms(6);   //generate random atoms
-            Box box = new Box(atoms);                  //create the empty board
+            Box box = new Box(atoms);               //create the empty board
 
             //play round
             while(!userInput.equals("end round")){

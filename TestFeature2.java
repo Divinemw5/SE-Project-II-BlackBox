@@ -3,7 +3,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class TestAtom {
+public class TestFeature2 {
     @Test
     public void testGenerateRandomAtoms()
     {

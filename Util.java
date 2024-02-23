@@ -121,6 +121,7 @@ public class Util {
                 appendLength--;
             }
         }
+        empty_board.replaceAll(String::stripTrailing);
         return empty_board;
     }
 
@@ -193,6 +194,7 @@ public class Util {
             z_wait++;
             //System.out.print(z_wait);
         }
+
         return atomizedBoard;
     }
 }

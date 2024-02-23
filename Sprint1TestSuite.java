@@ -4,8 +4,10 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TestAtom.class,
-            HexagonTest.class
+        TestFeature1.class,
+        TestFeature2.class,
+        TestFeature3.class,
+        TestFeature4.class
 })
 
 public class Sprint1TestSuite {

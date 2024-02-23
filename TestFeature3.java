@@ -3,9 +3,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class HexagonTest {
+public class TestFeature3 {
     @Test
-    public void TestPlaceHexagon()
+    public void testPlaceHexagonInBox()
     {
         Box box = new Box(Atom.generateAtoms(6));
         Coordinate location = new Coordinate(4,8,0);
@@ -17,7 +17,7 @@ public class HexagonTest {
     }
     @Test
 
-   public void TestPlaceAtom() {
+   public void testPlaceAtomInBox() {
         Atom[] atoms = Atom.generateAtoms(6);
         Box box = new Box(atoms);
         int index;
@@ -28,7 +28,4 @@ public class HexagonTest {
 
         }
     }
-
-
-
 }

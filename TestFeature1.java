@@ -3,7 +3,7 @@ import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
-public class PlayerTest {
+public class TestFeature1 {
     @Test
     public void testConstructorWithInvalidName_Null() {
         assertThrows(IllegalArgumentException.class, () -> new Player(null));
