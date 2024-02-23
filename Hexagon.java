@@ -3,20 +3,22 @@
  *
  */
 public class Hexagon {
-    private boolean hasAtom;
-    private int barrierValue;
+    private final boolean hasAtom;
+    private final int barrierValue;
+    private final Coordinate location;
 
     /**This constructor generates a new Hexagon and takes :
      * @param hasAtom - If the hexagon contains an atom (true if yes, false if no)
      * @param barrierValue - The number of atom barriers overlapping on the hexagon
      * @throws IllegalArgumentException if barrierValue is negative
      */
-    Hexagon(boolean hasAtom, int barrierValue){
+    Hexagon(boolean hasAtom, int barrierValue, Coordinate location){
         if(barrierValue < 0){
             throw new IllegalArgumentException();
         }
         this.hasAtom = hasAtom;
         this.barrierValue = barrierValue;
+        this.location = location;
     }
 
     @Override
@@ -24,11 +26,10 @@ public class Hexagon {
         return "Hexagon{" +
                 "hasAtom=" + hasAtom +
                 ", barrierValue=" + barrierValue +
+                ", location=" + location +
                 '}';
     }
 
     public int getBarrierValue() {return barrierValue;}
     public boolean checkHasAtom() {return hasAtom;}
-    public void setBarrierValue(int barrierValue) {this.barrierValue = barrierValue;}
-    public void setHasAtom(boolean hasAtom) {this.hasAtom = hasAtom;}
 }

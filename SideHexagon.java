@@ -13,8 +13,8 @@ public class SideHexagon extends Hexagon{
      *                        and the second index contains a direction constant (0-5)
      * @throws IllegalArgumentException if barrierValue is negative, or if number of sides passed is not 2 or 3
      */
-    SideHexagon(boolean hasAtom, int barrierValue, int[][] sides) {
-        super(hasAtom, barrierValue);
+    SideHexagon(boolean hasAtom, int barrierValue, Coordinate location, int[][] sides) {
+        super(hasAtom, barrierValue, location);
         if(sides.length < 2 || sides.length > 3){
             throw new IllegalArgumentException();
         }

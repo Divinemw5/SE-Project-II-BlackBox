@@ -41,4 +41,13 @@ public class Coordinate {
         }
         else return false;
     }
+
+    @Override
+    public String toString() {
+        return "Coordinate{" +
+                "x=" + (x-4) +
+                ", y=" + (y-4) +
+                ", z=" + (z-4) +
+                '}';
+    }
 }
