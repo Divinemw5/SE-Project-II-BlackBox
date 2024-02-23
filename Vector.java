@@ -19,4 +19,13 @@ public class Vector {
     public int getX_shift() {
         return x_shift;
     }
+
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "x_shift=" + x_shift +
+                ", y_shift=" + y_shift +
+                ", z_shift=" + z_shift +
+                '}';
+    }
 }
