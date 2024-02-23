@@ -32,4 +32,8 @@ public class Hexagon {
 
     public int getBarrierValue() {return barrierValue;}
     public boolean checkHasAtom() {return hasAtom;}
+
+    public Coordinate getLocation() {
+        return location;
+    }
 }

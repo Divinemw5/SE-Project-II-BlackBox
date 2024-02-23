@@ -91,13 +91,13 @@ public class Box {
 
     /**
      *
-     * @param hexagon - hexagon to get index of
-     * @return index of passed parameter
+     * @param location - location of hexagon to get index of
+     * @return index of hexagon referenced by location
      */
 
-    public int getIndexOf(Hexagon hexagon){
+    public int getIndexOf(Coordinate location){
         for(int i = 0; i < box.length; i++){
-            if(box[i].equals(hexagon)){
+            if(box[i].getLocation().equals(location)){
                 return i;
             }
         }
