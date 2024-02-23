@@ -19,7 +19,7 @@ public class Util {
     }
 
     public static void main(String[] args) {
-        printBoard();
+        printBoard(Atom.generateAtoms(6));
     }
 
     /**
@@ -104,11 +104,56 @@ public class Util {
     /**
      * Function to print the board without atoms (for now)
      */
-    public static void printBoard(){
+    public static void printBoard(Atom[] atoms){
         initializeEmptyBoard(); //move to constructor
-        for(String str : empty_board){
-            System.out.println(str);
+
+        int z = 0; //set z to -1
+        int z_wait = 0;
+
+        Vector right = Box.directions[Box.MOVE_DIRECTLY_RIGHT];
+        Vector down_left = Box.directions[Box.MOVE_DIAGONAL_DOWN_LEFT];
+        Vector down_right = Box.directions[Box.MOVE_DIAGONAL_DOWN_RIGHT];
+
+        Coordinate first_half = new Coordinate(4,8,0); //next line ref (first half of board)
+        Coordinate second_half = new Coordinate(0,8,4); //next line ref (second half of board)
+        Coordinate pos =  new Coordinate(4,8,0);
+        int line_width = 4;
+
+        for(int i = 0; i < empty_board.size(); i++){
+            if(empty_board.get(i).contains("██  ██  ██  ██  ██  ██  ██  ██  ██  ██  ██  ██" ) && z !=8){ //line with atom in it after 2
+                z++; //update z by 1 (next line)
+                z_wait = 0;
+                //update next line width and pos
+                if(z < 4 && z!=0){
+                    line_width++;
+                    pos = first_half.moveN(down_left, z+1);//set pos to start of next line
+                } else if(z != 8 && z != 0) {
+                    line_width--;
+                    pos = second_half.moveN(down_right, (z-4)+1);//set pos to start of next line
+                }
+            }
+            if(z_wait == 2){
+                String line = empty_board.get(i);
+                //check if pos contains atom
+                for(int j = 0; j < line_width; j++){ // j < line_width
+                    int first_index = line.indexOf("██");
+                    int curr_index = first_index+3;
+                    if(Atom.containsAtom(atoms, pos)){ //check position
+                        //update hexagon with atom
+
+                        line = line.replace("██      ██", "██  X   ██");
+                        curr_index += 6; //update hexagon index
+                    }
+                    else if(j != line_width-1) {
+                        pos = pos.move(right); //get next pos
+                    }
+                }
+                System.out.println(line);
+            }
+            else System.out.println(empty_board.get(i));
+
+            //increment z_wait (aligned atoms)
+            z_wait++;
         }
     }
-
 }
