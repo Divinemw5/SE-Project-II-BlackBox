@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,7 +11,7 @@ class PlayerTest {
 
     @Test
     public void testConstructorWithInvalidName_Empty() {
-        assertThrows(IllegalArgumentException.class, () -> new Player(null));
+        assertThrows(IllegalArgumentException.class, () -> new Player("    "));
     }
 
     @Test
@@ -21,5 +22,11 @@ class PlayerTest {
     @Test
     public void testConstructorWithInvalidName_Small(){
         assertThrows(IllegalArgumentException.class, () -> new Player("a"));
+    }
+
+    @Test
+    public void testStoresPlayerName(){
+        Player player = new Player("John");
+        assertEquals(player.getName(), "John");
     }
 }

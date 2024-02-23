@@ -6,7 +6,21 @@ public class Util {
 
     public static void printWelcome(){
         System.out.println("Welcome to BlackBox!!! :) :) :)");
-        System.out.println("Please enter user information:\t");
+    }
+    public static Player createPlayer(int number){
+        Player player;
+        System.out.print("Please enter player "+number+" name:\t");
+        while (true) {
+            try {
+                player = new Player(Util.lineInput());
+                // If input is valid, break out of the loop
+                break;
+            } catch (IllegalArgumentException e) {
+                // Handle invalid input by printing assigned error message from thrown exception
+                System.out.println(e.getMessage());
+            }
+        }
+        return player;
     }
     public static String lineInput(){
         Scanner input = new Scanner(System.in);
