@@ -8,12 +8,14 @@ public class BlackboxPlus {
     public static void main(String[] args) {
 
         String userInput = "";
+        Player player1;
+        Atom[] atoms;
+        Box box;
         while(!userInput.equals("quit")) {
 
 
-            Player player1;
-            Atom[] atoms = Atom.generateAtoms(6);//generate random atoms
-            Box box = new Box(atoms);               //create the empty board
+            atoms = Atom.generateAtoms(6);//generate random atoms
+            box = new Box(atoms);               //create the empty board
             Util.printWelcome();                    //print welcome to user
 
             //get username
