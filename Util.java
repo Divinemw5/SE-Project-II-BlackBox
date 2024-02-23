@@ -4,17 +4,17 @@ import java.util.Scanner;
 
 public class Util {
 
-    public static String printWelcome(){
+    public static void printWelcome(){
         System.out.println("Welcome to BlackBox!!! :) :) :)");
         System.out.println("Please enter user information:\t");
+    }
+    public static String lineInput(){
         Scanner input = new Scanner(System.in);
-        String username = input.nextLine();
-        if(username.trim().isBlank()){
-            throw new IllegalArgumentException("WEONG USNERNAMEN");
-        }
-        else{
-            return username;
-        }
+        return input.nextLine();
+    }
+
+    public static Boolean unIsValid(String username){
+        return !username.isBlank() && (username.length() > 2) && (username.length() <17);
     }
 
     public static void main(String[] args) {
