@@ -15,6 +15,7 @@ public class Player {
      * @param name - player name
      */
     Player(String name){
+
         //validity check
         if (!Util.unIsValid(name)){
             throw new IllegalArgumentException("Please enter a valid username [MAX LENGTH 16, MIN LENGTH 3]");
