@@ -4,8 +4,13 @@
  */
 public class BlackboxPlus {
     //Welcome the user and take player information
+
     public static void main(String[] args) {
-        Util.printWelcome();
+        Atom[] atoms = Atom.generateAtoms(6);//generate random atoms
+        Box box = new Box(atoms);               //create the empty board
+        Util.printWelcome();                    //print welcome to user
+
+        //get username
         while (true) {
             try {
                 System.out.println("Enter a valid input:");
@@ -18,7 +23,11 @@ public class BlackboxPlus {
             }
         }
 
+        Util.printBoard(Util.getEmptyBoard());
+
+
     }
+
     //Create new Box with randomly generated atoms
 
 }
