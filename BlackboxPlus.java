@@ -9,16 +9,16 @@ public class BlackboxPlus {
 
         String userInput = "";
         Player player1;
+        Player player2;
         Atom[] atoms;
         Box box;
+
         while(!userInput.equals("quit")) {
-
-
             atoms = Atom.generateAtoms(6);//generate random atoms
             box = new Box(atoms);               //create the empty board
             Util.printWelcome();                    //print welcome to user
 
-            //get username
+            //get username (put in function)
             while (true) {
                 try {
                     player1 = new Player(Util.lineInput());
@@ -31,7 +31,7 @@ public class BlackboxPlus {
             }
 
             Util.printBoard(Util.getEmptyBoard());
-            System.out.println("WOULD YOU LIKE TO PLAY AGAIN OR NOT jhadsfKJHDFKSJDHFKJSHDFKJ");
+            System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) (enter ‘atoms‘ to show hidden atoms)");
             userInput = Util.lineInput();
         }
     }
