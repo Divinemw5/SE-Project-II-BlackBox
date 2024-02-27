@@ -38,26 +38,8 @@ public class Box {
             for(int x = 0; x < 9; x++){
                 for(int y = 0; y < 9; y++){
                     if(x+y+z == 12){
-                        //check if corner hexagon, if yes generate new corner hexagon (atom, barrier value, sides x 3)
-                        if(x%4 == 0 && y%4 == 0 && z%4 == 0 && !(x == 4 && y == 4 & z == 4)){
-                            Coordinate location = new Coordinate(x, y, z); //init variables
-                            int barrierNumber = 0;
-                            boolean hasAtom = Atom.containsAtom(atoms, location);
-
-                            for(int w = 0; w < 6; w++){ //check barrier number (check if atoms contains surrounding hexagon coordinates)
-                                try{
-                                    Coordinate next = location.move(directions[w]);
-                                    if(Atom.containsAtom(atoms, next)){
-                                        barrierNumber++;
-                                    }
-                                } catch (IllegalArgumentException ignored){} //if movement out of bounds do nothing
-                            }
-
-                            box[hexagon] = new SideHexagon(hasAtom, barrierNumber, location);
-                            //passing null as we will define the sides in a different method
-                        }
-                        //else check if non-corner side hexagon, if yes generate new side hexagon (atom, barrier value, sides x 2)
-                        else if(x%8 == 0 || y%8 == 0 || z%8 == 0 ){
+                        //check if side hexagon, if yes generate new side hexagon (atom, barrier value, location)
+                        if(x%8 == 0 || y%8 == 0 || z%8 == 0 ){
                             Coordinate location = new Coordinate(x, y, z); //init variables
                             int barrierNumber = 0;
                             boolean hasAtom = Atom.containsAtom(atoms, location);
@@ -194,9 +176,9 @@ public class Box {
 
         Atom[] atoms = Atom.generateAtoms(6);
         Box box1 = new Box(atoms);
-        /*
+
         System.out.println(Arrays.toString(atoms));
-        System.out.println(box1);*/
+        System.out.println(box1);
         Ray ray = new Ray( 46,box1);
         System.out.println(ray.getPosition());
         //System.out.println(Arrays.deepToString(box1.box));
