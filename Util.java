@@ -121,30 +121,65 @@ public class Util {
                 appendLength--;
             }
         }
+        for(String str : empty_board){
+            empty_board.set(empty_board.indexOf(str), getIndent(20)+ str); //board indent
+        }
         appendSideNumbers(empty_board);
         empty_board.replaceAll(String::stripTrailing);
         return empty_board;
     }
 
     public static void appendSideNumbers(ArrayList<String> board){
-        board.add(getIndent(30));
-        for(int i = 0; i < board.size(); i++){
-            /*append to first line*/
-            if(i == 0){
-                /*set current line*/
-                String line = board.get(i);
-                /*below variables used for string manipulation*/
-                int first_index = line.indexOf("░█");
-                int curr_index = first_index-3;
-                /*run through line and append numbers*/
-                while(curr_index < line.lastIndexOf("░█")){
+        int countUp = 1;
+        int countDown = 46;
+        String appendFirst = ""+countUp;
+        String appendLast = ""+countDown;
+        int counter = 0;
 
-                }
+        for(int i = 0; i < board.size()/2; i++){
+
+            if(i%4 != 0){
+                appendFirst = " ";
+                appendLast = " ";
             }
-            /*append to middle lines*/
+            else {
+                appendFirst = ""+countUp;
+                appendLast = ""+countDown;
+            }
+            String line = board.get(i);
+            int first_index = line.indexOf("░█");
+            int last_index = line.lastIndexOf("░█");
 
-            /*append to last line*/
+            line = line.substring(0, first_index - 3) + appendFirst + "   " + line.substring(first_index);
+            line = line.substring(0, last_index + 3) + "   " + appendLast + line.substring(last_index + 3);
+
+            /*if((i+1)%4 == 0){
+                appendFirst = ""+countUp;
+                appendLast = ""+countDown;
+                line = line.substring(0, first_index-1) + appendFirst + "" + line.substring(first_index);
+                line = line.substring(0, last_index+3) + " " + appendLast + line.substring(last_index+4);
+            }*/
+            board.set(i, line);
         }
+
+        for(int i = board.size()/2; i < board.size(); i++){
+            if((i+6)%4 != 0){
+                appendFirst = " ";
+                appendLast = " ";
+            }
+            else {
+                appendFirst = ""+countUp;
+                appendLast = ""+countDown;
+            }
+            String line = board.get(i);
+            int first_index = line.indexOf("░█");
+            int last_index = line.lastIndexOf("░█");
+
+            line = line.substring(0, first_index - 3) + appendFirst + "   " + line.substring(first_index);
+            line = line.substring(0, last_index + 3) + "   " + appendLast + line.substring(last_index + 3);
+            board.set(i, line);
+        }
+
     }
 
     /**
