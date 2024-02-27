@@ -12,7 +12,7 @@ public class Util {
         System.out.print("Please enter player "+number+" name:\t");
         while (true) {
             try {
-                player = new Player(Util.lineInput());
+                player = new Player(Util.getLine());
                 // If input is valid, break out of the loop
                 break;
             } catch (IllegalArgumentException e) {
@@ -22,7 +22,7 @@ public class Util {
         }
         return player;
     }
-    public static String lineInput(){
+    public static String getLine(){
         Scanner input = new Scanner(System.in);
         return input.nextLine();
     }

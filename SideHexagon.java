@@ -28,6 +28,29 @@ public class SideHexagon extends Hexagon{
         return sides;
     }
 
+    /**
+     *
+     * @param direction to check if contained in sides array
+     * @return true (contained in array) or false (not contained in array)
+     */
+    public boolean sidesContainDirection(int direction){
+        return getSideWithDirection(direction) != -1;
+    }
+
+    /**
+     *
+     * @param direction to get side with given direction
+     * @return side number (contained in array) or -1 (not contained in array)
+     */
+    public int getSideWithDirection(int direction){
+        for(int[] side : sides){
+            if(side[1] == direction){
+                return side[0];
+            }
+        }
+        return -1;
+    }
+
     @Override
     public String toString() {
         return "SideHexagon"+ super.toString().substring(7) +

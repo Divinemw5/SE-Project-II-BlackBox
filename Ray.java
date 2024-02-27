@@ -3,7 +3,7 @@
  */
 public class Ray {
     Coordinate currentPosition;
-    Vector movementDirection;
+    int movementDirection;
     int entry;
     int exit;
 
@@ -17,6 +17,7 @@ public class Ray {
             throw new IllegalArgumentException("illegal ray entry");
         } else this.entry = entry;
         calculateEntryPosition(box);
+        calculateExitPosition(box);
     }
 
     /** Method sets movementDirection and currentPosition
@@ -29,7 +30,8 @@ public class Ray {
                 for (int[] side : sides) {
                     if (side[0] == entry) {
                         currentPosition = box.getHexagon(i).getLocation();
-                        movementDirection = Box.directions[side[1]];
+                        movementDirection = side[1];
+                        return;
                     }
                 }
             }
@@ -40,17 +42,27 @@ public class Ray {
      * calculate exit Coordinate (use to set exit)
      */
     private void calculateExitPosition(Box box){
+        Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
+
         /*check if starting position contains an atom (edge case : absorbed)*/
         /*check if starting position has a barrier value > 0 (edge case : reflected)*/
 
         /*path movement*/
+        do {
+            /*check if current hexagon contains no barrier*/
+            if (currentHexagon.getBarrierValue() == 0) {
+                currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                //System.out.println(currentPosition);
+            }
+            /*check if current hexagon contains barrier = 1*/
+            /*check if current hexagon contains barrier = 2*/
+            /*check if current hexagon contains barrier = 3*/
 
-        /*check if current hexagon contains no barrier*/
-        /*check if current hexagon contains barrier = 1*/
-        /*check if current hexagon contains barrier = 2*/
-        /*check if current hexagon contains barrier = 3*/
-
-        /*check if current hexagon is instance of side hexagon (set exit to side with direction opposite to current position)*/
+            currentHexagon = box.getHexagonByCoordinate(currentPosition); //set next hexagon after move
+        } while(!((currentHexagon instanceof SideHexagon) && (((SideHexagon) currentHexagon).sidesContainDirection(Math.floorMod(movementDirection+3, 6)))));
+        /*check if current hexagon is instance of side hexagon with exit side opposite to movement direction
+         (set exit to side with direction opposite to current position) (default condition)*/
+        setExit(((SideHexagon) currentHexagon).getSideWithDirection(Math.floorMod(movementDirection+3,6)));
     }
 
     /**
@@ -73,4 +85,11 @@ public class Ray {
         return this.exit;
     }
 
+    @Override
+    public String toString() {
+        return "Ray{" +
+                "entry=" + entry +
+                ", exit=" + exit +
+                '}';
+    }
 }
