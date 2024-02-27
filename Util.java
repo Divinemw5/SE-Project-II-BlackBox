@@ -153,12 +153,12 @@ public class Util {
             line = line.substring(0, first_index - 3) + appendFirst + "   " + line.substring(first_index);
             line = line.substring(0, last_index + 3) + "   " + appendLast + line.substring(last_index + 3);
 
-            /*if((i+1)%4 == 0){
+            if((i+2)%4 == 0){
                 appendFirst = ""+countUp;
                 appendLast = ""+countDown;
                 line = line.substring(0, first_index-1) + appendFirst + "" + line.substring(first_index);
                 line = line.substring(0, last_index+3) + " " + appendLast + line.substring(last_index+4);
-            }*/
+            }
             board.set(i, line);
         }
 
