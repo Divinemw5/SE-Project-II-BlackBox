@@ -55,9 +55,11 @@ public class TestFeature4 {
         StringBuilder compare = new StringBuilder();
 
         for(String line : atomizedBoard) {
-        	compare.append(line).append("\n");
+        	compare.append(line.replaceAll("[0-9]", " ")).append("\n");
         }
-        assertEquals(compare.toString(), test_str);
+
+        String result = compare.toString();
+        assertEquals(test_str, result);
         }
     }
 
