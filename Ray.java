@@ -5,8 +5,8 @@ public class Ray {
     Coordinate currentPosition;
     int movementDirection;
     int entry;
-    int exit;
-
+    int exit; //-1 if ray is absorbed
+    
     /**
      *
      * @param entry - entry side number (for toString)
