@@ -41,7 +41,7 @@ public class Box {
                             Coordinate location = new Coordinate(x, y, z); //init variables
                             int barrierNumber = 0;
                             boolean hasAtom = Atom.containsAtom(atoms, location);
-                            int[][] sides = new int[3][]; //TODO
+                            int[][] sides = new int[3][2]; //TODO
                             for(int w = 0; w < 6; w++){ //check barrier number (check if atoms contains surrounding hexagon coordinates)
                                 try{
                                     Coordinate next = location.move(directions[w]);
@@ -60,7 +60,7 @@ public class Box {
                             Coordinate location = new Coordinate(x, y, z); //init variables
                             int barrierNumber = 0;
                             boolean hasAtom = Atom.containsAtom(atoms, location);
-                            int[][] sides = new int[2][]; //TODO
+                            int[][] sides = new int[2][2]; //TODO
                             for(int w = 0; w < 6; w++){ //check barrier number (check if atoms contains surrounding hexagon coordinates)
                                 try{
                                     Coordinate next = location.move(directions[w]);
