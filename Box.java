@@ -5,7 +5,10 @@ import java.util.Arrays;
  *
  */
 public class Box {
+
     private final Hexagon[] box;
+    //array that stores all the Hexagons on the board
+
     //static array to store hexagon movement directions (6 directions, each with 3 elements (x, y, z increment)), index with int constants
     public static Vector[] directions = {
             new Vector(1,-1,0), //MOVE DIRECTLY RIGHT
