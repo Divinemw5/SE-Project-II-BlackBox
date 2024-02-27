@@ -25,14 +25,13 @@ public class SideHexagon extends Hexagon{
         else this.sides = sides;
     }
     public int[][] getSides() {
-
         return sides;
     }
 
     @Override
     public String toString() {
-        return "SideHexagon{" +
-                "sides=" + Arrays.deepToString(sides) +
-                "} " + super.toString();
+        return "SideHexagon"+ super.toString().substring(7) +
+                " {sides=" + Arrays.deepToString(sides) +
+                "} " ;
     }
 }

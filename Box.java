@@ -18,6 +18,9 @@ public class Box {
             new Vector(0,1,-1), //MOVE DIAGONAL (UP, LEFT) (4)
             new Vector(1,0,-1), //MOVE DIAGONAL (UP, RIGHT) (5)
     };
+
+    public static int BOX_MAX_SIZE = 61;
+
     public static int MOVE_DIRECTLY_RIGHT = 0;
     public static int MOVE_DIAGONAL_DOWN_RIGHT = 1;
     public static int MOVE_DIAGONAL_DOWN_LEFT = 2;
@@ -188,10 +191,14 @@ public class Box {
     }
 
     public static void main(String[] args) {
+
         Atom[] atoms = Atom.generateAtoms(6);
         Box box1 = new Box(atoms);
+        /*
         System.out.println(Arrays.toString(atoms));
-        System.out.println(box1);
+        System.out.println(box1);*/
+        Ray ray = new Ray( 46,box1);
+        System.out.println(ray.getPosition());
         //System.out.println(Arrays.deepToString(box1.box));
     }
 }
