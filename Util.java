@@ -1,11 +1,30 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Util {
 
+    /**
+     * colours : @see <a href="https://www.w3schools.blog/ansi-colors-java"></a>
+     */
+    public static final String ANSI_BLACK = "\033[0;30m";
+    public static final String ANSI_WHITE = "\033[0;37m";
+    public static final String ANSI_YELLOW = "\033[0;33m";
+    public static final String ANSI_RED = "\033[0;31m";
+    public static final String ANSI_PURPLE = "\033[0;35m";
+    public static final String ANSI_RESET = "\033[0m";
+
+    public static final String ANSI_BLACK_BG = "\033[40m";
+
+    public static final String backgroundColour = ANSI_BLACK_BG;
+    public static final String boardColour = ANSI_YELLOW + backgroundColour;
+    public static final String atomColour = ANSI_WHITE + backgroundColour;
+    public static final String numberColour = ANSI_RED + backgroundColour;
+    public static final String textColour = ANSI_RESET + backgroundColour; //default
+
     public static void printWelcome(){
-        System.out.println("Welcome to BlackBox!!! :) :) :)");
+        System.out.println(textColour + "Welcome to BlackBox!!! :) :) :)");
     }
     public static Player createPlayer(int number){
         Player player;
@@ -159,7 +178,7 @@ public class Util {
                 appendFirst = ""+countUp;
                 appendLast = ""+countDown;
                 line = line.substring(0, first_index-2) + appendFirst + " " + line.substring(first_index);
-                line = line.substring(0, last_index+3) + "" + appendLast + line.substring(last_index+4);
+                line = line.substring(0, last_index+3) + appendLast + line.substring(last_index+4);
                 //adjust counters
                 countUp++;
                 countDown--;
@@ -286,7 +305,7 @@ public class Util {
                     if(Atom.containsAtom(atoms, pos.moveN(right,j))){
                         /*update hexagon with atom*/
                         lineUp = lineUp.substring(0,curr_index-1) + "  ╔╗" + lineUp.substring(3+curr_index);
-                        line = line.substring(0,curr_index-1) + "  ░░ " + line.substring(4+curr_index);
+                        line = line.substring(0,curr_index-1) + "  ░░" + line.substring(3+curr_index);
                         lineDown = lineDown.substring(0,curr_index-1) + "  ╚╝" + lineDown.substring(3+curr_index);
                     }
                     curr_index +=  8; /*atom offset (string manipulation)*/
@@ -302,5 +321,35 @@ public class Util {
         }
 
         return atomizedBoard;
+    }
+
+    public static ArrayList<String> colourBoard(ArrayList<String> board){
+        //colour numbers
+        int i = 0;
+        for(String str : board) {
+            char[] chars = str.toCharArray();
+            StringBuilder stringBuilder = new StringBuilder();
+            for(char ch : chars){
+                if(Pattern.compile("[0-9]").matcher(ch+"").matches()){
+                    stringBuilder.append(numberColour).append(ch).append(boardColour);
+                }
+                else stringBuilder.append(ch);
+            }
+            board.set(i,stringBuilder.toString());
+            i++;
+        }
+        //colour atoms
+        i = 0;
+        board.set(0, boardColour+board.get(0));
+        for(String str : board){
+            str = str.replaceAll("╔╗", atomColour+"╔╗"+boardColour);
+            str = str.replaceAll("░░", atomColour+"░░"+boardColour);
+            str = str.replaceAll("╚╝", atomColour+"╚╝"+boardColour);
+
+            board.set(i, str);
+            i++;
+        }
+        board.set(board.size()-1, board.get(board.size()-1) +textColour); //SET COLOUR BACK TO DEFAULT
+        return board;
     }
 }

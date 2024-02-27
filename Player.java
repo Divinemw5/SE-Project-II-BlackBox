@@ -7,8 +7,8 @@ public class Player {
     final int MIN_LENGTH = 3;
     final int MAX_LENGTH = 16;
     private String name;
-    private int round_score = 0;    //player‘s score at end of last round
-    private int number_of_wins = 0; //player‘s total number of wins against a player 2
+    private final int round_score = 0;    //player‘s score at end of last round
+    private final int number_of_wins = 0; //player‘s total number of wins against a player 2
 
     /**
      *
