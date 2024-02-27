@@ -124,7 +124,14 @@ public class Box {
         }
         return null; //index out of bounds
     }
-
+    public Coordinate getHexagonByCoordinate(Coordinate location) {
+        for (Hexagon hexagon : box) {
+            if (hexagon.getLocation().equals(location)) {
+                return hexagon.getLocation();
+            }
+        }
+        return null; //hexagon not in box
+    }
     /**
      *
      * @return a String representation of the box
