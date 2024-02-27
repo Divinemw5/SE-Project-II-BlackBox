@@ -91,8 +91,9 @@ public class Box {
         }
     }
     private void initializeSides(){
-        int index = 1;
+        int sideNumber = 0;
         int direction = MOVE_DIAGONAL_DOWN_LEFT;
+        int sideDirection = MOVE_DIAGONAL_DOWN_RIGHT;
         Coordinate currentHexagon = box[0].getLocation();
         int[][] setSidesCorner = new int[3][2];
         int[][] setSidesSides = new int[2][2];
@@ -105,20 +106,24 @@ public class Box {
                 if (i == 0 && box[0] instanceof SideHexagon){
                     setSidesCorner = new int[][]{{54, 1},{1, 2},{2, 3}};
                     ((SideHexagon) box[0]).setSides(setSidesCorner);
-
                 }
+                sideNumber +=3;
 
                 //
 
             }
             else{//else it's a side hexagon
 
+                setSidesSides = new int[][]{{sideNumber, sideDirection}, {sideNumber + 1, (sideDirection - 1) % 6}};
+                sideNumber+= 2;
             }
 
 
             currentHexagon.move(directions[direction]);
+
             if(i % 4 == 0){
                 direction--;
+                sideDirection--;
                 if(direction < 0){
                     direction = 5;
                 }
