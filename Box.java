@@ -90,10 +90,41 @@ public class Box {
             }
         }
     }
-
     private void initializeSides(){
         int index = 1;
-        
+        int direction = MOVE_DIAGONAL_DOWN_LEFT;
+        Coordinate currentHexagon = box[0].getLocation();
+        int[][] setSidesCorner = new int[3][2];
+        int[][] setSidesSides = new int[2][2];
+
+
+        for(int i = 0; i < 24; i++){
+            if(i % 4 == 0){
+                //then its a corner hexagon
+                //if its the first hexagon
+                if (i == 0 && box[0] instanceof SideHexagon){
+                    setSidesCorner = new int[][]{{54, 1},{1, 2},{2, 3}};
+                    ((SideHexagon) box[0]).setSides(setSidesCorner);
+
+                }
+
+                //
+
+            }
+            else{//else it's a side hexagon
+
+            }
+
+
+            currentHexagon.move(directions[direction]);
+            if(i % 4 == 0){
+                direction--;
+                if(direction < 0){
+                    direction = 5;
+                }
+
+            }
+        }
     }
 
     /**

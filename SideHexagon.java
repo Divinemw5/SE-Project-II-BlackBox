@@ -2,7 +2,7 @@
  *  outside of the box (marked by two numbered sides).
  */
 public class SideHexagon extends Hexagon{
-    private final int[][] sides;
+    private int[][] sides;
     /**
      * This constructor generates a new Hexagon and takes :
      *
@@ -13,6 +13,8 @@ public class SideHexagon extends Hexagon{
      *                        and the second index contains a direction constant (0-5)
      * @throws IllegalArgumentException if barrierValue is negative, or if number of sides passed is not 2 or 3
      */
+
+
     SideHexagon(boolean hasAtom, int barrierValue, Coordinate location, int[][] sides) {
         super(hasAtom, barrierValue, location);
         if(sides.length < 2 || sides.length > 3){
@@ -21,7 +23,12 @@ public class SideHexagon extends Hexagon{
         //input validation for sides array //TODO
         else this.sides = sides;
     }
+
+    public void setSides(int[][] sides){
+        this.sides = sides;
+    }
     public int[][] getSides() {
         return sides;
     }
+
 }
