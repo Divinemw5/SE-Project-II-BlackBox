@@ -122,7 +122,9 @@ public class Util {
             }
         }
         for(String str : empty_board){
-            empty_board.set(empty_board.indexOf(str), getIndent(20)+ str); //board indent
+            int index = empty_board.indexOf(str);
+            str += getIndent(5); //indent after string to avoid going out of bounds
+            empty_board.set(index, getIndent(20)+ str); //board indent
         }
         appendSideNumbers(empty_board);
         empty_board.replaceAll(String::stripTrailing);
@@ -134,8 +136,8 @@ public class Util {
         int countDown = 46;
         String appendFirst = ""+countUp;
         String appendLast = ""+countDown;
-        int counter = 0;
 
+        //top half of board
         for(int i = 0; i < board.size()/2; i++){
 
             if(i%4 != 0){
@@ -143,8 +145,8 @@ public class Util {
                 appendLast = " ";
             }
             else {
-                appendFirst = ""+countUp;
-                appendLast = ""+countDown;
+                appendFirst = ""+countUp++;
+                appendLast = ""+countDown--;
             }
             String line = board.get(i);
             int first_index = line.indexOf("░█");
@@ -153,30 +155,56 @@ public class Util {
             line = line.substring(0, first_index - 3) + appendFirst + "   " + line.substring(first_index);
             line = line.substring(0, last_index + 3) + "   " + appendLast + line.substring(last_index + 3);
 
-            if((i+2)%4 == 0){
+            if((i+2)%4 == 0 && i != (board.size()/2)-1){ //add + remove append adjust
                 appendFirst = ""+countUp;
                 appendLast = ""+countDown;
                 line = line.substring(0, first_index-1) + appendFirst + "" + line.substring(first_index);
                 line = line.substring(0, last_index+3) + " " + appendLast + line.substring(last_index+4);
+                //adjust counters
+                countUp++;
+                countDown--;
             }
-            board.set(i, line);
+
+            board.set(i, " " +line);
         }
 
+        //middle + bottom half
         for(int i = board.size()/2; i < board.size(); i++){
             if((i+6)%4 != 0){
-                appendFirst = " ";
-                appendLast = " ";
+                appendFirst = "  ";
+                appendLast = "  ";
             }
             else {
-                appendFirst = ""+countUp;
-                appendLast = ""+countDown;
+                appendFirst = ""+countUp++;
+                appendLast = ""+countDown--;
             }
             String line = board.get(i);
             int first_index = line.indexOf("░█");
             int last_index = line.lastIndexOf("░█");
 
-            line = line.substring(0, first_index - 3) + appendFirst + "   " + line.substring(first_index);
-            line = line.substring(0, last_index + 3) + "   " + appendLast + line.substring(last_index + 3);
+
+            if(i == (board.size()/2)){ //append sides to middle of board
+                appendFirst = ""+countUp;
+                appendLast = ""+countDown;
+                line = line.substring(0, first_index-2) + " " + appendFirst + " " + line.substring(first_index);
+                line = line.substring(0, last_index+4)  +  " " + appendLast  +line.substring(last_index+4);
+                //adjust counters
+                countUp++;
+                countDown--;
+            }
+            else if((i)%4 == 0 && i != board.size()-1 && i != (board.size()/2)+1){ //add + remove append adjust (horizontal)
+                appendFirst = ""+countUp;
+                appendLast = ""+countDown;
+                line = line.substring(0, first_index-1) + appendFirst + " " + line.substring(first_index);
+                line = line.substring(0, last_index+4) + " " + appendLast + line.substring(last_index+4);
+                //adjust counters
+                countUp++;
+                countDown--;
+            }
+            else{ //append to diagonals + remaining
+                line = line.substring(0, first_index - 3) + appendFirst + "   " + line.substring(first_index);
+                line = line.substring(0, last_index+4) + "   " + appendLast + line.substring(last_index+4);
+            }
             board.set(i, line);
         }
 
