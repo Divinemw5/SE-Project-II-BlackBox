@@ -41,7 +41,7 @@ public class Box {
                             Coordinate location = new Coordinate(x, y, z); //init variables
                             int barrierNumber = 0;
                             boolean hasAtom = Atom.containsAtom(atoms, location);
-                            int[][] sides = new int[3][2]; //TODO
+
                             for(int w = 0; w < 6; w++){ //check barrier number (check if atoms contains surrounding hexagon coordinates)
                                 try{
                                     Coordinate next = location.move(directions[w]);
@@ -50,17 +50,16 @@ public class Box {
                                     }
                                 } catch (IllegalArgumentException ignored){} //if movement out of bounds do nothing
                             }
-                            for(int w = 0; w < 3; w++){ //TODO generate array of sides (side number, direction)
 
-                            }
-                            box[hexagon] = new SideHexagon(hasAtom, barrierNumber, location, sides);
+                            box[hexagon] = new SideHexagon(hasAtom, barrierNumber, location, null);
+                            //passing null as we will define the sides in a different method
                         }
                         //else check if non-corner side hexagon, if yes generate new side hexagon (atom, barrier value, sides x 2)
                         else if(x%8 == 0 || y%8 == 0 || z%8 == 0 ){
                             Coordinate location = new Coordinate(x, y, z); //init variables
                             int barrierNumber = 0;
                             boolean hasAtom = Atom.containsAtom(atoms, location);
-                            int[][] sides = new int[2][2]; //TODO
+
                             for(int w = 0; w < 6; w++){ //check barrier number (check if atoms contains surrounding hexagon coordinates)
                                 try{
                                     Coordinate next = location.move(directions[w]);
@@ -69,10 +68,9 @@ public class Box {
                                     }
                                 } catch (IllegalArgumentException ignored){} //if movement out of bounds do nothing
                             }
-                            for(int w = 0; w < 2; w++){ //TODO generate array of sides (side number, direction)
 
-                            }
-                            box[hexagon] = new SideHexagon(hasAtom, barrierNumber, location, sides);
+                            box[hexagon] = new SideHexagon(hasAtom, barrierNumber, location, null);
+                            //
                         }
                         //else must be regular hexagon, generate new hexagon (atom, barrier value, location)
                         else{
@@ -91,6 +89,11 @@ public class Box {
                 }
             }
         }
+    }
+
+    private void initializeSides(){
+        int index = 1;
+        
     }
 
     /**
