@@ -39,8 +39,18 @@ public class Ray {
     /**
      * calculate exit Coordinate (use to set exit)
      */
-    private Coordinate calculateExitPosition(){
-        return null;
+    private void calculateExitPosition(Box box){
+        /*check if starting position contains an atom (edge case : absorbed)*/
+        /*check if starting position has a barrier value > 0 (edge case : reflected)*/
+
+        /*path movement*/
+
+        /*check if current hexagon contains no barrier*/
+        /*check if current hexagon contains barrier = 1*/
+        /*check if current hexagon contains barrier = 2*/
+        /*check if current hexagon contains barrier = 3*/
+
+        /*check if current hexagon is instance of side hexagon (set exit to side with direction opposite to current position)*/
     }
 
     /**

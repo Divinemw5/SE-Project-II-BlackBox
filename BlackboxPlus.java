@@ -1,18 +1,19 @@
+import java.util.ArrayList;
 
 /**
  *  Main class (contains program flow throughout the game)
  *
  */
 public class BlackboxPlus {
-    //Welcome the user and take player information
-
     public static void main(String[] args) {
 
+        //Initialize program state
         String userInput = "";
         Player [] player = new Player[2];
         int currentPlayer = 0; //set player who goes first
 
-        Util.printWelcome();                    //print welcome to user
+        //Welcome the user and take player information
+        Util.printWelcome();
         player[0] = Util.createPlayer(1);
         //player[1] = Util.createPlayer(2);
 
@@ -20,26 +21,37 @@ public class BlackboxPlus {
         System.out.println("Hello, "+player[currentPlayer].getName()+"!");
         //System.out.println("It‘s your turn!");
 
+        /*start new round*/
         while(!userInput.equals("quit"))
         {
             //initialize game state
             Atom[] atoms = Atom.generateAtoms(6);   //generate random atoms
-            Box box = new Box(atoms);               //create the empty board
+            Box box = new Box(atoms);                  //create the empty board
+            ArrayList<Ray> rays = new ArrayList<>();   //start empty array list
 
-            //play round
+            //play round /*do not let user end round if no atoms have been placed and no rays have been entered into the box (i.e no score calculation)*/
             while(!userInput.equals("end round")){
+                /*output board with ray markers and atoms placed by user*/
+                Util.printBoard(Util.getEmptyBoard());
+                System.out.println("OPTIONS : send ray into box (enter ‘ray‘)\t place atoms on board (enter ‘place atoms‘)\t end round and calculate score (enter ‘end round‘)");
+                userInput = Util.lineInput();
 
-                break;
+                /*place ray at entry point*/
+                if(userInput.equalsIgnoreCase("ray")){
+                    //get entry number from user (validate)
+                    //int entry = //user input
+                    //rays.add(new Ray(entry));
+                    //setter announces position
+                }
             }
 
+            System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) (enter ‘atoms‘ to show hidden atoms) (enter ‘continue‘ to switch players and start new game)");
+            userInput = Util.lineInput();
             //test functionality
             if(userInput.equals("atoms")){
                 Util.printBoard(Util.getAtomizedBoard(atoms));
             }
-            else Util.printBoard(Util.getEmptyBoard());
-
-            System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) (enter ‘atoms‘ to show hidden atoms)");
-            userInput = Util.lineInput();
         }
+        //print goodbye message
     }
 }

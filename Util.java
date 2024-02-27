@@ -121,8 +121,30 @@ public class Util {
                 appendLength--;
             }
         }
+        appendSideNumbers(empty_board);
         empty_board.replaceAll(String::stripTrailing);
         return empty_board;
+    }
+
+    public static void appendSideNumbers(ArrayList<String> board){
+        board.add(getIndent(30));
+        for(int i = 0; i < board.size(); i++){
+            /*append to first line*/
+            if(i == 0){
+                /*set current line*/
+                String line = board.get(i);
+                /*below variables used for string manipulation*/
+                int first_index = line.indexOf("░█");
+                int curr_index = first_index-3;
+                /*run through line and append numbers*/
+                while(curr_index < line.lastIndexOf("░█")){
+
+                }
+            }
+            /*append to middle lines*/
+
+            /*append to last line*/
+        }
     }
 
     /**
