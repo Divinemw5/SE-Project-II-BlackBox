@@ -6,6 +6,7 @@ import java.util.Arrays;
  */
 public class Box {
 
+    public static Object getCoordinate;
     private final Hexagon[] box;
     //array that stores all the Hexagons on the board
 

@@ -45,7 +45,22 @@ public class Ray {
         Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
 
         /*check if starting position contains an atom (edge case : absorbed)*/
+        if(currentHexagon.checkHasAtom())
+        {
+            // absorbed
+            exit = -1;
+            return;
+        }
         /*check if starting position has a barrier value > 0 (edge case : reflected)*/
+
+        if(currentHexagon.getBarrierValue()>0)
+        {
+            // reflected
+            exit = entry;
+            return;
+
+        }
+
 
         /*path movement*/
         do {
@@ -55,6 +70,23 @@ public class Ray {
                 //System.out.println(currentPosition);
             }
             /*check if current hexagon contains barrier = 1*/
+            if(currentHexagon.getBarrierValue()==1)
+            {
+
+                if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[movementDirection])).checkHasAtom())
+                {
+                    exit=-1;
+                    return;
+                }
+                else if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection+1,6)])).checkHasAtom())
+                {
+                    movementDirection = Math.floorMod(movementDirection-1,6);
+                }
+                else
+                {
+                    movementDirection =Math.floorMod(movementDirection+1,6);
+                }
+            }
             /*check if current hexagon contains barrier = 2*/
             /*check if current hexagon contains barrier = 3*/
 
