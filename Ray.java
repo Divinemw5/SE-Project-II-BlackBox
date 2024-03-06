@@ -72,7 +72,6 @@ public class Ray {
             /*check if current hexagon contains barrier = 1*/
             if(currentHexagon.getBarrierValue()==1)
             {
-
                 if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[movementDirection])).checkHasAtom())
                 {
                     exit=-1;
@@ -81,10 +80,12 @@ public class Ray {
                 else if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection+1,6)])).checkHasAtom())
                 {
                     movementDirection = Math.floorMod(movementDirection-1,6);
+                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
                 }
                 else
                 {
                     movementDirection =Math.floorMod(movementDirection+1,6);
+                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
                 }
             }
             /*check if current hexagon contains barrier = 2*/
