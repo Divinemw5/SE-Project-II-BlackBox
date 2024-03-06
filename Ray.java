@@ -3,6 +3,7 @@
  */
 public class Ray {
     Coordinate currentPosition;
+    Coordinate startingPosition;
     int movementDirection;
     int entry;
     int exit; //-1 if ray is absorbed
@@ -29,6 +30,7 @@ public class Ray {
                 int[][] sides = ((SideHexagon) box.getHexagon(i)).getSides();
                 for (int[] side : sides) {
                     if (side[0] == entry) {
+                        startingPosition = box.getHexagon(i).getLocation();
                         currentPosition = box.getHexagon(i).getLocation();
                         movementDirection = side[1];
                         return;
@@ -42,25 +44,25 @@ public class Ray {
      * calculate exit Coordinate (use to set exit)
      */
     private void calculateExitPosition(Box box){
+
         Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
 
-        /*check if starting position contains an atom (edge case : absorbed)*/
-        if(currentHexagon.checkHasAtom())
-        {
-            // absorbed
-            exit = -1;
-            return;
+        if(startingPosition == currentPosition) {
+            /*check if starting position contains an atom (edge case : absorbed)*/
+            if (currentHexagon.checkHasAtom()) {
+                // absorbed
+                exit = -1;
+                return;
+            }
+            /*check if starting position has a barrier value > 0 (edge case : reflected
+             //UNCLEAR IF ENTRY TO HEXAGON WITH BARRIER = 1 AND ATOM IN NEXT POSITION RESULTS IN REFLECTION OR ABSORPTION) + OTHER CASES, CHECK THAT RESULTS MATCH
+             RULES.pdf HIT CASES AFTER IMPLEMENTING ALL RAY FEATURES*/
+            if (currentHexagon.getBarrierValue() > 0) {
+                // reflected
+                exit = entry;
+                return;
+            }
         }
-        /*check if starting position has a barrier value > 0 (edge case : reflected)*/
-
-        if(currentHexagon.getBarrierValue()>0)
-        {
-            // reflected
-            exit = entry;
-            return;
-
-        }
-
 
         /*path movement*/
         do {
