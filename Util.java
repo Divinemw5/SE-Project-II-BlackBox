@@ -46,6 +46,18 @@ public class Util {
         return input.nextLine();
     }
 
+    public static void printRayResponse(Ray ray){
+        if (ray.getExit() == -1){
+            System.out.println("Ray was absorbed!!");
+        }
+        else if(ray.getExit() == ray.getEntry()){
+            System.out.println("Ray was reflected back to side " + ray.getEntry());
+        }
+        else{
+            System.out.println("Ray exited at "+ ray.getExit());
+        }
+    }
+
     public static Boolean unIsValid(String username){
         return !(username == null) && !username.isBlank() && (username.length() > 2) && (username.length() <17);
     }
