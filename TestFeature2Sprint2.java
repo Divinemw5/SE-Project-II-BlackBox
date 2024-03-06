@@ -31,17 +31,20 @@ public class TestFeature2Sprint2 {
         Atom[] atoms  ={new Atom(4,4,4),new Atom(4,8,0),new Atom(4,0,8),new Atom(6,3,3),new Atom(3,6,3),new Atom(1,8,3)};
         Box box = new Box(atoms);
 
+        int[][] expectedZero = new int[][] {{54, Box.MOVE_DIAGONAL_DOWN_LEFT},{1, Box.MOVE_DIAGONAL_DOWN_RIGHT},{2, Box.MOVE_DIRECTLY_RIGHT}};
+        int[][] expectedThirtyFour = new int[][] {{36, Box.MOVE_DIAGONAL_UP_LEFT}, {37, Box.MOVE_DIRECTLY_LEFT}, {38, Box.MOVE_DIAGONAL_DOWN_LEFT}};
         // Test specific hexagons
-        assertHexagonSideNumbers(box, 0, List.of(/* expected side numbers */));
-        assertHexagonSideNumbers(box, 15, List.of(/* expected side numbers */));
+        assertHexagonSideNumbers(box, 0, expectedZero);
+        assertHexagonSideNumbers(box, 34, expectedThirtyFour);
         // Add more tests for other specific hexagons
     }
 
-    private void assertHexagonSideNumbers(Box box, int index, List<Integer> expectedSideNumbers) {
+    private void assertHexagonSideNumbers(Box box, int index, int[][] expectedSideNumbers) {
         Hexagon hexagon = box.getHexagon(index);
-        assertTrue("Hexagon at index " + index + " should be an instance of SideHexagon", hexagon instanceof SideHexagon);
-        List<Integer> actualSideNumbers = ((SideHexagon) hexagon).getSideNumbers();
-        assertEquals("Side numbers do not match for hexagon at index " + index, expectedSideNumbers, actualSideNumbers);
+        System.out.println(hexagon);
+        //assertTrue("Hexagon at index " + index + " should be an instance of SideHexagon", hexagon instanceof SideHexagon);
+        int[][] actualSideNumbers = ((SideHexagon) hexagon).getSides();
+        assertArrayEquals("Side numbers do not match for hexagon at index " + index, expectedSideNumbers, actualSideNumbers);
     }
 
 
