@@ -45,7 +45,9 @@ public class BlackboxPlus {
                         /*testing*/
                         System.out.println(ray);
                         //setter announces position + add ray to rays array list
+                        Util.printRayResponse(ray);
                         rays.add(ray);
+
                     }
                     catch(IllegalArgumentException ex){
                         //handle exception (prompt user to enter valid side number)
