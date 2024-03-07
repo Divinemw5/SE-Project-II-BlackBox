@@ -7,15 +7,23 @@ public class TestRayTravelSprint2 {
 
     @Before
     public void setUp() {
-        Atom[] atoms = {
+       /* Atom[] atoms = {
                 new Atom(-1,3,-2),
                 new Atom(0,1,-1),
                 new Atom(1,1,-1),
                 new Atom(4,-3,-1),
                 new Atom(-1,1,0),
                 new Atom(-2,2,0)
+        };*/
+        Atom[] alternativeAtoms = {
+                new Atom(3,7,2),
+                new Atom(4,5,3),
+                new Atom(5,4,3),
+                new Atom(8,1,3),
+                new Atom(3,5,4),
+                new Atom(2,6,4)
         };
-        box = new Box(atoms);
+        box = new Box(alternativeAtoms);
     }
 
     @Test
@@ -29,7 +37,10 @@ public class TestRayTravelSprint2 {
 
     @Test
     public void testAbsorbed(){
-        Ray ray = new Ray();
+        Ray ray = new Ray(10, box);
+        Ray ray1 = new Ray(25, box);
+        assertEquals("Expected Ray to be absorbed",-1, ray.getExit());
+        assertEquals("Expected Ray to be absorbed",-1, ray1.getExit());
 
     }
 
