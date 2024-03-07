@@ -10,7 +10,7 @@ public class TestFeature2Sprint2 {
      * testing that each index that should be a sideHexagon is an instance of sideHexagon
      */
     @Test
-    public void testSideImplentation(){
+    public void testSideImplementation(){
         Atom[] atoms  ={new Atom(4,4,4),new Atom(4,8,0),new Atom(4,0,8),new Atom(6,3,3),new Atom(3,6,3),new Atom(1,8,3)};
         Box box = new Box(atoms);
         Integer[] array = {0, 1, 2, 3, 4, 5, 10, 11, 17, 18, 25, 26, 34, 35, 42, 43, 49, 50, 55, 56, 57, 58, 59, 60};//store coordinates of all sideHexagons
