@@ -8,6 +8,16 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * A feature that allows the user to end a round or send a ray into the box
+ * A feature that implements the edge positions around the board    DONE
+ * A feature that implements a ray that encounters no atom and travels across the board     DONE
+ * A feature that implements a ray that makes a direct hit and the setter responds with “Absorbed” - [when the ray is travelling in the same direction as the atom and encounters it]   DONE
+ * A feature that implements a ray that hits a hexagon with a barrier level of 1 and is deflected by 1 axis (60 degrees)    DONE
+ * A feature that implements a ray that hits a hexagon with barrier level 1 before it enters the box and the setter announces “Reflected”
+ * A feature that implements a ray that hits an atom directly on entering the board is the setter announces “Absorbed”
+ */
+
 public class TestRayTravelSprint2 {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -66,6 +76,26 @@ public class TestRayTravelSprint2 {
         Util.printRayResponse(absorbedRay);
 
         assertEquals("Ray was absorbed!!\n", outContent.toString());
+    }
+
+    @Test
+    public void testLevel1(){
+        Ray ray = new Ray(32, box);
+        Ray ray1 = new Ray(49, box);
+        assertEquals("Expected Ray to exit at 44",44, ray.getExit());
+        assertEquals("Expected Ray to exit at 23",23, ray1.getExit());
+    }
+
+    @Test
+    public void testInstantReflect(){
+        Ray ray = new Ray(41, box);
+        assertEquals("Expected Ray to be reflected",41, ray.getExit());
+    }
+
+    @Test
+    public void testInstantAbsorbed(){
+        Ray ray = new Ray(49, box);
+        assertEquals("Expected Ray to be absorbed",39, ray.getExit());
     }
 
     @After
