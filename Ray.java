@@ -88,6 +88,11 @@ public class Ray {
                     currentPosition = currentPosition.move(Box.directions[movementDirection]);
                 }
             }
+            //REMOVE IN SPRINT 3
+            else{
+                exit = -2;
+                return;
+            }
             /*check if current hexagon contains barrier = 2*/
             /*check if current hexagon contains barrier = 3*/
             currentHexagon = box.getHexagonByCoordinate(currentPosition); //set next hexagon after move
