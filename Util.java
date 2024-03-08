@@ -48,7 +48,7 @@ public class Util {
 
     public static void printRayResponse(Ray ray){
         if (ray.getExit() == -1){
-            System.out.println("Ray was absorbed!!");
+            System.out.print("Ray was absorbed!!\n");
         }
         else if(ray.getExit() == ray.getEntry()){
             System.out.println("Ray was reflected back to side " + ray.getEntry());

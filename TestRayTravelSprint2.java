@@ -1,10 +1,24 @@
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.After;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestRayTravelSprint2 {
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
     private Box box;
 
+
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+    }
     @Before
     public void setUp() {
        /* Atom[] atoms = {
@@ -44,4 +58,18 @@ public class TestRayTravelSprint2 {
 
     }
 
+    @Test
+    public void testPrintRayResponseWithAbsorption() {
+        // Assuming you have a constructor for Ray where you can set the exit to -1
+        Ray absorbedRay = new Ray(10, box);
+
+        Util.printRayResponse(absorbedRay);
+
+        assertEquals("Ray was absorbed!!\n", outContent.toString());
+    }
+
+    @After
+    public void restoreStreams() {
+        System.setOut(originalOut);
+    }
 }
