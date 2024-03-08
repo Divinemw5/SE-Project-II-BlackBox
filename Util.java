@@ -51,7 +51,7 @@ public class Util {
             System.out.print("Ray was absorbed!!\n");
         }
         else if(ray.getExit() == ray.getEntry()){
-            System.out.println("Ray was reflected back to side " + ray.getEntry());
+            System.out.print("Ray was reflected back to side " + ray.getEntry() + "\n");
         }
         else{
             System.out.println("Ray exited at "+ ray.getExit());

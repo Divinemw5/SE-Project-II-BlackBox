@@ -83,6 +83,8 @@ public class TestRayTravelSprint2 {
         Ray ray = new Ray(41, box);
         assertEquals("Expected Ray to be reflected",41, ray.getExit());
         //implement check for announcement
+        Util.printRayResponse(ray);
+        assertEquals("Ray was reflected back to side " + ray.getEntry() + "\n", outContent.toString());
     }
 
     @Test
