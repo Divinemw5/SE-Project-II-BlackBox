@@ -48,16 +48,14 @@ public class Ray {
         Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
 
         if(startingPosition == currentPosition) {
-            /*check if starting position contains an atom (edge case : absorbed) + (check if position in direction of movement after starting position has atom)*/
-            if (currentHexagon.checkHasAtom() || box.getHexagonByCoordinate(currentPosition.move(Box.directions[movementDirection])).checkHasAtom()) {
+            /*check if starting position contains an atom (edge case : absorbed)*/
+            if (currentHexagon.checkHasAtom()) {
                 // absorbed
                 exit = -1;
                 return;
             }
-            /*check if starting position has a barrier value > 0 (edge case : reflected
-             //UNCLEAR IF ENTRY TO HEXAGON WITH BARRIER = 1 AND ATOM IN NEXT POSITION RESULTS IN REFLECTION OR ABSORPTION) + OTHER CASES, CHECK THAT RESULTS MATCH
-             RULES.pdf HIT CASES AFTER IMPLEMENTING ALL RAY FEATURES*/
-            if (currentHexagon.getBarrierValue() > 0) {
+            /*check if starting position has a barrier value > 0 AND ATOM NEXT TO ENTRY POSITION (edge case : reflected)*/
+            if (currentHexagon.getBarrierValue() > 0){
                 // reflected
                 exit = entry;
                 return;
