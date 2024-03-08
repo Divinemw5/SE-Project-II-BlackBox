@@ -82,15 +82,15 @@ public class TestRayTravelSprint2 {
     public void testInstantReflect(){
         Ray ray = new Ray(41, box);
         assertEquals("Expected Ray to be reflected",41, ray.getExit());
-        Util.printRayResponse(ray);
-        assertEquals("Ray was absorbed!!\n", outContent.toString());
+        //implement check for announcement
     }
 
     @Test
     public void testInstantAbsorbed(){
         Ray ray = new Ray(39, box);
         assertEquals("Expected Ray to be absorbed",-1, ray.getExit());
-
+        Util.printRayResponse(ray);
+        assertEquals("Ray was absorbed!!\n", outContent.toString());
     }
 
     @After
