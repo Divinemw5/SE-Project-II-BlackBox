@@ -5,7 +5,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestFeature2Sprint2 {
+public class TestSideNumbersSprint2 {
     /**
      * testing that each index that should be a sideHexagon is an instance of sideHexagon
      */
@@ -41,7 +41,7 @@ public class TestFeature2Sprint2 {
 
     private void assertHexagonSideNumbers(Box box, int index, int[][] expectedSideNumbers) {
         Hexagon hexagon = box.getHexagon(index);
-        System.out.println(hexagon);
+        //System.out.println(hexagon);
         //assertTrue("Hexagon at index " + index + " should be an instance of SideHexagon", hexagon instanceof SideHexagon);
         int[][] actualSideNumbers = ((SideHexagon) hexagon).getSides();
         assertArrayEquals("Side numbers do not match for hexagon at index " + index, expectedSideNumbers, actualSideNumbers);

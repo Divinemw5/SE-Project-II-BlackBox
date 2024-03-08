@@ -48,8 +48,8 @@ public class Ray {
         Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
 
         if(startingPosition == currentPosition) {
-            /*check if starting position contains an atom (edge case : absorbed)*/
-            if (currentHexagon.checkHasAtom()) {
+            /*check if starting position contains an atom (edge case : absorbed) + (check if position in direction of movement after starting position has atom)*/
+            if (currentHexagon.checkHasAtom() || box.getHexagonByCoordinate(currentPosition.move(Box.directions[movementDirection])).checkHasAtom()) {
                 // absorbed
                 exit = -1;
                 return;
@@ -72,7 +72,7 @@ public class Ray {
                 //System.out.println(currentPosition);
             }
             /*check if current hexagon contains barrier = 1*/
-            if(currentHexagon.getBarrierValue()==1)
+            else if(currentHexagon.getBarrierValue()==1)
             {
                 if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[movementDirection])).checkHasAtom())
                 {
@@ -92,7 +92,6 @@ public class Ray {
             }
             /*check if current hexagon contains barrier = 2*/
             /*check if current hexagon contains barrier = 3*/
-
             currentHexagon = box.getHexagonByCoordinate(currentPosition); //set next hexagon after move
         } while(!((currentHexagon instanceof SideHexagon) && (((SideHexagon) currentHexagon).sidesContainDirection(Math.floorMod(movementDirection+3, 6)))));
         /*check if current hexagon is instance of side hexagon with exit side opposite to movement direction

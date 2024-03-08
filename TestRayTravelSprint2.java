@@ -9,13 +9,13 @@ import java.io.PrintStream;
 import static org.junit.Assert.assertEquals;
 
 
+/*see image 3 in BlackBoxPlus-Rules.pdf for board set-up*/
 
 public class TestRayTravelSprint2 {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     private Box box;
-
 
     @Before
     public void setUpStreams() {
@@ -43,7 +43,7 @@ public class TestRayTravelSprint2 {
     }
 
     @Test
-    public void testTravelAcross(){
+    public void testTravelEmptyPath(){
         Ray ray = new Ray(2, box);
         assertEquals("Expected Ray to exit at 45", 45, ray.getExit());
 
@@ -52,26 +52,23 @@ public class TestRayTravelSprint2 {
     }
 
     @Test
-    public void testAbsorbed(){
+    public void testDirectHitAbsorbed(){
         Ray ray = new Ray(10, box);
         Ray ray1 = new Ray(25, box);
         assertEquals("Expected Ray to be absorbed",-1, ray.getExit());
         assertEquals("Expected Ray to be absorbed",-1, ray1.getExit());
-
     }
 
     @Test
-    public void testPrintRayResponseWithAbsorption() {
+    public void testAnnouncementAbsorption() {
         // Assuming you have a constructor for Ray where you can set the exit to -1
         Ray absorbedRay = new Ray(10, box);
-
         Util.printRayResponse(absorbedRay);
-
         assertEquals("Ray was absorbed!!\n", outContent.toString());
     }
 
     @Test
-    public void testLevel1(){
+    public void testDeflectionBy1Axis(){
         Ray ray = new Ray(32, box);
         Ray ray1 = new Ray(49, box);
         assertEquals("Expected Ray to exit at 44",44, ray.getExit());
@@ -79,20 +76,23 @@ public class TestRayTravelSprint2 {
     }
 
     @Test
-    public void testInstantReflect(){
+    public void testReflectOnEntry(){
         Ray ray = new Ray(41, box);
         assertEquals("Expected Ray to be reflected",41, ray.getExit());
+    }
+
+    @Test
+    public void testAnnouncementReflection(){
+        Ray ray = new Ray(41, box);
         //implement check for announcement
         Util.printRayResponse(ray);
         assertEquals("Ray was reflected back to side " + ray.getEntry() + "\n", outContent.toString());
     }
 
     @Test
-    public void testInstantAbsorbed(){
+    public void testAbsorbedOnEntry(){
         Ray ray = new Ray(39, box);
         assertEquals("Expected Ray to be absorbed",-1, ray.getExit());
-        Util.printRayResponse(ray);
-        assertEquals("Ray was absorbed!!\n", outContent.toString());
     }
 
     @After

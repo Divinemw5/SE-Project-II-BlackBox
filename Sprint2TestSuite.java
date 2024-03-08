@@ -13,7 +13,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TestFeature2Sprint2.class,
+        TestSideNumbersSprint2.class,
         TestRayTravelSprint2.class
 })
 

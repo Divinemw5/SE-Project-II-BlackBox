@@ -39,18 +39,19 @@ public class BlackboxPlus {
                 /*place ray at entry point*/
                 if(userInput.equalsIgnoreCase("ray")){
                     try{
+                        System.out.print("Enter ray entry number : ");
                         int entry = Integer.parseInt(Util.getLine());
                         Ray ray = new Ray(entry, box);
 
                         /*testing*/
-                        System.out.println(ray);
+                        //System.out.println(ray);
                         //setter announces position + add ray to rays array list
                         Util.printRayResponse(ray);
                         rays.add(ray);
-
                     }
                     catch(IllegalArgumentException ex){
                         //handle exception (prompt user to enter valid side number)
+                        System.out.println("Please enter a valid side number (1-54)");
                     }
                 }
             }
