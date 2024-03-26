@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *  Main class (contains program flow throughout the game)
@@ -59,22 +61,29 @@ public class BlackboxPlus {
                         System.out.println("Please enter a valid side number (1-54)");
                     }
                 }
-                else if (userInput.equalsIgnoreCase("atoms")) {
+                else if (userInput.equalsIgnoreCase("place atoms")) {
                     System.out.println("Would you like to add or remove an atom? ('add', 'remove')");
                     userInput = Util.getLine();
                     if (userInput.trim().equalsIgnoreCase("add")) {
                         try {
                             System.out.println("Enter 2 side numbers to place an atom where they intersect");
-                            System.out.println("Enter first number:\n");
+                            System.out.println("Enter first number:");
                             int x = Integer.parseInt(Util.getLine());
-                            System.out.println("Enter second number:\n");
+                            System.out.println("Enter second number:");
                             int y = Integer.parseInt(Util.getLine());
 
                             Ray rayx = new Ray(x, emptyBox);
                             Ray rayy = new Ray(y, emptyBox);
 
+                            if(rayx.getExit() == rayy.getEntry()){
+                                throw new IllegalStateException();
+                            }
+
                             ArrayList<Coordinate> coordsx = rayx.getCoords();
                             ArrayList<Coordinate> coordsy = rayy.getCoords();
+
+                            System.out.println(coordsx);
+                            System.out.println(coordsy);
 
                             Atom atomToPlace = null;
 
@@ -84,55 +93,73 @@ public class BlackboxPlus {
                                     break;
                                 }
                             }
+
+                            if(atomToPlace == null) throw new IOException();
+
+                            System.out.println(atomToPlace);
                             for(int i = 0; i < userAtoms.length; i++){
                                 if(userAtoms[i] == null){
                                     userAtoms[i] = atomToPlace;
                                     break;
                                 }
-
-                                    if(i == 5){
+                                    if(i == userAtoms.length-1){
                                         System.out.println("Please remove an atom before placing one");
                                     }
+                            }
+                            System.out.println(Arrays.toString(userAtoms));
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("Please enter a valid side number (1-54)");
+                        } catch (IllegalStateException ex){
+                            System.out.println("Please enter non-adjacent side numbers.");
+                        } catch (IOException ex){
+                            System.out.println("Please enter side numbers with an intersection.");
+                        }
+                    }
+                    else if (userInput.trim().equalsIgnoreCase("remove")){
+                        try {
+                            System.out.println("Enter 2 side numbers to remove an atom where they intersect");
+                            System.out.println("Enter first number:");
+                            int x = Integer.parseInt(Util.getLine());
+                            System.out.println("Enter second number:");
+                            int y = Integer.parseInt(Util.getLine());
 
+                            Ray rayx = new Ray(x, emptyBox);
+                            Ray rayy = new Ray(y, emptyBox);
+
+                            if(rayx.getExit() == rayy.getEntry()){
+                                throw new IllegalStateException();
+                            }
+
+                            ArrayList<Coordinate> coordsx = rayx.getCoords();
+                            ArrayList<Coordinate> coordsy = rayy.getCoords();
+
+                            Atom atomToRemove = null;
+
+                            for (Coordinate i : coordsx) {
+                                if (coordsy.contains(i)) {
+                                    atomToRemove = new Atom(i.getX(), i.getY(), i.getZ());
+                                    break;
+                                }
+                            }
+
+                            if(atomToRemove == null) throw new IOException();
+
+                            for(int i = 0; i < userAtoms.length; i++){
+                                if(userAtoms[i]!=null && userAtoms[i].equals(atomToRemove)){
+                                    userAtoms[i] = null;
+                                    break;
+                                }
+                                if(i == userAtoms.length-1){
+                                    System.out.println("Did not find specified atom");
+                                }
                             }
                         } catch (IllegalArgumentException ex) {
                             System.out.println("Please enter a valid side number (1-54)");
+                        } catch (IllegalStateException ex){
+                            System.out.println("Please enter non-adjacent side numbers.");
+                        } catch (IOException ex){
+                            System.out.println("Please enter side numbers with an intersection.");
                         }
-                    }
-                }
-                else if (userInput.trim().equalsIgnoreCase("remove")){
-                    try {
-                        System.out.println("Enter 2 side numbers to remove an atom where they intersect");
-                        System.out.println("Enter first number:\n");
-                        int x = Integer.parseInt(Util.getLine());
-                        System.out.println("Enter second number:\n");
-                        int y = Integer.parseInt(Util.getLine());
-
-                        Ray rayx = new Ray(x, emptyBox);
-                        Ray rayy = new Ray(y, emptyBox);
-
-                        ArrayList<Coordinate> coordsx = rayx.getCoords();
-                        ArrayList<Coordinate> coordsy = rayy.getCoords();
-
-                        Atom atomToRemove = null;
-
-                        for (Coordinate i : coordsx) {
-                            if (coordsy.contains(i)) {
-                                atomToRemove = new Atom(i.getX(), i.getY(), i.getZ());
-                                break;
-                            }
-                        }
-                        for(int i = 0; i < 6; i++){
-                            if(userAtoms[i].equals(atomToRemove)){
-                                userAtoms[i] = null;
-                                break;
-                            }
-                            if(i == 5){
-                                System.out.println("Did not find specified atom");
-                            }
-                        }
-                    } catch (IllegalArgumentException ex) {
-                        System.out.println("Please enter a valid side number (1-54)");
                     }
                 }
             }

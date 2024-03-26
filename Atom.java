@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -66,5 +67,12 @@ public class Atom {
 
     public Coordinate getLocation() {
         return location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Atom atom)) return false;
+        return location.equals(atom.location);
     }
 }

@@ -50,7 +50,7 @@ public class Ray {
     private void calculateExitPosition(Box box){
 
         Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
-        coords.add(currentPosition);
+
         if(startingPosition == currentPosition) {
             /*check if starting position contains an atom (edge case : absorbed)*/
             if (currentHexagon.checkHasAtom()) {
@@ -68,6 +68,7 @@ public class Ray {
 
         /*path movement*/
         do {
+            coords.add(currentPosition);
             /*check if current hexagon contains no barrier*/
             if (currentHexagon.getBarrierValue() == 0) {
                 currentPosition = currentPosition.move(Box.directions[movementDirection]);
@@ -118,6 +119,7 @@ public class Ray {
         } while(!((currentHexagon instanceof SideHexagon) && (((SideHexagon) currentHexagon).sidesContainDirection(Math.floorMod(movementDirection+3, 6)))));
         /*check if current hexagon is instance of side hexagon with exit side opposite to movement direction
          (set exit to side with direction opposite to current position) (default condition)*/
+        coords.add(currentPosition); //add last position before exit to array list
         setExit(((SideHexagon) currentHexagon).getSideWithDirection(Math.floorMod(movementDirection+3,6)));
     }
 
