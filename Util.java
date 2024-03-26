@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -62,11 +63,7 @@ public class Util {
         return !(username == null) && !username.isBlank() && (username.length() > 2) && (username.length() <17);
     }
 
-    public static void main(String[] args) {
-        Atom[] atoms = Atom.generateAtoms(6);
-        printBoard(getAtomizedBoard(atoms));
-        System.out.println(Arrays.toString(atoms));
-    }
+
 
     /**
      * Function takes parameters
@@ -260,6 +257,77 @@ public class Util {
         }
         board.set(0, topLine);
         board.set(board.size()-1, bottomLine);
+    }
+
+
+    public static void main(String[] args) {
+        Atom[] atoms = Atom.generateAtoms(6);
+        printBoard(getAtomizedBoard(atoms));
+        System.out.println(Arrays.toString(atoms));
+    }
+
+    private static int findLineContaining(int side, ArrayList<String> board){
+        int i = 0;
+        for(String s : board){
+            if(s.contains(side+"")) return i;
+            i++;
+        }
+        return -1;
+    }
+    /**
+     * Function to append ray markers to board with side numbers.
+     * 1. Absorbed Rays - Black Ray Marker at Entry
+     * 2. Reflected Rays - White Ray Marker at Entry
+     * 3. Other Rays - Pair of Same Colour Ray Markers at Entry and Exit
+     *
+     * @param rays array list of rays
+     * @return board with ray markers appended
+     */
+
+    public static ArrayList<String> appendRayMarkers(ArrayList<Ray> rays, ArrayList<String> board){
+
+        char rayMarkerAbsorbed = 'A';   //set as white later ...
+        char rayMarkerReflected = 'R';  //set as black later ...
+        char rayMarkerPair = 'X';       //set up function to randomly choose colour later ...
+
+        for(Ray ray : rays){
+            //absorbed
+            if(ray.getExit() == -1){
+                int index =  findLineContaining(ray.getEntry(), board);
+                int ray_pos = board.get(index).indexOf(ray.getEntry());
+
+                //append to top of board
+                if(ray.getEntry() > 46 && ray.getEntry() <= 54){
+                    /*check if ray marker is already placed at position and add empty lines until empty space is found*/
+                    for(String s : board){
+                        if(s.charAt(ray_pos) != ' '){
+                            board.add(0, getIndent(s.length()/2));
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    //append ray marker at position
+                    char[] ch = board.get(0).toCharArray();
+                    ch[ray_pos] = rayMarkerPair;
+                    board.set(0, Arrays.toString(ch));
+                }
+                //append to bottom of board
+                else if(ray.getEntry() > 19 && ray.getEntry() < 28){
+
+                }
+                //append to sides
+                else{
+                }
+            }
+            //reflected
+            else if(ray.getExit() == ray.getEntry()){
+            }
+            //other
+            else{
+            }
+        }
+        return board;
     }
 
     /**
