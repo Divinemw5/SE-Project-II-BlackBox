@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+
 /**
  * (class description)
  */
 public class Ray {
+
+    ArrayList<Coordinate> coords = new ArrayList<>();
     Coordinate currentPosition;
     Coordinate startingPosition;
     int movementDirection;
@@ -46,7 +50,7 @@ public class Ray {
     private void calculateExitPosition(Box box){
 
         Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
-
+        coords.add(currentPosition);
         if(startingPosition == currentPosition) {
             /*check if starting position contains an atom (edge case : absorbed)*/
             if (currentHexagon.checkHasAtom()) {
@@ -135,6 +139,10 @@ public class Ray {
     }
     public int getExit(){
         return this.exit;
+    }
+
+    public ArrayList<Coordinate> getCoords(){
+        return coords;
     }
 
     @Override
