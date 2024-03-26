@@ -10,20 +10,32 @@ public class Util {
     /**
      * colours : @see <a href="https://www.w3schools.blog/ansi-colors-java"></a>
      */
-    public static final String ANSI_BLACK = "\033[0;30m";
-    public static final String ANSI_WHITE = "\033[0;37m";
-    public static final String ANSI_YELLOW = "\033[0;33m";
-    public static final String ANSI_RED = "\033[0;31m";
-    public static final String ANSI_PURPLE = "\033[0;35m";
-    public static final String ANSI_RESET = "\033[0m";
+    public static final String ANSI_BLACK = "\033[0;30m";  //BLACK
+    public static final String ANSI_RED = "\033[0;31m";    //RED
+    public static final String ANSI_GREEN = "\033[0;32m";  //GREEN
+    public static final String ANSI_YELLOW = "\033[0;33m"; //YELLOW
+    public static final String ANSI_BLUE = "\033[0;34m";   //BLUE
+    public static final String ANSI_PURPLE = "\033[0;35m"; //PURPLE
+    public static final String ANSI_CYAN = "\033[0;36m";   //CYAN
+    public static final String ANSI_WHITE = "\033[0;37m";  //WHITE
+    public static final String ANSI_RESET = "\033[0m";     //RESET
 
-    public static final String ANSI_BLACK_BG = "\033[40m";
+    public static final String ANSI_BLACK_BG = "\033[40m"; //WHITE BG
+    public static final String ANSI_WHITE_BG = "\033[47m"; //BLACK BG
 
     public static final String backgroundColour = ANSI_BLACK_BG;
     public static final String boardColour = ANSI_YELLOW + backgroundColour;
     public static final String atomColour = ANSI_WHITE + backgroundColour;
     public static final String numberColour = ANSI_RED + backgroundColour;
     public static final String textColour = ANSI_RESET + backgroundColour; //default
+
+    private static char rayMarkerAbsorbed = 'A';   //set as black later ...
+    public static final String absorbedColour = ANSI_BLACK + ANSI_WHITE_BG;
+
+    private static char rayMarkerReflected = 'R';  //set as white later ...
+    public static final String reflectedColour = ANSI_RESET;
+
+    private static char rayMarkerPair = 'X';       //set up function to randomly choose colour later ...
 
     public static void printWelcome(){
         System.out.println(textColour + "Welcome to BlackBox!!! :) :) :)");
@@ -260,15 +272,53 @@ public class Util {
     }
 
     public static void main(String[] args) {
-        Atom[] atoms = Atom.generateAtoms(6);
-        printBoard(getAtomizedBoard(atoms));
-        System.out.println(Arrays.toString(atoms));
+        Box emptyBox = new Box(new Atom[] {null}); //for use with getAtom only
+
+        if (true) { //example 3
+            Atom[] atoms = new Atom[]{getAtom(6,3, emptyBox), getAtom(10,5,emptyBox), getAtom(26,10,emptyBox),
+                    getAtom(28,8,emptyBox), getAtom(30,8,emptyBox), getAtom(40,39, emptyBox)};
+            Box box = new Box(atoms);
+            ArrayList<Ray> rays = new ArrayList<>();
+            rays.add(new Ray(17, box));
+            rays.add(new Ray(28, box));
+            rays.add(new Ray(32, box));
+            rays.add(new Ray(2, box));
+            rays.add(new Ray(8, box));
+            rays.add(new Ray(10, box));
+               /*for(Ray ray : rays){
+            Util.printRayResponse(ray);
+        }*/
+            //Atom[] atoms = Atom.generateAtoms(6);
+            printBoard(colourBoard(appendRayMarkers(rays, getAtomizedBoard(atoms))));
+            //System.out.println(Arrays.toString(atoms));
+        } else{ //example 4
+            Atom[] atoms = new Atom[]{getAtom(6,1, emptyBox), getAtom(51,46,emptyBox), getAtom(37,42,emptyBox),
+                    getAtom(10,30,emptyBox), getAtom(26,25,emptyBox), getAtom(19,7, emptyBox)};
+            Box box = new Box(atoms);
+            ArrayList<Ray> rays = new ArrayList<>();
+            rays.add(new Ray(53, box));
+            rays.add(new Ray(14, box));
+            rays.add(new Ray(14, box));
+            rays.add(new Ray(30, box));
+            rays.add(new Ray(30, box));
+            rays.add(new Ray(26, box));
+            rays.add(new Ray(20, box));
+
+
+            /*   for(Ray ray : rays){
+            Util.printRayResponse(ray);
+            }*/
+            //Atom[] atoms = Atom.generateAtoms(6);
+            printBoard(colourBoard(appendRayMarkers(rays, getAtomizedBoard(atoms))));
+            //System.out.println(Arrays.toString(atoms));
+        }
     }
 
     private static int findLineContaining(int side, ArrayList<String> board){
         int i = 0;
         for(String s : board){
-            if(s.contains(side+"")) return i;
+            if(s.contains(side+"") && !(s.contains("5"+side)) && !s.contains("4"+side) &&
+                    !(s.contains("3"+side)) && !(s.contains("2"+side) && !(s.contains("1"+side)))) return i;
             i++;
         }
         return -1;
@@ -284,47 +334,116 @@ public class Util {
      */
 
     public static ArrayList<String> appendRayMarkers(ArrayList<Ray> rays, ArrayList<String> board){
-
-        char rayMarkerAbsorbed = 'A';   //set as white later ...
-        char rayMarkerReflected = 'R';  //set as black later ...
-        char rayMarkerPair = 'X';       //set up function to randomly choose colour later ...
-
         for(Ray ray : rays){
-            //absorbed
-            if(ray.getExit() == -1){
-                int index =  findLineContaining(ray.getEntry(), board);
-                int ray_pos = board.get(index).indexOf(ray.getEntry());
-
-                //append to top of board
-                if(ray.getEntry() > 46 && ray.getEntry() <= 54){
-                    /*check if ray marker is already placed at position and add empty lines until empty space is found*/
-                    for(String s : board){
-                        if(s.charAt(ray_pos) != ' '){
-                            board.add(0, getIndent(s.length()/2));
-                        }
-                        else{
-                            break;
-                        }
-                    }
-                    //append ray marker at position
-                    char[] ch = board.get(0).toCharArray();
-                    ch[ray_pos] = rayMarkerPair;
-                    board.set(0, Arrays.toString(ch));
-                }
-                //append to bottom of board
-                else if(ray.getEntry() > 19 && ray.getEntry() < 28){
-
-                }
-                //append to sides
-                else{
-                }
+            //absorbed or reflected
+            if(ray.getExit() == -1 || ray.getExit() == ray.getEntry()){
+                board = placeEntryMarker(ray, board);
             }
-            //reflected
-            else if(ray.getExit() == ray.getEntry()){
-            }
-            //other
+            //pair
             else{
+                board = placeEntryMarker(ray, board);
+                board = placeExitMarker(ray, board);
             }
+        }
+        return board;
+    }
+
+    private static ArrayList<String> placeEntryMarker(Ray ray, ArrayList<String> board){
+
+        int indexEntry =  findLineContaining(ray.getEntry(), board);
+        int rayPosEntry = board.get(indexEntry).indexOf(ray.getEntry()+"");
+        char rayMarker;
+        //System.out.println("entry: "+ray.getEntry());
+        //System.out.println("index : "+index);
+        //System.out.println(board.get(index));
+        //System.out.println("ray pos : " +ray_pos);
+        if(ray.getExit() == -1){
+            rayMarker = rayMarkerAbsorbed;
+        } else if(ray.getExit() == ray.getEntry()) {
+            rayMarker = rayMarkerReflected;
+        } else rayMarker = rayMarkerPair;
+
+        //append to top of board
+        if(ray.getEntry() > 46 && ray.getEntry() <= 54){
+            /*check if ray marker is already placed at position, if yes add empty line*/
+            if(board.get(0).charAt(rayPosEntry) != ' ') board.add(0, getIndent(board.get(0).length()/2));
+            //System.out.println(board.get(0));
+            //append ray marker at position
+            String line = board.get(0).substring(0,rayPosEntry) + rayMarker + board.get(0).substring(rayPosEntry);
+            board.set(0, line);
+        }
+        //append to bottom of board
+        else if(ray.getEntry() > 19 && ray.getEntry() < 28){
+            if(board.get(board.size()-1).charAt(rayPosEntry) != ' ') board.add(board.size(), getIndent(board.get(0).length()/2));
+
+            String line = board.get(board.size()-1).substring(0,rayPosEntry) +rayMarker + board.get(board.size()-1).substring(rayPosEntry);
+            board.set(board.size()-1, line);
+        }
+        //append to sides (right)
+        else if(ray.getEntry() >= 28 && ray.getEntry() <47){
+            //System.out.println(ray.getEntry());
+            while(board.get(indexEntry).charAt(rayPosEntry) != ' '){
+                board.set(indexEntry, board.get(indexEntry)+" ");
+                rayPosEntry++;
+                //System.out.println(rayPosEntry);
+            }
+            rayPosEntry++;
+            String line = board.get(indexEntry).substring(0, rayPosEntry) + rayMarker +" "+ board.get(indexEntry).substring(rayPosEntry);
+            board.set(indexEntry, line.stripTrailing());
+        }
+        //append to sides (left)
+        else{
+            while(board.get(indexEntry).substring(0, rayPosEntry).contains(rayMarker+"")){
+                rayPosEntry--;
+            }
+            rayPosEntry--;
+            String line = board.get(indexEntry).substring(0, rayPosEntry-1) + rayMarker + board.get(indexEntry).substring(rayPosEntry);
+            board.set(indexEntry, line);
+        }
+        return board;
+    }
+
+    private static ArrayList<String> placeExitMarker(Ray ray, ArrayList<String> board){
+        int indexExit =  findLineContaining(ray.getExit(), board);
+        int rayPosExit = board.get(indexExit).indexOf(ray.getExit()+"");
+        char rayMarker = rayMarkerPair;
+
+        //append to top of board
+        if(ray.getExit() > 46 && ray.getExit() <= 54){
+            /*check if ray marker is already placed at position, if yes add empty line*/
+            if(board.get(0).charAt(rayPosExit) != ' ') board.add(0, getIndent(board.get(0).length()/2));
+            //System.out.println(board.get(0));
+            //append ray marker at position
+            String line = board.get(0).substring(0,rayPosExit) + rayMarker + board.get(0).substring(rayPosExit);
+            board.set(0, line);
+        }
+        //append to bottom of board
+        else if(ray.getExit() > 19 && ray.getExit() < 28){
+            if(board.get(board.size()-1).charAt(rayPosExit) != ' ') board.add(board.size(), getIndent(board.get(0).length()/2));
+
+            String line = board.get(board.size()-1).substring(0,rayPosExit) +rayMarker + board.get(board.size()-1).substring(rayPosExit);
+            board.set(board.size()-1, line);
+        }
+        //append to sides (right)
+        else if(ray.getExit() >= 28 && ray.getExit() <47){
+            //System.out.println(ray.getExit());
+            while(board.get(indexExit).charAt(rayPosExit) != ' '){
+                board.set(indexExit, board.get(indexExit)+" ");
+                rayPosExit++;
+                //System.out.println(rayPosExit);
+            }
+            rayPosExit++;
+            String line = board.get(indexExit).substring(0, rayPosExit) + rayMarker +" "+ board.get(indexExit).substring(rayPosExit);
+            board.set(indexExit, line.stripTrailing());
+        }
+        //append to sides (left)
+        else{
+            while(board.get(indexExit).substring(0, rayPosExit).contains(rayMarker+"")){
+                rayPosExit--;
+            }
+            rayPosExit--;
+            String line = board.get(indexExit).substring(0, rayPosExit-1) + rayMarker + board.get(indexExit).substring(rayPosExit);
+            board.set(indexExit, line);
         }
         return board;
     }
@@ -424,6 +543,9 @@ public class Util {
             str = str.replaceAll("╔╗", atomColour+"╔╗"+boardColour);
             str = str.replaceAll("░░", atomColour+"░░"+boardColour);
             str = str.replaceAll("╚╝", atomColour+"╚╝"+boardColour);
+
+            str = str.replaceAll(String.valueOf(rayMarkerReflected), reflectedColour+rayMarkerReflected+boardColour);
+            str = str.replaceAll(String.valueOf(rayMarkerAbsorbed), absorbedColour+rayMarkerAbsorbed+boardColour);
 
             board.set(i, str);
             i++;
