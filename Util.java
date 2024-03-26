@@ -26,9 +26,9 @@ public class Util {
     public static final String ANSI_WHITE_BG = "\033[47m"; //BLACK BG
 
     public static final String backgroundColour = ANSI_BLACK_BG;
-    public static final String boardColour = ANSI_YELLOW + backgroundColour;
-    public static final String atomColour = ANSI_WHITE + backgroundColour;
-    public static final String numberColour = ANSI_RED + backgroundColour;
+    public static final String boardColour = ANSI_RESET + backgroundColour;
+    public static final String atomColour = ANSI_YELLOW + backgroundColour;
+    public static final String numberColour = ANSI_WHITE + backgroundColour;
     public static final String textColour = ANSI_RESET + backgroundColour; //default
 
     private static final char rayMarkerAbsorbed = 'A';   //set as black later ...
