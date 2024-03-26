@@ -84,7 +84,7 @@ public class BlackboxPlus {
                                         System.out.println("Please remove an atom before placing one");
                                     }
                                 }
-                                System.out.println(Arrays.toString(userAtoms));
+                                //System.out.println(Arrays.toString(userAtoms));
                         }
                         else if (userInput.trim().equalsIgnoreCase("remove")){
                                 System.out.println("Enter 2 side numbers to remove an atom where they intersect");
@@ -104,15 +104,12 @@ public class BlackboxPlus {
                                         System.out.println("Did not find specified atom");
                                     }
                                 }
-
                         }
                     } catch (IllegalArgumentException ex) {
                     System.out.println("Please enter a valid side number (1-54)");
                     } catch (IllegalStateException ex){
-                    System.out.println("Please enter non-adjacent side numbers.");
-                    } catch (IOException ex){
-                    System.out.println("Please enter side numbers with an intersection.");
-                     }
+                    System.out.println("Please enter side numbers with a valid intersection.");
+                    }
                 }
             }
 

@@ -431,7 +431,7 @@ public class Util {
         board.set(board.size()-1, board.get(board.size()-1) +textColour); //SET COLOUR BACK TO DEFAULT
         return board;
     }
-    public static Atom getAtom(int x, int y, Box emptyBox) throws IOException {
+    public static Atom getAtom(int x, int y, Box emptyBox) throws IllegalStateException {
 
         Ray rayx = new Ray(x, emptyBox);
         Ray rayy = new Ray(y, emptyBox);
@@ -450,7 +450,7 @@ public class Util {
                 break;
             }
         }
-        if(atom == null) throw new IOException();
+        if(atom == null) throw new IllegalStateException();
         return atom;
     }
 }
