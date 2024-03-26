@@ -59,7 +59,7 @@ public class BlackboxPlus {
                     catch(IllegalArgumentException ex){
                         //handle exception (prompt user to enter valid side number)
                         System.out.println("Please enter a valid side number (1-54)");
-                        ex.printStackTrace();
+                        //ex.printStackTrace();
                     }
                 }
                 else if (userInput.equalsIgnoreCase("place atoms")) {
