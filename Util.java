@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ public class Util {
     public static final String ANSI_WHITE = "\033[0;37m";  //WHITE
     public static final String ANSI_RESET = "\033[0m";     //RESET
 
+
     public static final String ANSI_BLACK_BG = "\033[40m"; //WHITE BG
     public static final String ANSI_WHITE_BG = "\033[47m"; //BLACK BG
 
@@ -29,13 +31,14 @@ public class Util {
     public static final String numberColour = ANSI_RED + backgroundColour;
     public static final String textColour = ANSI_RESET + backgroundColour; //default
 
-    private static char rayMarkerAbsorbed = 'A';   //set as black later ...
+    private static final char rayMarkerAbsorbed = 'A';   //set as black later ...
     public static final String absorbedColour = ANSI_BLACK + ANSI_WHITE_BG;
 
-    private static char rayMarkerReflected = 'R';  //set as white later ...
+    private static final char rayMarkerReflected = 'R';  //set as white later ...
     public static final String reflectedColour = ANSI_RESET;
 
-    private static char rayMarkerPair = 'X';       //set up function to randomly choose colour later ...
+    public static final char[] pairMarkers = new char[]{'#','≡','!','$','■','¤','«','§','¡','¿','¥','×','ƒ','¶'};
+    public static final String[] pairColours = new String[]{ANSI_GREEN, ANSI_BLUE, ANSI_PURPLE, ANSI_CYAN};
 
     public static void printWelcome(){
         System.out.println(textColour + "Welcome to BlackBox!!! :) :) :)");
@@ -274,22 +277,27 @@ public class Util {
     public static void main(String[] args) {
         Box emptyBox = new Box(new Atom[] {null}); //for use with getAtom only
 
-        if (true) { //example 3
+        if (false) { //example 3
             Atom[] atoms = new Atom[]{getAtom(6,3, emptyBox), getAtom(10,5,emptyBox), getAtom(26,10,emptyBox),
                     getAtom(28,8,emptyBox), getAtom(30,8,emptyBox), getAtom(40,39, emptyBox)};
             Box box = new Box(atoms);
             ArrayList<Ray> rays = new ArrayList<>();
             rays.add(new Ray(17, box));
+            rays.add(new Ray(17, box));
             rays.add(new Ray(28, box));
             rays.add(new Ray(32, box));
             rays.add(new Ray(2, box));
+            rays.add(new Ray(2, box));
+            rays.add(new Ray(2, box));
+
             rays.add(new Ray(8, box));
             rays.add(new Ray(10, box));
                /*for(Ray ray : rays){
             Util.printRayResponse(ray);
         }*/
             //Atom[] atoms = Atom.generateAtoms(6);
-            printBoard(colourBoard(appendRayMarkers(rays, getAtomizedBoard(atoms))));
+            //printBoard(appendRayMarkers(rays, getAtomizedBoard(atoms)));
+             printBoard(colourBoard(appendRayMarkers(rays, getAtomizedBoard(atoms))));
             //System.out.println(Arrays.toString(atoms));
         } else{ //example 4
             Atom[] atoms = new Atom[]{getAtom(6,1, emptyBox), getAtom(51,46,emptyBox), getAtom(37,42,emptyBox),
@@ -300,10 +308,8 @@ public class Util {
             rays.add(new Ray(14, box));
             rays.add(new Ray(14, box));
             rays.add(new Ray(30, box));
-            rays.add(new Ray(30, box));
             rays.add(new Ray(26, box));
             rays.add(new Ray(20, box));
-
 
             /*   for(Ray ray : rays){
             Util.printRayResponse(ray);
@@ -314,15 +320,23 @@ public class Util {
         }
     }
 
+
+    /**
+     * Function to find line containing a specified side number.
+     * @param side -side number (must be listed on board)
+     * @param board - textual board (must have side numbers appended)
+     * @return index of line containing side number if found, and -1 if not found
+     */
     private static int findLineContaining(int side, ArrayList<String> board){
         int i = 0;
         for(String s : board){
-            if(s.contains(side+"") && !(s.contains("5"+side)) && !s.contains("4"+side) &&
-                    !(s.contains("3"+side)) && !(s.contains("2"+side) && !(s.contains("1"+side)))) return i;
+            s += " "; //for checking numbers at end of board with no trailing whitespace
+            if(s.contains(" "+side+" ") || s.contains("█"+side+" ") || s.contains(" "+side+"░")) return i;
             i++;
         }
         return -1;
     }
+
     /**
      * Function to append ray markers to board with side numbers.
      * 1. Absorbed Rays - Black Ray Marker at Entry
@@ -332,28 +346,33 @@ public class Util {
      * @param rays array list of rays
      * @return board with ray markers appended
      */
-
     public static ArrayList<String> appendRayMarkers(ArrayList<Ray> rays, ArrayList<String> board){
         char rayMarker;
         int index;
         int rayPos;
+        int currentPair = 0;
 
         for(Ray ray : rays){
             if(ray.getExit() == -1){
                 rayMarker = rayMarkerAbsorbed;
             } else if(ray.getExit() == ray.getEntry()) {
                 rayMarker = rayMarkerReflected;
-            } else rayMarker = rayMarkerPair;
-
+            } else {
+                //choose character to replace with coloured marker when colouring board
+                rayMarker = pairMarkers[currentPair];
+                //System.out.println(currentPair);
+                currentPair = Math.floorMod(currentPair+1, pairMarkers.length);
+            }
             index = findLineContaining(ray.getEntry(), board);
             rayPos = board.get(index).indexOf(ray.getEntry()+"");
             placeMarker(board, index, rayPos, ray.getEntry(), rayMarker);
 
+            //System.out.println(board.get(index));
             //if paired ray markers
             if(!(ray.getExit() == -1 || ray.getExit() == ray.getEntry())){
                 index =  findLineContaining(ray.getExit(), board);
                 rayPos = board.get(index).indexOf(ray.getExit()+"");
-                rayMarker = rayMarkerPair;
+                //rayMarker = rayMarkerPair;
                 placeMarker(board, index, rayPos, ray.getExit(), rayMarker);
             }
 
@@ -361,6 +380,14 @@ public class Util {
         return board;
     }
 
+    /**
+     * Function to place a single marker on the board
+     * @param board - board to append marker to as an ArrayList of type String
+     * @param index - index of line to alter in ArrayList
+     * @param rayPos - index of side number in line to alter
+     * @param side - ray exit/entry side number
+     * @param rayMarker - char to append
+     */
     private static void placeMarker(ArrayList<String> board, int index, int rayPos, int side, char rayMarker){
 
         //append to top of board
@@ -393,13 +420,25 @@ public class Util {
         }
         //append to sides (left)
         else{
-            while(board.get(index).substring(0, rayPos).contains(rayMarker+"")){
+            while(containsPairMarkers(board.get(index).substring(0, rayPos)) || board.get(index).substring(0, rayPos).contains(rayMarker+"")){
                 rayPos--;
             }
             rayPos--;
             String line = board.get(index).substring(0, rayPos-1) + rayMarker + board.get(index).substring(rayPos);
             board.set(index, line);
         }
+    }
+
+    /**
+     * Function to check if a member of the list of valid pair markers is in a string.
+     * @param str - String to check
+     * @return true if contained in str, false otherwise
+     */
+    private static boolean containsPairMarkers(String str){
+        for(char ch : pairMarkers){
+            if(str.contains(ch+"")) return true;
+        }
+        return false;
     }
 
     /**
@@ -475,6 +514,11 @@ public class Util {
         return atomizedBoard;
     }
 
+    /**
+     * Function to colour the board
+     * @param board - board to colour
+     * @return coloured board
+     */
     public static ArrayList<String> colourBoard(ArrayList<String> board){
         //colour numbers
         int i = 0;
@@ -501,12 +545,28 @@ public class Util {
             str = str.replaceAll(String.valueOf(rayMarkerReflected), reflectedColour+rayMarkerReflected+boardColour);
             str = str.replaceAll(String.valueOf(rayMarkerAbsorbed), absorbedColour+rayMarkerAbsorbed+boardColour);
 
+            //System.out.println(pairMarkers.length);
+            for(int j = 0; j < pairMarkers.length; j++){
+                if(str.contains(pairMarkers[j]+"")) {
+                    str = str.replace(String.valueOf(pairMarkers[j]), pairColours[j%pairColours.length] + pairMarkers[j] + boardColour);
+                }
+            }
+
             board.set(i, str);
             i++;
         }
         board.set(board.size()-1, board.get(board.size()-1) +textColour); //SET COLOUR BACK TO DEFAULT
         return board;
     }
+
+    /**
+     * Function to return an atom based on intersecting side numbers ...
+     * @param x - side x
+     * @param y - side y
+     * @param emptyBox - box with no atoms in it
+     * @return atom at intersection
+     * @throws IllegalStateException if no intersection is found
+     */
     public static Atom getAtom(int x, int y, Box emptyBox) throws IllegalStateException {
 
         Ray rayx = new Ray(x, emptyBox);

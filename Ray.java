@@ -44,6 +44,18 @@ public class Ray {
         }
     }
 
+
+    private boolean checkAtom(Box box, Coordinate position, Vector vector){
+        try{
+            Hexagon hex = box.getHexagonByCoordinate(position.move(vector));
+            if(hex == null) return false;
+            else return hex.checkHasAtom();
+        }
+        catch(IllegalArgumentException ex){
+            return false;
+        }
+    }
+
     /**
      * calculate exit Coordinate (use to set exit)
      */
@@ -77,20 +89,29 @@ public class Ray {
             /*check if current hexagon contains barrier = 1*/
             else if(currentHexagon.getBarrierValue()==1)
             {
-                if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[movementDirection])).checkHasAtom())
+                if(checkAtom(box, currentPosition, Box.directions[movementDirection]))
                 {
                     exit=-1;
                     return;
                 }
-                else if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection+1,6)])).checkHasAtom())
+                else if (checkAtom(box, currentPosition, Box.directions[Math.floorMod(movementDirection + 1, 6)]))
                 {
-                    movementDirection = Math.floorMod(movementDirection-1,6);
-                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    movementDirection = Math.floorMod(movementDirection - 1, 6);
+                    //try-catch handles illegal position movement (e.g. at edge of board)
+                    try{
+                        currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    } catch (IllegalArgumentException ex){
+                        break;
+                    }
                 }
                 else
                 {
                     movementDirection =Math.floorMod(movementDirection+1,6);
-                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    try{
+                        currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    } catch (IllegalArgumentException ex){
+                        break;
+                    }
                 }
             }
             /*check if current hexagon contains barrier = 3*/
@@ -100,19 +121,27 @@ public class Ray {
             }
             /*check if current hexagon contains barrier = 2*/
             else if(currentHexagon.getBarrierValue()==2){
-                if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection+1,6)])).checkHasAtom() &&
-                        box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection-1,6)])).checkHasAtom()){
+                if(checkAtom(box,currentPosition, Box.directions[Math.floorMod(movementDirection+1,6)]) &&
+                        checkAtom(box,currentPosition, (Box.directions[Math.floorMod(movementDirection-1,6)]))){
                     exit = entry;
                     return;
                 }
-                else if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection+1,6)])).checkHasAtom()){
+                else if(checkAtom(box, currentPosition, Box.directions[Math.floorMod(movementDirection+1,6)])){
                     movementDirection = Math.floorMod(movementDirection-2,6);
-                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    try {
+                        currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    } catch (IllegalArgumentException ex){
+                        break;
+                    }
 
                 }
                 else{
                     movementDirection =Math.floorMod(movementDirection+2,6);
-                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    try {
+                        currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                    } catch (IllegalArgumentException ex){
+                        break;
+                    }
                 }
             }
             currentHexagon = box.getHexagonByCoordinate(currentPosition); //set next hexagon after move

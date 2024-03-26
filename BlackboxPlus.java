@@ -39,7 +39,7 @@ public class BlackboxPlus {
             //play round /*do not let user end round if no atoms have been placed and no rays have been entered into the box (i.e. no score calculation)*/
             while(!userInput.equals("end round")){
                 /*output board with ray markers and atoms placed by user*/
-                Util.printBoard(Util.colourBoard(Util.appendRayMarkers(rays, Util.getAtomizedBoard(userAtoms)))); //ONLY USING ATOMIZED BOARD FOR RAY TESTING
+                Util.printBoard(Util.colourBoard(Util.appendRayMarkers(rays, Util.getAtomizedBoard(atoms)))); //ONLY USING ATOMIZED BOARD FOR RAY TESTING
                 System.out.println("OPTIONS : send ray into box (enter ‘ray‘)\t place atoms on board (enter ‘place atoms‘)\t end round and calculate score (enter ‘end round‘)");
                 userInput = Util.getLine();
 
@@ -59,6 +59,7 @@ public class BlackboxPlus {
                     catch(IllegalArgumentException ex){
                         //handle exception (prompt user to enter valid side number)
                         System.out.println("Please enter a valid side number (1-54)");
+                        ex.printStackTrace();
                     }
                 }
                 else if (userInput.equalsIgnoreCase("place atoms")) {
