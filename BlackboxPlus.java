@@ -32,12 +32,12 @@ public class BlackboxPlus {
             Atom[] atoms = Atom.generateAtoms(6);   //generate random atoms
             Box box = new Box(atoms);                  //create the empty board
             ArrayList<Ray> rays = new ArrayList<>();   //start empty array list (pass to Util to add ray markers to board)
-            Atom[] atoms1 = new Atom[] {null, null, null, null, null, null};
+            Atom[] userAtoms = new Atom[] {null, null, null, null, null, null};
 
             //play round /*do not let user end round if no atoms have been placed and no rays have been entered into the box (i.e no score calculation)*/
             while(!userInput.equals("end round")){
                 /*output board with ray markers and atoms placed by user*/
-                Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms))); //ONLY USING ATOMIZED BOARD FOR RAY TESTING
+                Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(userAtoms))); //ONLY USING ATOMIZED BOARD FOR RAY TESTING
                 System.out.println("OPTIONS : send ray into box (enter ‘ray‘)\t place atoms on board (enter ‘place atoms‘)\t end round and calculate score (enter ‘end round‘)");
                 userInput = Util.getLine();
 
@@ -59,26 +59,80 @@ public class BlackboxPlus {
                         System.out.println("Please enter a valid side number (1-54)");
                     }
                 }
-                else if (userInput.equalsIgnoreCase("atoms")){
+                else if (userInput.equalsIgnoreCase("atoms")) {
+                    System.out.println("Would you like to add or remove an atom? ('add', 'remove')");
+                    userInput = Util.getLine();
+                    if (userInput.trim().equalsIgnoreCase("add")) {
+                        try {
+                            System.out.println("Enter 2 side numbers to place an atom where they intersect");
+                            System.out.println("Enter first number:\n");
+                            int x = Integer.parseInt(Util.getLine());
+                            System.out.println("Enter second number:\n");
+                            int y = Integer.parseInt(Util.getLine());
 
-                    System.out.println("Enter 2 side numbers to place an atom where they intersect");
-                    System.out.println("Enter first number:\n");
-                    int x = Integer.parseInt(Util.getLine());
-                    System.out.println("Enter second number:\n");
-                    int y = Integer.parseInt(Util.getLine());
+                            Ray rayx = new Ray(x, emptyBox);
+                            Ray rayy = new Ray(y, emptyBox);
 
-                    Ray rayx = new Ray(x, emptyBox);
-                    Ray rayy = new Ray(y, emptyBox);
+                            ArrayList<Coordinate> coordsx = rayx.getCoords();
+                            ArrayList<Coordinate> coordsy = rayy.getCoords();
 
-                    ArrayList<Coordinate> coordsx = rayx.getCoords();
-                    ArrayList<Coordinate> coordsy = rayy.getCoords();
+                            Atom atomToPlace = null;
 
-                    Atom atomToPlace;
+                            for (Coordinate i : coordsx) {
+                                if (coordsy.contains(i)) {
+                                    atomToPlace = new Atom(i.getX(), i.getY(), i.getZ());
+                                    break;
+                                }
+                            }
+                            for(int i = 0; i < userAtoms.length; i++){
+                                if(userAtoms[i] == null){
+                                    userAtoms[i] = atomToPlace;
+                                    break;
+                                }
 
-                    for(Coordinate i : coordsx){
-                        if(coordsy.contains(i)){
-                            atomToPlace = new Atom(i.getX(), i.getY(), i.getZ());
+                                    if(i == 5){
+                                        System.out.println("Please remove an atom before placing one");
+                                    }
+
+                            }
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("Please enter a valid side number (1-54)");
                         }
+                    }
+                }
+                else if (userInput.trim().equalsIgnoreCase("remove")){
+                    try {
+                        System.out.println("Enter 2 side numbers to remove an atom where they intersect");
+                        System.out.println("Enter first number:\n");
+                        int x = Integer.parseInt(Util.getLine());
+                        System.out.println("Enter second number:\n");
+                        int y = Integer.parseInt(Util.getLine());
+
+                        Ray rayx = new Ray(x, emptyBox);
+                        Ray rayy = new Ray(y, emptyBox);
+
+                        ArrayList<Coordinate> coordsx = rayx.getCoords();
+                        ArrayList<Coordinate> coordsy = rayy.getCoords();
+
+                        Atom atomToRemove = null;
+
+                        for (Coordinate i : coordsx) {
+                            if (coordsy.contains(i)) {
+                                atomToRemove = new Atom(i.getX(), i.getY(), i.getZ());
+                                break;
+                            }
+                        }
+                        for(int i = 0; i < 6; i++){
+                            if(userAtoms[i].equals(atomToRemove)){
+                                userAtoms[i] = null;
+                                break;
+                            }
+                            if(i == 5){
+                                System.out.println("Did not find specified atom");
+                            }
+                        }
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println("Please enter a valid side number (1-54)");
                     }
                 }
             }
@@ -86,9 +140,9 @@ public class BlackboxPlus {
             System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) "+/*(enter ‘atoms‘ to show hidden atoms)*/" (enter ‘continue‘ to switch players and start new game)");
             userInput = Util.getLine();
             //test functionality
-            /*if(userInput.equals("atoms")){
+            if(userInput.equals("atoms")){
                 Util.printBoard(Util.getAtomizedBoard(atoms));
-            }*/
+            }
         }
         //print goodbye message
     }
