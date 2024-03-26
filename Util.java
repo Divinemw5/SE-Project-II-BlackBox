@@ -334,118 +334,72 @@ public class Util {
      */
 
     public static ArrayList<String> appendRayMarkers(ArrayList<Ray> rays, ArrayList<String> board){
-        for(Ray ray : rays){
-            //absorbed or reflected
-            if(ray.getExit() == -1 || ray.getExit() == ray.getEntry()){
-                board = placeEntryMarker(ray, board);
-            }
-            //pair
-            else{
-                board = placeEntryMarker(ray, board);
-                board = placeExitMarker(ray, board);
-            }
-        }
-        return board;
-    }
-
-    private static ArrayList<String> placeEntryMarker(Ray ray, ArrayList<String> board){
-
-        int indexEntry =  findLineContaining(ray.getEntry(), board);
-        int rayPosEntry = board.get(indexEntry).indexOf(ray.getEntry()+"");
         char rayMarker;
-        //System.out.println("entry: "+ray.getEntry());
-        //System.out.println("index : "+index);
-        //System.out.println(board.get(index));
-        //System.out.println("ray pos : " +ray_pos);
-        if(ray.getExit() == -1){
-            rayMarker = rayMarkerAbsorbed;
-        } else if(ray.getExit() == ray.getEntry()) {
-            rayMarker = rayMarkerReflected;
-        } else rayMarker = rayMarkerPair;
+        int index;
+        int rayPos;
 
-        //append to top of board
-        if(ray.getEntry() > 46 && ray.getEntry() <= 54){
-            /*check if ray marker is already placed at position, if yes add empty line*/
-            if(board.get(0).charAt(rayPosEntry) != ' ') board.add(0, getIndent(board.get(0).length()/2));
-            //System.out.println(board.get(0));
-            //append ray marker at position
-            String line = board.get(0).substring(0,rayPosEntry) + rayMarker + board.get(0).substring(rayPosEntry);
-            board.set(0, line);
-        }
-        //append to bottom of board
-        else if(ray.getEntry() > 19 && ray.getEntry() < 28){
-            if(board.get(board.size()-1).charAt(rayPosEntry) != ' ') board.add(board.size(), getIndent(board.get(0).length()/2));
+        for(Ray ray : rays){
+            if(ray.getExit() == -1){
+                rayMarker = rayMarkerAbsorbed;
+            } else if(ray.getExit() == ray.getEntry()) {
+                rayMarker = rayMarkerReflected;
+            } else rayMarker = rayMarkerPair;
 
-            String line = board.get(board.size()-1).substring(0,rayPosEntry) +rayMarker + board.get(board.size()-1).substring(rayPosEntry);
-            board.set(board.size()-1, line);
-        }
-        //append to sides (right)
-        else if(ray.getEntry() >= 28 && ray.getEntry() <47){
-            //System.out.println(ray.getEntry());
-            while(board.get(indexEntry).charAt(rayPosEntry) != ' '){
-                board.set(indexEntry, board.get(indexEntry)+" ");
-                rayPosEntry++;
-                //System.out.println(rayPosEntry);
+            index = findLineContaining(ray.getEntry(), board);
+            rayPos = board.get(index).indexOf(ray.getEntry()+"");
+            placeMarker(board, index, rayPos, ray.getEntry(), rayMarker);
+
+            //if paired ray markers
+            if(!(ray.getExit() == -1 || ray.getExit() == ray.getEntry())){
+                index =  findLineContaining(ray.getExit(), board);
+                rayPos = board.get(index).indexOf(ray.getExit()+"");
+                rayMarker = rayMarkerPair;
+                placeMarker(board, index, rayPos, ray.getExit(), rayMarker);
             }
-            rayPosEntry++;
-            String line = board.get(indexEntry).substring(0, rayPosEntry) + rayMarker +" "+ board.get(indexEntry).substring(rayPosEntry);
-            board.set(indexEntry, line.stripTrailing());
-        }
-        //append to sides (left)
-        else{
-            while(board.get(indexEntry).substring(0, rayPosEntry).contains(rayMarker+"")){
-                rayPosEntry--;
-            }
-            rayPosEntry--;
-            String line = board.get(indexEntry).substring(0, rayPosEntry-1) + rayMarker + board.get(indexEntry).substring(rayPosEntry);
-            board.set(indexEntry, line);
+
         }
         return board;
     }
 
-    private static ArrayList<String> placeExitMarker(Ray ray, ArrayList<String> board){
-        int indexExit =  findLineContaining(ray.getExit(), board);
-        int rayPosExit = board.get(indexExit).indexOf(ray.getExit()+"");
-        char rayMarker = rayMarkerPair;
+    private static void placeMarker(ArrayList<String> board, int index, int rayPos, int side, char rayMarker){
 
         //append to top of board
-        if(ray.getExit() > 46 && ray.getExit() <= 54){
+        if(side > 46 && side <= 54){
             /*check if ray marker is already placed at position, if yes add empty line*/
-            if(board.get(0).charAt(rayPosExit) != ' ') board.add(0, getIndent(board.get(0).length()/2));
+            if(board.get(0).charAt(rayPos) != ' ') board.add(0, getIndent(board.get(0).length()/2));
             //System.out.println(board.get(0));
             //append ray marker at position
-            String line = board.get(0).substring(0,rayPosExit) + rayMarker + board.get(0).substring(rayPosExit);
+            String line = board.get(0).substring(0,rayPos) + rayMarker + board.get(0).substring(rayPos);
             board.set(0, line);
         }
         //append to bottom of board
-        else if(ray.getExit() > 19 && ray.getExit() < 28){
-            if(board.get(board.size()-1).charAt(rayPosExit) != ' ') board.add(board.size(), getIndent(board.get(0).length()/2));
+        else if(side > 19 && side < 28){
+            if(board.get(board.size()-1).charAt(rayPos) != ' ') board.add(board.size(), getIndent(board.get(0).length()/2));
 
-            String line = board.get(board.size()-1).substring(0,rayPosExit) +rayMarker + board.get(board.size()-1).substring(rayPosExit);
+            String line = board.get(board.size()-1).substring(0,rayPos) +rayMarker + board.get(board.size()-1).substring(rayPos);
             board.set(board.size()-1, line);
         }
         //append to sides (right)
-        else if(ray.getExit() >= 28 && ray.getExit() <47){
-            //System.out.println(ray.getExit());
-            while(board.get(indexExit).charAt(rayPosExit) != ' '){
-                board.set(indexExit, board.get(indexExit)+" ");
-                rayPosExit++;
-                //System.out.println(rayPosExit);
+        else if(side >= 28 && side <47){
+            //System.out.println(side);
+            while(board.get(index).charAt(rayPos) != ' '){
+                board.set(index, board.get(index)+" ");
+                rayPos++;
+                //System.out.println(rayPos);
             }
-            rayPosExit++;
-            String line = board.get(indexExit).substring(0, rayPosExit) + rayMarker +" "+ board.get(indexExit).substring(rayPosExit);
-            board.set(indexExit, line.stripTrailing());
+            rayPos++;
+            String line = board.get(index).substring(0, rayPos) + rayMarker +" "+ board.get(index).substring(rayPos);
+            board.set(index, line.stripTrailing());
         }
         //append to sides (left)
         else{
-            while(board.get(indexExit).substring(0, rayPosExit).contains(rayMarker+"")){
-                rayPosExit--;
+            while(board.get(index).substring(0, rayPos).contains(rayMarker+"")){
+                rayPos--;
             }
-            rayPosExit--;
-            String line = board.get(indexExit).substring(0, rayPosExit-1) + rayMarker + board.get(indexExit).substring(rayPosExit);
-            board.set(indexExit, line);
+            rayPos--;
+            String line = board.get(index).substring(0, rayPos-1) + rayMarker + board.get(index).substring(rayPos);
+            board.set(index, line);
         }
-        return board;
     }
 
     /**
