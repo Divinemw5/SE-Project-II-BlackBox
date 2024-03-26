@@ -117,7 +117,7 @@ public class BlackboxPlus {
             userInput = Util.getLine();
             //test functionality
             if(userInput.equals("atoms")){
-                Util.printBoard(Util.getAtomizedBoard(atoms));
+                Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
             }
         }
         //print goodbye message
