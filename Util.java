@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -429,5 +430,27 @@ public class Util {
         }
         board.set(board.size()-1, board.get(board.size()-1) +textColour); //SET COLOUR BACK TO DEFAULT
         return board;
+    }
+    public static Atom getAtom(int x, int y, Box emptyBox) throws IOException {
+
+        Ray rayx = new Ray(x, emptyBox);
+        Ray rayy = new Ray(y, emptyBox);
+
+        if(rayx.getExit() == rayy.getEntry()){
+            throw new IllegalStateException();
+        }
+        ArrayList<Coordinate> coordsx = rayx.getCoords();
+        ArrayList<Coordinate> coordsy = rayy.getCoords();
+
+        Atom atom = null;
+
+        for (Coordinate i : coordsx) {
+            if (coordsy.contains(i)) {
+                atom = new Atom(i.getX(), i.getY(), i.getZ());
+                break;
+            }
+        }
+        if(atom == null) throw new IOException();
+        return atom;
     }
 }
