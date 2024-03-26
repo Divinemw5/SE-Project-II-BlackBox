@@ -182,7 +182,6 @@ public class Util {
             int last_index = line.lastIndexOf("░█");
 
 
-
             if((i+2)%4 == 0 && i != (board.size()/2)-1){ //add + remove append adjust
                 appendFirst = ""+countUp;
                 appendLast = ""+countDown;
@@ -258,7 +257,6 @@ public class Util {
         board.set(0, topLine);
         board.set(board.size()-1, bottomLine);
     }
-
 
     public static void main(String[] args) {
         Atom[] atoms = Atom.generateAtoms(6);

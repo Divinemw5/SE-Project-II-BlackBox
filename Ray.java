@@ -88,13 +88,28 @@ public class Ray {
                     currentPosition = currentPosition.move(Box.directions[movementDirection]);
                 }
             }
-            //REMOVE IN SPRINT 3
-            else{
-                exit = -2;
+            /*check if current hexagon contains barrier = 3*/
+            else if(currentHexagon.getBarrierValue()==3){
+                exit = entry;
                 return;
             }
             /*check if current hexagon contains barrier = 2*/
-            /*check if current hexagon contains barrier = 3*/
+            else if(currentHexagon.getBarrierValue()==2){
+                if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection+1,6)])).checkHasAtom() &&
+                        box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection-1,6)])).checkHasAtom()){
+                    exit = entry;
+                    return;
+                }
+                else if(box.getHexagonByCoordinate(currentPosition.move(Box.directions[Math.floorMod(movementDirection+1,6)])).checkHasAtom()){
+                    movementDirection = Math.floorMod(movementDirection-2,6);
+                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
+
+                }
+                else{
+                    movementDirection =Math.floorMod(movementDirection+2,6);
+                    currentPosition = currentPosition.move(Box.directions[movementDirection]);
+                }
+            }
             currentHexagon = box.getHexagonByCoordinate(currentPosition); //set next hexagon after move
         } while(!((currentHexagon instanceof SideHexagon) && (((SideHexagon) currentHexagon).sidesContainDirection(Math.floorMod(movementDirection+3, 6)))));
         /*check if current hexagon is instance of side hexagon with exit side opposite to movement direction

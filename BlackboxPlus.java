@@ -42,19 +42,12 @@ public class BlackboxPlus {
                         System.out.print("Enter ray entry number : ");
                         int entry = Integer.parseInt(Util.getLine());
                         Ray ray = new Ray(entry, box);
-                        //REMOVE IN SPRINT 3
-                        if(ray.getExit()!=-2){
-                            Util.printRayResponse(ray);
-                            rays.add(ray);
-                        } else System.out.println("Behaviour undefined for this sprint! Please try another entry side number. (Behaviour is currently undefined for internal paths that include hexagons with 2+ adjacent atoms.)");
                         /*testing*/
+
                         //System.out.println(ray);
-
                         //setter announces position + add ray to rays array list
-
-                        //UNCOMMENT IN SPRINT 3*****
-                        //Util.printRayResponse(ray);
-                        //rays.add(ray);
+                        Util.printRayResponse(ray);
+                        rays.add(ray);
                     }
                     catch(IllegalArgumentException ex){
                         //handle exception (prompt user to enter valid side number)
