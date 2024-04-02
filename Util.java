@@ -21,7 +21,6 @@ public class Util {
     public static final String ANSI_WHITE = "\033[0;37m";  //WHITE
     public static final String ANSI_RESET = "\033[0m";     //RESET
 
-
     public static final String ANSI_BLACK_BG = "\033[40m"; //WHITE BG
     public static final String ANSI_WHITE_BG = "\033[47m"; //BLACK BG
 
@@ -78,8 +77,6 @@ public class Util {
     public static Boolean unIsValid(String username){
         return !(username == null) && !username.isBlank() && (username.length() > 2) && (username.length() <17);
     }
-
-
 
     /**
      * Function takes parameters
@@ -196,7 +193,6 @@ public class Util {
             String line = board.get(i);
             int first_index = line.indexOf("░█");
             int last_index = line.lastIndexOf("░█");
-
 
             if((i+2)%4 == 0 && i != (board.size()/2)-1){ //add + remove append adjust
                 appendFirst = ""+countUp;

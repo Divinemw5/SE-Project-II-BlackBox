@@ -29,7 +29,6 @@ public class BlackboxPlus {
         /*start new round*/
         while(!userInput.equals("quit"))
         {
-
             //initialize game state
             Atom[] atoms = Atom.generateAtoms(6);   //generate random atoms
             Box box = new Box(atoms);                  //create the empty board
@@ -74,6 +73,7 @@ public class BlackboxPlus {
                                 int y = Integer.parseInt(Util.getLine());
 
                                 Atom atomToPlace = Util.getAtom(x, y, emptyBox);
+                                if(Atom.containsAtom(userAtoms, atomToPlace.getLocation())) throw new IllegalStateException("atom already in list");
 
                                 //System.out.println(atomToPlace);
                                 for(int i = 0; i < userAtoms.length; i++){
@@ -109,7 +109,7 @@ public class BlackboxPlus {
                     } catch (IllegalArgumentException ex) {
                     System.out.println("Please enter a valid side number (1-54)");
                     } catch (IllegalStateException ex){
-                    System.out.println("Please enter side numbers with a valid intersection.");
+                    System.out.println("Please enter side numbers with a valid intersection / Ensure no atom is already placed at selected position.");
                     }
                 }
             }
