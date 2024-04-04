@@ -36,4 +36,10 @@ public class BarrierLevelTest {
         Ray ray = new Ray(35,box);
         assertEquals("Expected Ray to exit at 35", 35, ray.getExit());
     }
+    @Test
+    public void HexagonBarrierLevel3() // Barrier Level 3 reflected
+    {
+        Ray ray = new Ray(35,box1);
+        assertEquals("Expected Ray to exit at 35", 35, ray.getExit());
+    }
 }
