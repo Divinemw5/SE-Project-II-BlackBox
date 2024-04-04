@@ -30,4 +30,10 @@ public class BarrierLevelTest {
         assertEquals("Expected Ray to exit at 48", 48, ray.getExit());
 
     }
+    @Test
+    public void TestReflected() // Barreier Level 2 edge case
+    {
+        Ray ray = new Ray(35,box);
+        assertEquals("Expected Ray to exit at 35", 35, ray.getExit());
+    }
 }
