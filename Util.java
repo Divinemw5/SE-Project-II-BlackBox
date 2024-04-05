@@ -59,7 +59,7 @@ public class Util {
     }
     public static String getLine(){
         Scanner input = new Scanner(System.in);
-        return input.nextLine();
+        return input.nextLine().stripTrailing().stripLeading();
     }
 
     public static void printRayResponse(Ray ray){

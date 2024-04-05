@@ -67,9 +67,9 @@ public class BlackboxPlus {
                     try{
                         if (userInput.trim().equalsIgnoreCase("add")) {
                                 System.out.println("Enter 2 side numbers to place an atom where they intersect");
-                                System.out.println("Enter first number:");
+                                System.out.print("Enter first number: ");
                                 int x = Integer.parseInt(Util.getLine());
-                                System.out.println("Enter second number:");
+                                System.out.print("Enter second number: ");
                                 int y = Integer.parseInt(Util.getLine());
 
                                 Atom atomToPlace = Util.getAtom(x, y, emptyBox);
@@ -89,9 +89,9 @@ public class BlackboxPlus {
                         }
                         else if (userInput.trim().equalsIgnoreCase("remove")){
                                 System.out.println("Enter 2 side numbers to remove an atom where they intersect");
-                                System.out.println("Enter first number:");
+                                System.out.print("Enter first number: ");
                                 int x = Integer.parseInt(Util.getLine());
-                                System.out.println("Enter second number:");
+                                System.out.print("Enter second number: ");
                                 int y = Integer.parseInt(Util.getLine());
 
                                 Atom atomToRemove = Util.getAtom(x, y, emptyBox);
@@ -107,21 +107,27 @@ public class BlackboxPlus {
                                 }
                         }
                     } catch (IllegalArgumentException ex) {
-                    System.out.println("Please enter a valid side number (1-54)");
+                        System.out.println("Please enter a valid side number (1-54)");
                     } catch (IllegalStateException ex){
-                    System.out.println("Please enter side numbers with a valid intersection / Ensure no atom is already placed at selected position.");
+                        System.out.println("Please enter side numbers with a valid intersection (example : try 37, 42)");
+                    } catch (IllegalAccessError ex){ //change to custom exception type later !!!
+                        System.out.println("Please ensure no guessed atom is already placed at guessed position.");
+
                     }
                 }
             }
 
-            System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) "+/*(enter ‘atoms‘ to show hidden atoms)*/" (enter ‘continue‘ to switch players and start new game)");
+            System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) "+"(enter ‘atoms‘ to show hidden atoms)"+" (enter ‘continue‘ to switch players and start new game)");
             userInput = Util.getLine();
             //test functionality
             if(userInput.equals("atoms")){
                 Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
             }
+            System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) (enter ‘continue‘ to switch players and start new game)");
+            userInput = Util.getLine();
         }
         //print goodbye message
+        System.out.println("Thanks for playing !!!");
     }
 
 
