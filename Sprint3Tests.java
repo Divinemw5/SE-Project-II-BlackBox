@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.After;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -56,6 +57,47 @@ public class Sprint3Tests {
 
        //box1.getHexagonByCoordinate(Coordinate());
     }
+    @Test
+    public void RayMarkerTest()
+    {
+        char[] pairMarkers = new char[]{'#', '≡', '!', '$', '■', '¤', '«', '§', '¡', '¿', '¥', '×', 'ƒ', '¶'};
+
+        Ray ray1 = new Ray(35, box1);
+        Ray ray2 = new Ray(3,box1);
+        Ray ray3 = new Ray(44,box1);
+        ArrayList<Ray> rays = new ArrayList<>();
+        rays.add(ray1);
+        rays.add(ray2);
+        rays.add(ray3);
+        rays.add(new Ray(29,box1));
+        ArrayList<String> board = Util.appendRayMarkers(rays, Util.getAtomizedBoard(TestAtoms));
+        int count =0;
+        for(String str : board) {
+            char[] charArray = str.toCharArray(); // Convert the String to a char array
+            for(char ch : charArray) {
+                for(char marker : pairMarkers) {
+                    if(ch == marker) {
+                        count++;
+                        break;
+                    }
+                }
+            }
+        }
+        int count2=0;
+        for(String str : board) {
+            char[] charArray = str.toCharArray(); // Convert the String to a char array
+            for(char ch : charArray) {
+                if(ch == 'R' || ch == 'A') { // Check if any character in the array is 'R'
+                    count2++; // Increment the count if 'R' is found
+                }
+            }
+        }
+        assertEquals(count,4);
+        assertEquals(count2,2);
+    }
 
 
-}
+    }
+
+
+

@@ -323,7 +323,7 @@ public class Util {
      * @param board - textual board (must have side numbers appended)
      * @return index of line containing side number if found, and -1 if not found
      */
-    private static int findLineContaining(int side, ArrayList<String> board){
+    public static int findLineContaining(int side, ArrayList<String> board){
         int i = 0;
         for(String s : board){
             s += " "; //for checking numbers at end of board with no trailing whitespace
@@ -359,7 +359,7 @@ public class Util {
                 //System.out.println(currentPair);
                 currentPair = Math.floorMod(currentPair+1, pairMarkers.length);
             }
-            index = findLineContaining(ray.getEntry(), board);
+                index = findLineContaining(ray.getEntry(), board);
             rayPos = board.get(index).indexOf(ray.getEntry()+"");
             placeMarker(board, index, rayPos, ray.getEntry(), rayMarker);
 
@@ -430,7 +430,7 @@ public class Util {
      * @param str - String to check
      * @return true if contained in str, false otherwise
      */
-    private static boolean containsPairMarkers(String str){
+    public static boolean containsPairMarkers(String str){
         for(char ch : pairMarkers){
             if(str.contains(ch+"")) return true;
         }
