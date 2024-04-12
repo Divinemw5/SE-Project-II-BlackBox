@@ -117,6 +117,8 @@ public class BlackboxPlus {
                 }
             }
 
+            Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
+
             System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) "+"(enter ‘atoms‘ to show hidden atoms)"+" (enter ‘continue‘ to switch players and start new game)");
             userInput = Util.getLine();
             //test functionality
