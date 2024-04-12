@@ -20,7 +20,7 @@ public class BlackboxPlus {
         //Welcome the user and take player information
         Util.printWelcome();
         player[0] = Util.createPlayer(1);
-        //player[1] = Util.createPlayer(2);
+        player[1] = Util.createPlayer(2);
 
         //player 1 start game message (add functionality into loop and allow switching between players, convert to function in Util)
         System.out.println("Hello, "+player[currentPlayer].getName()+"!");
@@ -117,6 +117,18 @@ public class BlackboxPlus {
                 }
             }
 
+            //calculate score
+            int round_score = 0;
+            for(Atom atom : userAtoms) {
+                if(!Atom.containsAtom(atoms, atom.getLocation())){
+                    round_score += 5;
+                }
+            }
+            for(Ray ray : rays){
+                round_score += ray.getNumberOfMarkers();
+            }
+            currentPlayer.setScore();
+
             Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
 
             System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) "+"(enter ‘atoms‘ to show hidden atoms)"+" (enter ‘continue‘ to switch players and start new game)");
@@ -127,6 +139,7 @@ public class BlackboxPlus {
             }
             System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) (enter ‘continue‘ to switch players and start new game)");
             userInput = Util.getLine();
+            currentPlayer = Math.floorMod(currentPlayer+1,2); //switch player
         }
         //print goodbye message
         System.out.println("Thanks for playing !!!");
