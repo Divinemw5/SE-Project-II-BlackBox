@@ -172,6 +172,15 @@ public class Ray {
         return this.exit;
     }
 
+    public int getNumberOfMarkers(){
+        if(getEntry() == getExit() || getExit() == -1){
+            return 1;
+        }
+        else{
+            return 2;
+        }
+    }
+
     public ArrayList<Coordinate> getCoords(){
         return coords;
     }

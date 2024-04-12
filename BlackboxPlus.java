@@ -127,6 +127,7 @@ public class BlackboxPlus {
             for(Ray ray : rays){
                 round_score += ray.getNumberOfMarkers();
             }
+
             currentPlayer.setScore();
 
             Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
