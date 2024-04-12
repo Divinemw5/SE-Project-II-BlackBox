@@ -585,4 +585,11 @@ public class Util {
         if(atom == null) throw new IllegalStateException();
         return atom;
     }
+
+    public static void outputScoreBreakdown(int missedAtomsScore, int rayMarkersScore){
+        System.out.println("Number of misplaced atoms : " + missedAtomsScore/5 + "\tscore : " + missedAtomsScore);
+        System.out.println("Number of ray markers placed : " + rayMarkersScore + "\tscore : " + rayMarkersScore);
+        System.out.println("Total score : " + missedAtomsScore+rayMarkersScore);
+    }
+
 }

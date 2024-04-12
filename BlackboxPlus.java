@@ -16,6 +16,7 @@ public class BlackboxPlus {
         String userInput = "";
         Player [] player = new Player[2];
         int currentPlayer = 0; //set player who goes first
+        int roundsPlayed = 0; //total number of rounds played
 
         //Welcome the user and take player information
         Util.printWelcome();
@@ -117,19 +118,39 @@ public class BlackboxPlus {
                 }
             }
 
-            //calculate score
-            int round_score = 0;
+            //calculate score for round
+            int missedAtomsScore = 0;
+            int rayMarkersScore = 0;
             for(Atom atom : userAtoms) {
                 if(!Atom.containsAtom(atoms, atom.getLocation())){
-                    round_score += 5;
+                    missedAtomsScore += 5;
                 }
             }
             for(Ray ray : rays){
-                round_score += ray.getNumberOfMarkers();
+                rayMarkersScore += ray.getNumberOfMarkers();
             }
+            player[currentPlayer].setRoundScore(missedAtomsScore + rayMarkersScore);
 
-            currentPlayer.setScore();
+            //displays a breakdown of the experimenter‘s score including points for ray markers and misplaced atoms
+            Util.outputScoreBreakdown(missedAtomsScore, rayMarkersScore);
 
+            //calculate winner (out of 2 rounds)
+            if(roundsPlayed % 2 == 0){
+                //current player wins
+                if(player[currentPlayer].getRoundScore() > player[Math.floorMod(currentPlayer+1,2)].getRoundScore()){
+
+                }
+                //current player loses
+                else if(player[currentPlayer].getRoundScore() < player[Math.floorMod(currentPlayer+1,2)].getRoundScore()){
+
+                }
+                //tie
+                else{
+
+                }
+            } roundsPlayed++;
+
+            //output board with atoms
             Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
 
             System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) "+"(enter ‘atoms‘ to show hidden atoms)"+" (enter ‘continue‘ to switch players and start new game)");
