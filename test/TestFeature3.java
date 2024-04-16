@@ -1,4 +1,8 @@
-import org.junit.Assert;
+
+
+import objects.Atom;
+import objects.Box;
+import math.Coordinate;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

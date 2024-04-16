@@ -1,3 +1,9 @@
+
+
+import objects.Atom;
+import objects.Box;
+import objects.Hexagon;
+import objects.SideHexagon;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -17,10 +23,10 @@ public class TestSideNumbersSprint2 {
         List<Integer> SideHexagonIndices = Arrays.asList(array);
         for(int i = 0; i < 60; i++){
             if (SideHexagonIndices.contains(i)){
-                assertTrue("Hexagon at index "+ i +" should be a side hexagon", box.getHexagon(i) instanceof SideHexagon);
+                assertTrue("objects.Hexagon at index "+ i +" should be a side hexagon", box.getHexagon(i) instanceof SideHexagon);
             }
             else{
-                assertFalse("Hexagon at index " + i + " should be a normal hexagon", box.getHexagon(i) instanceof SideHexagon);
+                assertFalse("objects.Hexagon at index " + i + " should be a normal hexagon", box.getHexagon(i) instanceof SideHexagon);
             }
         }
     }
@@ -42,7 +48,7 @@ public class TestSideNumbersSprint2 {
     private void assertHexagonSideNumbers(Box box, int index, int[][] expectedSideNumbers) {
         Hexagon hexagon = box.getHexagon(index);
         //System.out.println(hexagon);
-        //assertTrue("Hexagon at index " + index + " should be an instance of SideHexagon", hexagon instanceof SideHexagon);
+        //assertTrue("objects.Hexagon at index " + index + " should be an instance of objects.SideHexagon", hexagon instanceof objects.SideHexagon);
         int[][] actualSideNumbers = ((SideHexagon) hexagon).getSides();
         assertArrayEquals("Side numbers do not match for hexagon at index " + index, expectedSideNumbers, actualSideNumbers);
     }

@@ -1,5 +1,9 @@
+import objects.Atom;
+import objects.Box;
+import objects.Ray;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
 public class BarrierLevelTest {
     Atom[] TestAtoms = {
             new Atom(4,6,2),//0,2,-2
@@ -22,12 +26,12 @@ public class BarrierLevelTest {
     @Test
     public void TestDeflectByTwoAxis()
     {
-        //Hexagon hexagon;
-        //hexagon = box.getHexagonByCoordinate(new Coordinate(5,5,2));
+        //objects.Hexagon hexagon;
+        //hexagon = box.getHexagonByCoordinate(new math.Coordinate(5,5,2));
         // int b = hexagon.getBarrierValue();
         //     System.out.println(b);
         Ray ray = new Ray(41,box);
-        assertEquals("Expected Ray to exit at 48", 48, ray.getExit());
+        assertEquals("Expected objects.Ray to exit at 48", 48, ray.getExit());
 
 
     }
@@ -35,12 +39,12 @@ public class BarrierLevelTest {
     public void TestReflected() // Barrier Level 2 edge case
     {
         Ray ray = new Ray(35,box);
-        assertEquals("Expected Ray to exit at 35", 35, ray.getExit());
+        assertEquals("Expected objects.Ray to exit at 35", 35, ray.getExit());
     }
     @Test
     public void HexagonBarrierLevel3() // Barrier Level 3 reflected
     {
         Ray ray = new Ray(35,box1);
-        assertEquals("Expected Ray to exit at 35", 35, ray.getExit());
+        assertEquals("Expected objects.Ray to exit at 35", 35, ray.getExit());
     }
 }

@@ -1,4 +1,5 @@
-import junit.framework.TestCase;
+
+import objects.Atom;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -13,7 +14,7 @@ public class TestFeature2 {
         for(Atom atom:atoms)
         {
             assertNotNull(atom);
-            assertEquals(Atom.class,atom.getClass()); // Check if the atom is an instance of Atom
+            assertEquals(Atom.class,atom.getClass()); // Check if the atom is an instance of objects.Atom
         }
 
     }

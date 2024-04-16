@@ -1,10 +1,13 @@
+
+import TUI.Util;
+import math.Coordinate;
+import objects.*;
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.After;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 public class Sprint3Tests {
@@ -15,7 +18,7 @@ public class Sprint3Tests {
         System.setOut(new PrintStream(outContent));
     }
 
-    // Box with a hexagon @----- with barrier level two
+    // objects.Box with a hexagon @----- with barrier level two
     Atom[] TestAtoms = {
             new Atom(4,6,2),//0,2,-2
             new Atom(4,5,3), //0,1,-1
@@ -39,7 +42,7 @@ public class Sprint3Tests {
     public void RayResponse(){
         Ray ray = new Ray(35,box1);
         Util.printRayResponse(ray);
-        assertEquals("Ray was reflected back to side " + ray.getEntry() + "\n", outContent.toString());
+        assertEquals("objects.Ray was reflected back to side " + ray.getEntry() + "\n", outContent.toString());
 
     }
     @Test
@@ -55,7 +58,7 @@ public class Sprint3Tests {
         assertTrue(hex.checkHasAtom());
         assertTrue(hex1.checkHasAtom());
 
-       //box1.getHexagonByCoordinate(Coordinate());
+       //box1.getHexagonByCoordinate(math.Coordinate());
     }
     @Test
     public void RayMarkerTest()
