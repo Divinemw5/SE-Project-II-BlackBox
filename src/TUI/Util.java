@@ -567,20 +567,20 @@ public class Util {
      */
     public static Atom getAtom(int x, int y, Box emptyBox) throws IllegalStateException {
 
-        Ray rayx = new Ray(x, emptyBox);
-        Ray rayy = new Ray(y, emptyBox);
+        Ray rayX = new Ray(x, emptyBox);
+        Ray rayY = new Ray(y, emptyBox);
 
-        if(rayx.getExit() == rayy.getEntry()){
+        if(rayX.getExit() == rayY.getEntry()){
             throw new IllegalStateException();
         }
-        ArrayList<Coordinate> coordsx = rayx.getCoords();
-        ArrayList<Coordinate> coordsy = rayy.getCoords();
+        ArrayList<Coordinate> travelledLocationsX = rayX.getTravelledLocations();
+        ArrayList<Coordinate> travelledLocationsY = rayY.getTravelledLocations();
 
         Atom atom = null;
 
-        for (Coordinate i : coordsx) {
-            if (coordsy.contains(i)) {
-                atom = new Atom(i.getX(), i.getY(), i.getZ());
+        for (Coordinate locationX : travelledLocationsX) {
+            if (travelledLocationsY.contains(locationX)) {
+                atom = new Atom(locationX);
                 break;
             }
         }

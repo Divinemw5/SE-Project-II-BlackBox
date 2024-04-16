@@ -57,7 +57,7 @@ public class SideHexagon extends Hexagon {
 
     @Override
     public String toString() {
-        return "objects.SideHexagon"+ super.toString().substring(7) +
+        return "SideHexagon"+ super.toString().substring(7) +
                 " {sides=" + Arrays.deepToString(sides) +
                 "} " ;
     }

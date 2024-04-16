@@ -27,7 +27,7 @@ public class Hexagon {
 
     @Override
     public String toString() {
-        return "objects.Hexagon{" +
+        return "Hexagon{" +
                 "hasAtom=" + hasAtom +
                 ", barrierValue=" + barrierValue +
                 ", location=" + location +

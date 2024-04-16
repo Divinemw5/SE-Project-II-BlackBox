@@ -11,12 +11,45 @@ import java.util.ArrayList;
  */
 public class Ray {
 
-    ArrayList<Coordinate> coords = new ArrayList<>();
+    ArrayList<Coordinate> travelledLocations = new ArrayList<>();
     Coordinate currentPosition;
     Coordinate startingPosition;
     int movementDirection;
     int entry;
     int exit; //-1 if ray is absorbed
+
+    /**
+     *
+     * @param exit - exit side number
+     */
+    public void setExit(int exit) {
+        if(exit < 1 || exit > 54){ //validation check
+            throw new IllegalArgumentException("illegal ray exit");
+        } else this.exit = exit;
+    }
+
+    public Coordinate getPosition() {
+        return currentPosition;
+    }
+    public int getEntry(){
+        return this.entry;
+    }
+    public int getExit(){
+        return this.exit;
+    }
+
+    public int getNumberOfMarkers(){
+        if(getEntry() == getExit() || getExit() == -1){
+            return 1;
+        }
+        else{
+            return 2;
+        }
+    }
+
+    public ArrayList<Coordinate> getTravelledLocations(){
+        return travelledLocations;
+    }
 
     /**
      *
@@ -86,22 +119,19 @@ public class Ray {
 
         /*path movement*/
         do {
-            coords.add(currentPosition);
+            travelledLocations.add(currentPosition);
             /*check if current hexagon contains no barrier*/
             if (currentHexagon.getBarrierValue() == 0) {
                 currentPosition = currentPosition.move(Box.directions[movementDirection]);
-                //System.out.println(currentPosition);
             }
             /*check if current hexagon contains barrier = 1*/
             else if(currentHexagon.getBarrierValue()==1)
             {
-                if(checkAtom(box, currentPosition, Box.directions[movementDirection]))
-                {
+                if(checkAtom(box, currentPosition, Box.directions[movementDirection])) {
                     exit=-1;
                     return;
                 }
-                else if (checkAtom(box, currentPosition, Box.directions[Math.floorMod(movementDirection + 1, 6)]))
-                {
+                else if (checkAtom(box, currentPosition, Box.directions[Math.floorMod(movementDirection + 1, 6)])) {
                     movementDirection = Math.floorMod(movementDirection - 1, 6);
                     //try-catch handles illegal position movement (e.g. at edge of board)
                     try{
@@ -139,7 +169,6 @@ public class Ray {
                     } catch (IllegalArgumentException ex){
                         break;
                     }
-
                 }
                 else{
                     movementDirection =Math.floorMod(movementDirection+2,6);
@@ -154,42 +183,11 @@ public class Ray {
         } while(!((currentHexagon instanceof SideHexagon) && (((SideHexagon) currentHexagon).sidesContainDirection(Math.floorMod(movementDirection+3, 6)))));
         /*check if current hexagon is instance of side hexagon with exit side opposite to movement direction
          (set exit to side with direction opposite to current position) (default condition)*/
-        coords.add(currentPosition); //add last position before exit to array list
+        travelledLocations.add(currentPosition); //add last position before exit to array list
         setExit(((SideHexagon) currentHexagon).getSideWithDirection(Math.floorMod(movementDirection+3,6)));
     }
 
-    /**
-     *
-     * @param exit - exit side number
-     */
-    public void setExit(int exit) {
-        if(exit < 1 || exit > 54){ //validation check
-            throw new IllegalArgumentException("illegal ray exit");
-        } else this.exit = exit;
-    }
 
-    public Coordinate getPosition() {
-        return currentPosition;
-    }
-    public int getEntry(){
-        return this.entry;
-    }
-    public int getExit(){
-        return this.exit;
-    }
-
-    public int getNumberOfMarkers(){
-        if(getEntry() == getExit() || getExit() == -1){
-            return 1;
-        }
-        else{
-            return 2;
-        }
-    }
-
-    public ArrayList<Coordinate> getCoords(){
-        return coords;
-    }
 
     @Override
     public String toString() {
