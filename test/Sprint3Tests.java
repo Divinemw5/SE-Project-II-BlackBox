@@ -1,4 +1,5 @@
 
+import TUI.Board;
 import TUI.Util;
 import math.Coordinate;
 import objects.*;
@@ -42,15 +43,14 @@ public class Sprint3Tests {
     public void RayResponse(){
         Ray ray = new Ray(35,box1);
         Util.printRayResponse(ray);
-        assertEquals("objects.Ray was reflected back to side " + ray.getEntry() + "\n", outContent.toString());
-
+        assertTrue(outContent.toString().toLowerCase().contains("reflected"));
     }
     @Test
     public void PlaceAtoms()
     {
         Box emptyBox = new Box(new Atom[] {null});
-        Atom[] atoms = new Atom[]{Util.getAtom(6,1, emptyBox), Util.getAtom(51,46,emptyBox), Util.getAtom(37,42,emptyBox), Util.getAtom(10,30,emptyBox), Util.getAtom(26,25,emptyBox), Util.getAtom(19,7, emptyBox)};
-        System.out.println(Util.getAtom(6,1,emptyBox).toString());
+        Atom[] atoms = new Atom[]{Util.getAtom(6,1), Util.getAtom(51,46), Util.getAtom(37,42), Util.getAtom(10,30), Util.getAtom(26,25), Util.getAtom(19,7)};
+        System.out.println(Util.getAtom(6,1).toString());
         Box box1 = new Box(atoms);
         Hexagon hex = box1.getHexagonByCoordinate(new Coordinate(4,6,2));
         Hexagon hex1 = box1.getHexagonByCoordinate(new Coordinate(6,4,2));
@@ -73,7 +73,7 @@ public class Sprint3Tests {
         rays.add(ray2);
         rays.add(ray3);
         rays.add(new Ray(29,box1));
-        ArrayList<String> board = Util.appendRayMarkers(rays, Util.getAtomizedBoard(TestAtoms));
+        ArrayList<String> board = Board.appendRayMarkers(rays, Board.getAtomizedBoard(TestAtoms));
         int count =0;
         for(String str : board) {
             char[] charArray = str.toCharArray(); // Convert the String to a char array

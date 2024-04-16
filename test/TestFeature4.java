@@ -1,5 +1,6 @@
 
 
+import TUI.Board;
 import TUI.Util;
 import objects.Atom;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class TestFeature4 {
 "                    ░█      ░█      ░█      ░█      ░█\n";
 
         Atom[] atoms  ={new Atom(4,4,4),new Atom(4,8,0),new Atom(4,0,8),new Atom(6,3,3),new Atom(3,6,3),new Atom(1,8,3)};
-        ArrayList<String> atomizedBoard = Util.getAtomizedBoard(atoms);
+        ArrayList<String> atomizedBoard = Board.getAtomizedBoard(atoms);
         StringBuilder compare = new StringBuilder();
 
         for(String line : atomizedBoard) {

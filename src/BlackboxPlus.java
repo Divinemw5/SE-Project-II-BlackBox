@@ -15,9 +15,7 @@ import java.util.ArrayList;
  */
 public class BlackboxPlus {
 
-    public static void main(String[] args) {
-
-        Box emptyBox = new Box(new Atom[] {null});
+    public static void main(String[] args){
 
         //Initialize program state
         String userInput = "";
@@ -26,17 +24,15 @@ public class BlackboxPlus {
         int roundsPlayed = 0; //total number of rounds played
 
         //Welcome the user and take player information
-        Util.printWelcome();
-        player[0] = Util.createPlayer(1);
-        player[1] = Util.createPlayer(2);
-
-        //player 1 start game message (add functionality into loop and allow switching between players, convert to function in TUI.Util)
-        System.out.println("Hello, "+player[currentPlayer].getName()+"!");
-        //System.out.println("It‘s your turn!");
+        Message.printWelcome();
+        player[0] = Input.getPlayer(1);
+        player[1] = Input.getPlayer(2);
 
         /*start new round*/
         while(!userInput.equals("quit"))
         {
+            Message.printPlayerWelcome(player[currentPlayer].getName());
+
             //initialize game state
             Atom[] atoms = Atom.generateAtoms(6);   //generate random atoms
             Box box = new Box(atoms);                  //create the empty board
@@ -46,15 +42,15 @@ public class BlackboxPlus {
             //play round /*do not let user end round if no atoms have been placed and no rays have been entered into the box (i.e. no score calculation)*/
             while(!userInput.equals("end round")){
                 /*output board with ray markers and atoms placed by user*/
-                Util.printBoard(Util.colourBoard(Util.appendRayMarkers(rays, Util.getAtomizedBoard(userAtoms)))); //ONLY USING ATOMIZED BOARD FOR RAY TESTING
+                Message.printBoard(Colours.colourBoard(Board.appendRayMarkers(rays, Board.getAtomizedBoard(userAtoms)))); //ONLY USING ATOMIZED BOARD FOR RAY TESTING
                 System.out.println("OPTIONS : send ray into box (enter ‘ray‘)\t place atoms on board (enter ‘place atoms‘)\t end round and calculate score (enter ‘end round‘)");
-                userInput = Util.getLine();
+                userInput = Input.getLine();
 
                 /*place ray at entry point*/
                 if(userInput.equalsIgnoreCase("ray")){
                     try{
                         System.out.print("Enter ray entry number : ");
-                        int entry = Integer.parseInt(Util.getLine());
+                        int entry = Integer.parseInt(Input.getLine());
                         Ray ray = new Ray(entry, box);
                         /*testing*/
 
@@ -71,16 +67,16 @@ public class BlackboxPlus {
                 }
                 else if (userInput.equalsIgnoreCase("place atoms")) {
                     System.out.println("Would you like to add or remove an atom? ('add', 'remove')");
-                    userInput = Util.getLine();
+                    userInput = Input.getLine();
                     try{
                         if (userInput.trim().equalsIgnoreCase("add")) {
                                 System.out.println("Enter 2 side numbers to place an atom where they intersect");
                                 System.out.print("Enter first number: ");
-                                int x = Integer.parseInt(Util.getLine());
+                                int x = Input.getInt();
                                 System.out.print("Enter second number: ");
-                                int y = Integer.parseInt(Util.getLine());
+                                int y = Input.getInt();
 
-                                Atom atomToPlace = Util.getAtom(x, y, emptyBox);
+                                Atom atomToPlace = Util.getAtom(x, y);
                                 if(Atom.containsAtom(userAtoms, atomToPlace.getLocation())) throw new IllegalStateException("atom already in list");
 
                                 //System.out.println(atomToPlace);
@@ -98,11 +94,11 @@ public class BlackboxPlus {
                         else if (userInput.trim().equalsIgnoreCase("remove")){
                                 System.out.println("Enter 2 side numbers to remove an atom where they intersect");
                                 System.out.print("Enter first number: ");
-                                int x = Integer.parseInt(Util.getLine());
+                                int x = Integer.parseInt(Input.getLine());
                                 System.out.print("Enter second number: ");
-                                int y = Integer.parseInt(Util.getLine());
+                                int y = Integer.parseInt(Input.getLine());
 
-                                Atom atomToRemove = Util.getAtom(x, y, emptyBox);
+                                Atom atomToRemove = Util.getAtom(x, y);
 
                                 for(int i = 0; i < userAtoms.length; i++){
                                     if(userAtoms[i]!=null && userAtoms[i].equals(atomToRemove)){
@@ -158,16 +154,16 @@ public class BlackboxPlus {
             } roundsPlayed++;
 
             //output board with atoms
-            Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
+            Message.printBoard(Colours.colourBoard(Board.getAtomizedBoard(atoms)));
 
             System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) "+"(enter ‘atoms‘ to show hidden atoms)"+" (enter ‘continue‘ to switch players and start new game)");
-            userInput = Util.getLine();
+            userInput = Input.getLine();
             //test functionality
             if(userInput.equals("atoms")){
-                Util.printBoard(Util.colourBoard(Util.getAtomizedBoard(atoms)));
+                Message.printBoard(Colours.colourBoard(Board.getAtomizedBoard(atoms)));
             }
             System.out.println("WOULD YOU LIKE TO CONTINUE (enter ‘quit‘ to exit program) (enter ‘continue‘ to switch players and start new game)");
-            userInput = Util.getLine();
+            userInput = Input.getLine();
             currentPlayer = Math.floorMod(currentPlayer+1,2); //switch player
         }
         //print goodbye message
