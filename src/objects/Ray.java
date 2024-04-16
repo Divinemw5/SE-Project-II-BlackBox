@@ -4,8 +4,6 @@ import math.*;
 
 import java.util.ArrayList;
 
-
-
 /**
  * (class description)
  */
@@ -58,7 +56,7 @@ public class Ray {
      */
     public Ray(int entry, Box box){
         if(entry < 1 || entry > 54){ //validation check
-            throw new IllegalArgumentException("illegal ray entry");
+            throw new IllegalArgumentException("Please enter a valid side number (1-54)");
         } else this.entry = entry;
         calculateEntryPosition(box);
         calculateExitPosition(box);

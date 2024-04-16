@@ -19,7 +19,7 @@ public class Util {
             System.out.print("Reflected!\n");
         }
         else{
-            System.out.println("Ray exit at side "+ ray.getExit());
+            System.out.println("Ray exited at side "+ ray.getExit());
         }
     }
 
@@ -51,14 +51,9 @@ public class Util {
                 break;
             }
         }
-        if(atom == null) throw new IllegalStateException();
+        if(atom == null) throw new IllegalStateException("Please enter side numbers with a valid intersection (example : try 37, 42)");
         return atom;
     }
 
-    public static void outputScoreBreakdown(int missedAtomsScore, int rayMarkersScore){
-        System.out.println("Number of misplaced atoms : " + missedAtomsScore/5 + "\tscore : " + missedAtomsScore);
-        System.out.println("Number of ray markers placed : " + rayMarkersScore + "\tscore : " + rayMarkersScore);
-        System.out.println("Total score : " + missedAtomsScore+rayMarkersScore);
-    }
 
 }
