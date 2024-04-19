@@ -34,6 +34,7 @@ public class BlackboxPlus {
     private void play(){
         String userInput = "";
         //Welcome the user and take player information
+
         Message.printWelcome();
         initializePlayers();
         while(!userInput.equalsIgnoreCase("quit")){
@@ -43,14 +44,10 @@ public class BlackboxPlus {
             userInput = Input.getLine();
             //determine winner every players.length turns
             if(roundsPlayed % players.length == 0){
-                Player winner = players[0];
-                for (Player player : players) {
-                    if (player.getRoundScore() < winner.getRoundScore()) {
-                        winner = player;
-                    }
-                }
-                winner.setNumberOfWins(winner.getNumberOfWins() + 1);
-                System.out.println(winner.getName() + " won this round!!!");
+
+                int winningScore = calculateRoundWinner(players);
+
+
                 System.out.println("Current scores");
                 for(Player player : players){
                     System.out.println(player.getName() + ": " + player.getNumberOfWins());
@@ -58,6 +55,8 @@ public class BlackboxPlus {
             }
 
         }
+
+        calculateFinalScore(players);
         Message.printGoodbye();
     }
     private void playTurn(){
@@ -138,6 +137,29 @@ public class BlackboxPlus {
         for(Ray ray : rays){rayMarkersScore += ray.getNumberOfMarkers();}
         Message.printScoreBreakdown(missedAtomsScore, rayMarkersScore);
         return missedAtomsScore + rayMarkersScore;
+    }
+
+    private static void calculateFinalScore(Player players[]){
+        Player winner = players[0];
+        for (Player player : players){
+            if(player.getNumberOfWins() > winner.getNumberOfWins()){
+                winner = player;
+            }
+        }
+        System.out.println("Winner is " + winner.getName() + " with score" + winner.getNumberOfWins());
+
+    }
+
+    private static int calculateRoundWinner(Player players[]){
+
+        Player winner = players[0];
+        for (Player player : players) {
+            if (player.getRoundScore() < winner.getRoundScore()) {
+                winner = player;
+            }
+        }
+
+        return winner.getRoundScore();
     }
 
     public static void main(String[] args){
