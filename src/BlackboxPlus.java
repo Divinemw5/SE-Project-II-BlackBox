@@ -56,20 +56,24 @@ public class BlackboxPlus {
                 }
                 else if (winningPlayers.size() == 1){
                     Player winner = winningPlayers.get(0);
-                    System.out.println("The winner is: " + winner.getName());
+                    System.out.println("The winner of this round is: " + winner.getName());
 
-                    System.out.println("Winning score: " + winner.getRoundScore());
+                    System.out.println("Score: " + winner.getRoundScore());
+                    System.out.println();
                     winner.incrementNumberOfWins();
                 }
 
-                System.out.println("All scores");
+                System.out.println("Current Leaderboard");
                 for(Player player : players){
                     System.out.println(player.getName() + ": " + player.getNumberOfWins());
                 }
+                System.out.println();
+
             }
 
         }
         ArrayList<Player> winningList = calculateFinalScore(players);
+        System.out.println("FINAL SCORES:");
         if(winningList.size() > 1) {
             System.out.println("its a draw!!!");
             System.out.println("Winners: ");
@@ -80,7 +84,7 @@ public class BlackboxPlus {
         else if (winningList.size() == 1){
             Player winner = winningList.get(0);
             System.out.println("The winner is: " + winner.getName());
-            System.out.println("Number of rounds won " + winner.getNumberOfWins() );
+            System.out.println("Number of rounds won: " + winner.getNumberOfWins() );
         }
         Message.printGoodbye();
     }
