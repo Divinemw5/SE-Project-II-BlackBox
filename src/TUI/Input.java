@@ -36,11 +36,11 @@ public class Input {
         Ray ray = null;
         while((ray == null && userInput != -1)){
             try{
-                System.out.print("Please enter side number (‘-1‘ to quit menu) : ");
+                Message.print("Please enter side number (‘-1‘ to quit menu) : ");
                 userInput = Input.getInt();
                 if(userInput != -1) ray = new Ray(userInput, box);
             }catch (IllegalArgumentException ex){
-                System.out.println(ex.getMessage());
+                Message.printLine(ex.getMessage());
             }catch (InputMismatchException ignored){}
         }
         if(ray == null) throw new IllegalStateException("User quit before valid ray was created.");
@@ -54,13 +54,13 @@ public class Input {
      */
     public static Player getPlayer(int number){
         Player player = null;
-        System.out.print("Please enter player "+number+" name:\t");
+        Message.print("Please enter player "+number+" name:\t");
         while(player == null){
             try {
                 player = new Player(Input.getLine());
             }
             catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                Message.printLine(e.getMessage());
             }
         }
         return player;
@@ -76,19 +76,19 @@ public class Input {
         Atom atom = null;
         while((atom == null && userInput[0] != -1)){
             try {
-                System.out.println("Please enter two side numbers to edit an atom where they intersect (‘-1‘ to quit menu) : ");
-                System.out.print("Enter side number 1 : ");
+                Message.printLine("Please enter two side numbers to edit an atom where they intersect (‘-1‘ to quit menu) : ");
+                Message.print("Enter side number 1 : ");
                 userInput[0] = getInt();
                 if(userInput[0] != -1){
-                    System.out.print("Enter side number 2 : ");
+                    Message.print("Enter side number 2 : ");
                     userInput[1] = getInt();
                     int x = userInput[0];
                     int y = userInput[1];
                     atom = Util.getAtom(x, y);
                 }
             }
-            catch (IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
+            catch (IllegalArgumentException | IllegalStateException ex) {
+                Message.printLine(ex.getMessage());
             }
             catch (InputMismatchException ignored){}
         }

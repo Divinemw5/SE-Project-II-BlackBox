@@ -102,7 +102,7 @@ public class ScoreTest {
 
     }
     @Test
-    public void FinalScoreTest1()//  Player one wins
+    public void FinalScoreTestPlayer1Win()//  Player one wins
     {
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
@@ -115,7 +115,7 @@ public class ScoreTest {
         assertEquals(winninglist.get(0).getName(),"player1");
     }
     @Test
-    public void FinalScoreTest2()//  Draw
+    public void FinalScoreTestDraw()//  Draw
     {
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
@@ -128,7 +128,7 @@ public class ScoreTest {
 
     }
     @Test
-    public void FinalScoreTest3()
+    public void CalculateRoundWinnerPlayer1Win()
     {
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
@@ -139,12 +139,36 @@ public class ScoreTest {
          assertEquals(roundlist.size(),1);
          assertEquals(roundlist.get(0).getName(),"player1");
 
+    }
 
-
-
+    @Test
+    public void CalculateRoundWinnerPlayer2Win()
+    {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        player1.setRoundScore(30);
+        player2.setRoundScore(25);
+        Player[] players = {player1,player2};
+        ArrayList<Player> roundlist = BlackboxPlus.calculateRoundWinner(players);
+        assertEquals(roundlist.size(),1);
+        assertEquals(roundlist.get(0).getName(),"player2");
 
     }
 
+    @Test
+    public void CalculateRoundWinnerDraw()
+    {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        player1.setRoundScore(30);
+        player2.setRoundScore(30);
+        Player[] players = {player1,player2};
+        ArrayList<Player> roundlist = BlackboxPlus.calculateRoundWinner(players);
+        assertEquals(roundlist.size(),2);
+        assertEquals(roundlist.get(0).getName(),"player1");
+        assertEquals(roundlist.get(1).getName(),"player2");
+
+    }
 
 
 }

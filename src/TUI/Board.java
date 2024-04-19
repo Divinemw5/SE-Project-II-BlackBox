@@ -265,7 +265,6 @@ public class Board {
      * @param rayMarker - char to append
      */
     private static void placeMarker(ArrayList<String> board, int index, int rayPos, int side, char rayMarker){
-
         //append to top of board
         if(side > 46 && side <= 54){
             /*check if ray marker is already placed at position, if yes add empty line*/

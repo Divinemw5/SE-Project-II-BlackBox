@@ -38,8 +38,9 @@ public class Util {
         Ray rayY = new Ray(y, emptyBox);
 
         if(rayX.getExit() == rayY.getEntry()){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Please enter side numbers with a valid intersection (example : try 37, 42)");
         }
+
         ArrayList<Coordinate> travelledLocationsX = rayX.getTravelledLocations();
         ArrayList<Coordinate> travelledLocationsY = rayY.getTravelledLocations();
 

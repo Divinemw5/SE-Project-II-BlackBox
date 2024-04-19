@@ -16,7 +16,8 @@ public class BlackboxPlus {
     public static final int MAX_PLAYERS = 4;
     private final Player[] players;
     private int currentPlayer = 0; //set player who goes first
-    private int roundsPlayed = 0;  //total number of rounds played
+    private int turnsPlayed = 0;  //total number of turns played
+    private int roundsPlayed = 0;
 
     public static final int DEV = 1;
     public static final int USER = 0;
@@ -33,7 +34,7 @@ public class BlackboxPlus {
     }
     private void play(){
         String userInput = "";
-        boolean roundComplete = false;
+        //boolean roundComplete = false;
         //Welcome the user and take player information
 
         Message.printWelcome();
@@ -41,58 +42,29 @@ public class BlackboxPlus {
         while(!userInput.equalsIgnoreCase("quit")){
             Message.printPlayerWelcome(players[currentPlayer].getName());
             playTurn();
-
-            if ((currentPlayer + 1) % players.length == 0) {
+            /*if ((currentPlayer + 1) % players.length == 0) {
                 roundComplete = true; // The round will be complete after the current player's turn
+            }*/
+            //determine winner every players.length turns
+            if(turnsPlayed % players.length == 0){
+                roundsPlayed++;
+                ArrayList<Player> winningPlayers = calculateRoundWinner(players);
+                Message.printRoundScoreBreakdown(winningPlayers);
+                Message.printLine("Current Leaderboard:");
+                Message.printLeaderboard(players);
+
             }
             Message.printExitMenu();
             userInput = Input.getLine();
-            //determine winner every players.length turns
-            if(roundsPlayed % players.length == 0){
-
-                ArrayList<Player> winningPlayers = calculateRoundWinner(players);
-                if(winningPlayers.size() > 1){
-                    System.out.println("Its a draw!!!");
-                    System.out.println("Winners: ");
-                    for(Player player : winningPlayers){
-                        System.out.println(player.getName() + ": " + player.getRoundScore());
-                        player.incrementNumberOfWins();
-                    }
-                }
-                else if (winningPlayers.size() == 1){
-                    Player winner = winningPlayers.get(0);
-                    System.out.println("The winner of this round is: " + winner.getName());
-
-                    System.out.println("Round score: " + winner.getRoundScore());
-                    System.out.println();
-                    winner.incrementNumberOfWins();
-                }
-
-                System.out.println("Current Leaderboard");
-                for(Player player : players){
-                    System.out.println(player.getName() + ": " + player.getNumberOfWins());
-                }
-                System.out.println();
-
-            }
 
         }
         ArrayList<Player> winningList = calculateFinalScore(players);
-        System.out.println("FINAL SCORES:");
-        if(winningList.size() > 1) {
-            System.out.println("its a draw!!!");
-            System.out.println("Winners: ");
-            for(Player player : players){
-                System.out.println(player.getName() + ": " + player.getNumberOfWins());
-            }
-        }
-        else if (winningList.size() == 1){
-            Player winner = winningList.get(0);
-            System.out.println("The winner is: " + winner.getName());
-            System.out.println("Number of rounds won: " + winner.getNumberOfWins() );
-        }
+        Message.printLine("Final Leaderboard: ( rounds played: " + roundsPlayed+" )");
+        Message.printFinalLeaderboard(players, winningList);
         Message.printGoodbye();
     }
+
+
     private void playTurn(){
         String userInput = "";
 
@@ -152,7 +124,7 @@ public class BlackboxPlus {
                     Message.printLine("Please enter a valid option.");
                 }
         }
-            roundsPlayed++;
+            turnsPlayed++;
             //print board with real atom positions (no ray markers)
             Message.printLine("Displaying board with real atom positions ...");
             Message.printBoard(Board.getAtomizedBoard(atoms));
@@ -188,7 +160,6 @@ public class BlackboxPlus {
             }
         }
         return winnerList;
-
     }
 
     public static ArrayList<Player> calculateRoundWinner(Player players[]){
@@ -205,6 +176,11 @@ public class BlackboxPlus {
                 winnerList.add(player);
             }
         }
+
+        for (Player player : winnerList){
+            player.incrementNumberOfWins();
+        }
+
         return winnerList;
     }
 
