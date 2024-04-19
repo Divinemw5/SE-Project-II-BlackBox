@@ -101,14 +101,50 @@ public class ScoreTest {
 
 
     }
-    public static void main(String[] args){
-        Atom []atoms = Atom.generateAtoms(6);
-        System.out.println(atoms[0]);
-        System.out.println(atoms[1]);
-        System.out.println(atoms[2]);
-        System.out.println(atoms[3]);
-        System.out.println(atoms[4]);
-        System.out.println(atoms[5]);
+    @Test
+    public void FinalScoreTest1()//  Player one wins
+    {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        player1.setNumberOfWins(5);
+        player2.setNumberOfWins(4);
+
+        Player[] players={player1,player2};
+        ArrayList<Player> winninglist = BlackboxPlus.calculateFinalScore(players);
+        assertEquals(winninglist.size(),1);
+        assertEquals(winninglist.get(0).getName(),"player1");
+    }
+    @Test
+    public void FinalScoreTest2()//  Draw
+    {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        player1.setNumberOfWins(10);
+        player2.setNumberOfWins(10);
+
+        Player[] players={player1,player2};
+        ArrayList<Player> winninglist = BlackboxPlus.calculateFinalScore(players);
+        assertEquals(winninglist.size(),2);
 
     }
+    @Test
+    public void FinalScoreTest3()
+    {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        player1.setRoundScore(25);
+        player2.setRoundScore(30);
+        Player[] players = {player1,player2};
+        ArrayList<Player> roundlist = BlackboxPlus.calculateRoundWinner(players);
+         assertEquals(roundlist.size(),1);
+         assertEquals(roundlist.get(0).getName(),"player1");
+
+
+
+
+
+    }
+
+
+
 }
