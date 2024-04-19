@@ -173,7 +173,7 @@ public class BlackboxPlus {
         return missedAtomsScore + rayMarkersScore;
     }
 
-    private static ArrayList<Player> calculateFinalScore(Player players[]){
+    public static ArrayList<Player> calculateFinalScore(Player players[]){
         ArrayList<Player> winnerList = new ArrayList<Player>();
         int winningScore = 0;
 
