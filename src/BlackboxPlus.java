@@ -191,7 +191,7 @@ public class BlackboxPlus {
 
     }
 
-    private static ArrayList<Player> calculateRoundWinner(Player players[]){
+    public static ArrayList<Player> calculateRoundWinner(Player players[]){
         ArrayList<Player> winnerList = new ArrayList<Player>();
         int winningScore = 1000000000;
 
