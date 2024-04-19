@@ -43,7 +43,20 @@ public class BlackboxPlus {
             userInput = Input.getLine();
             //determine winner every players.length turns
             if(roundsPlayed % players.length == 0){
+                Player winner = players[0];
+                for (Player player : players) {
+                    if (player.getRoundScore() < winner.getRoundScore()) {
+                        winner = player;
+                    }
+                }
+                winner.setNumberOfWins(winner.getNumberOfWins() + 1);
+                System.out.println(winner.getName() + " won this round!!!");
+                System.out.println("Current scores");
+                for(Player player : players){
+                    System.out.println(player.getName() + ": " + player.getNumberOfWins());
+                }
             }
+
         }
         Message.printGoodbye();
     }
