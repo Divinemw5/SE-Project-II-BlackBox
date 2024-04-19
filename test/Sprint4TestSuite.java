@@ -4,7 +4,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        ScoreTest.class,
+        TestScore.class,
+        TestWinner.class
 })
 
 public class Sprint4TestSuite {

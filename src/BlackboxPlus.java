@@ -6,6 +6,8 @@ import objects.Ray;
 import TUI.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  *  Main class (contains program flow throughout the game)
@@ -162,30 +164,35 @@ public class BlackboxPlus {
         return winnerList;
     }
 
+
+    public static int getLowestScore(Player[] players){
+        int min = players[0].getRoundScore();
+        for(Player player : players){
+            if(player.getRoundScore() < min) min = player.getRoundScore();
+        }
+        return min;
+    }
+
     public static ArrayList<Player> calculateRoundWinner(Player players[]){
         ArrayList<Player> winnerList = new ArrayList<Player>();
-        int winningScore = 1000000000;
+
+        int min = getLowestScore(players);
 
         for (Player player : players){
-            if(player.getRoundScore() < winningScore){
-                winningScore = player.getRoundScore();
-                winnerList.clear();
-                winnerList.add(player);
-            }
-            else if (player.getNumberOfWins() == winningScore){
-                winnerList.add(player);
-            }
+            if(player.getRoundScore() == min) winnerList.add(player);
         }
-
         for (Player player : winnerList){
             player.incrementNumberOfWins();
         }
-
         return winnerList;
     }
 
     public static void main(String[] args){
-        if(args.length > 1 && args[1].equals("-D")) PERMISSION_MODE = DEV;
+        if(args.length > 0 && args[0].equals("-D")) {
+        	PERMISSION_MODE = DEV;
+        	Message.printLine("Running in developer mode, while playing a turn use the command ‘display hidden atoms‘ "
+        			+ "to display the actual atom locations.");
+        }
 
         BlackboxPlus blackboxPlus = new BlackboxPlus(2);
         blackboxPlus.play();
