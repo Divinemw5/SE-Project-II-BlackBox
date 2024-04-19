@@ -51,6 +51,8 @@ public class Player {
         return roundScore;
     }
 
+    public void incrementNumberOfWins(){this.numberOfWins++;}
+
     public int getNumberOfWins() {
         return numberOfWins;
     }

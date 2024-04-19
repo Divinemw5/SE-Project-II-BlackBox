@@ -45,18 +45,43 @@ public class BlackboxPlus {
             //determine winner every players.length turns
             if(roundsPlayed % players.length == 0){
 
-                int winningScore = calculateRoundWinner(players);
+                ArrayList<Player> winningPlayers = calculateRoundWinner(players);
+                if(winningPlayers.size() > 1){
+                    System.out.println("Its a draw!!!");
+                    System.out.println("Winners: ");
+                    for(Player player : winningPlayers){
+                        System.out.println(player.getName() + ": " + player.getRoundScore());
+                        player.incrementNumberOfWins();
+                    }
+                }
+                else if (winningPlayers.size() == 1){
+                    Player winner = winningPlayers.get(0);
+                    System.out.println("The winner is: " + winner.getName());
 
+                    System.out.println("Winning score: " + winner.getRoundScore());
+                    winner.incrementNumberOfWins();
+                }
 
-                System.out.println("Current scores");
+                System.out.println("All scores");
                 for(Player player : players){
                     System.out.println(player.getName() + ": " + player.getNumberOfWins());
                 }
             }
 
         }
-
-        calculateFinalScore(players);
+        ArrayList<Player> winningList = calculateFinalScore(players);
+        if(winningList.size() > 1) {
+            System.out.println("its a draw!!!");
+            System.out.println("Winners: ");
+            for(Player player : players){
+                System.out.println(player.getName() + ": " + player.getNumberOfWins());
+            }
+        }
+        else if (winningList.size() == 1){
+            Player winner = winningList.get(0);
+            System.out.println("The winner is: " + winner.getName());
+            System.out.println("Number of rounds won " + winner.getNumberOfWins() );
+        }
         Message.printGoodbye();
     }
     private void playTurn(){
@@ -139,27 +164,39 @@ public class BlackboxPlus {
         return missedAtomsScore + rayMarkersScore;
     }
 
-    private static void calculateFinalScore(Player players[]){
-        Player winner = players[0];
+    private static ArrayList<Player> calculateFinalScore(Player players[]){
+        ArrayList<Player> winnerList = new ArrayList<Player>();
+        int winningScore = 0;
+
         for (Player player : players){
-            if(player.getNumberOfWins() > winner.getNumberOfWins()){
-                winner = player;
+            if(player.getNumberOfWins() > winningScore){
+                winningScore = player.getNumberOfWins();
+                winnerList.clear();
+                winnerList.add(player);
+            }
+            else if (player.getNumberOfWins() == winningScore){
+                winnerList.add(player);
             }
         }
-        System.out.println("Winner is " + winner.getName() + " with score" + winner.getNumberOfWins());
+        return winnerList;
 
     }
 
-    private static int calculateRoundWinner(Player players[]){
+    private static ArrayList<Player> calculateRoundWinner(Player players[]){
+        ArrayList<Player> winnerList = new ArrayList<Player>();
+        int winningScore = 1000000000;
 
-        Player winner = players[0];
-        for (Player player : players) {
-            if (player.getRoundScore() < winner.getRoundScore()) {
-                winner = player;
+        for (Player player : players){
+            if(player.getRoundScore() < winningScore){
+                winningScore = player.getRoundScore();
+                winnerList.clear();
+                winnerList.add(player);
+            }
+            else if (player.getNumberOfWins() == winningScore){
+                winnerList.add(player);
             }
         }
-
-        return winner.getRoundScore();
+        return winnerList;
     }
 
     public static void main(String[] args){
