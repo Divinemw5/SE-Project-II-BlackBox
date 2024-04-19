@@ -33,6 +33,7 @@ public class BlackboxPlus {
     }
     private void play(){
         String userInput = "";
+        boolean roundComplete = false;
         //Welcome the user and take player information
 
         Message.printWelcome();
@@ -40,6 +41,10 @@ public class BlackboxPlus {
         while(!userInput.equalsIgnoreCase("quit")){
             Message.printPlayerWelcome(players[currentPlayer].getName());
             playTurn();
+
+            if ((currentPlayer + 1) % players.length == 0) {
+                roundComplete = true; // The round will be complete after the current player's turn
+            }
             Message.printExitMenu();
             userInput = Input.getLine();
             //determine winner every players.length turns
@@ -58,7 +63,7 @@ public class BlackboxPlus {
                     Player winner = winningPlayers.get(0);
                     System.out.println("The winner of this round is: " + winner.getName());
 
-                    System.out.println("Score: " + winner.getRoundScore());
+                    System.out.println("Round score: " + winner.getRoundScore());
                     System.out.println();
                     winner.incrementNumberOfWins();
                 }
