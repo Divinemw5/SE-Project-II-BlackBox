@@ -162,7 +162,7 @@ public class BlackboxPlus {
             currentPlayer = (currentPlayer + 1) % players.length;
     }
 
-    private static int calculateScore(ArrayList<Ray> rays, Atom[] atoms, Atom[] userAtoms){
+    public static int calculateScore(ArrayList<Ray> rays, Atom[] atoms, Atom[] userAtoms){
         int missedAtomsScore = 0;
         int rayMarkersScore = 0;
         for(Atom a : userAtoms) {
