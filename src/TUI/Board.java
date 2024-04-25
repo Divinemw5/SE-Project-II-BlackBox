@@ -111,6 +111,7 @@ public class Board {
             if(i%4 != 0){
                 appendFirst = " ";
                 appendLast = " ";
+
             }
             else {
                 appendFirst = ""+countUp++;
@@ -123,16 +124,19 @@ public class Board {
             if((i+2)%4 == 0 && i != (board.size()/2)-1){ //add + remove append adjust
                 appendFirst = ""+countUp;
                 appendLast = ""+countDown;
-                line = line.substring(0, first_index-2) + appendFirst + " " + line.substring(first_index);
-                line = line.substring(0, last_index+3) + appendLast + line.substring(last_index+4);
+                line = line.substring(0, first_index-2) + appendFirst + "→" + line.substring(first_index);
+                line = line.substring(0, last_index+2) + "←"+ appendLast +line.substring(last_index+4);
                 //adjust counters
                 countUp++;
                 countDown--;
             }
             else{
                 //diagonals
-                line = line.substring(0, first_index - 3) + appendFirst + "  " + line.substring(first_index);
-                line = line.substring(0, last_index + 3) + " " + appendLast + line.substring(last_index + 3);
+                String downRightArrow = (appendFirst != " ") ? "↘" : " ";
+                String downLeftArrow = (appendLast != " ") ? "↙" : " ";
+
+                line = line.substring(0, first_index - 4) + appendFirst + downRightArrow +"  " + line.substring(first_index);
+                line = line.substring(0, last_index + 4) + downLeftArrow + appendLast + line.substring(last_index + 3);
             }
 
             board.set(i, "  " +line);
@@ -156,8 +160,8 @@ public class Board {
             if(i == (board.size()/2)){ //append sides to middle of board
                 appendFirst = ""+countUp;
                 appendLast = ""+countDown;
-                line = line.substring(0, first_index-2) + " " + appendFirst + " " + line.substring(first_index);
-                line = line.substring(0, last_index+4)  +  " " + appendLast  +line.substring(last_index+4);
+                line = line.substring(0, first_index-2) + " " + appendFirst + "→" + line.substring(first_index);
+                line = line.substring(0, last_index+4)  +  "←" + appendLast + line.substring(last_index+4);
                 //adjust counters
                 countUp++;
                 countDown--;
@@ -165,15 +169,17 @@ public class Board {
             else if((i)%4 == 0 && i != board.size()-1 && i != (board.size()/2)+1){ //add + remove append adjust (horizontal)
                 appendFirst = ""+countUp;
                 appendLast = ""+countDown;
-                line = line.substring(0, first_index-1) + appendFirst + " " + line.substring(first_index);
-                line = line.substring(0, last_index+4) + " " + appendLast + line.substring(last_index+4);
+                line = line.substring(0, first_index-1) + appendFirst + "→" + line.substring(first_index);
+                line = line.substring(0, last_index+4) + "←" + appendLast + line.substring(last_index+4);
                 //adjust counters
                 countUp++;
                 countDown--;
             }
             else{ //append to diagonals + remaining
-                line = line.substring(0, first_index - 2) + appendFirst + "  " + line.substring(first_index);
-                line = line.substring(0, last_index+4) + "  " + appendLast + line.substring(last_index+4);
+                String upRightArrow = (appendFirst != "  ") ? "↗" : " ";
+                String upLeftArrow =  (appendLast != "  ") ? "↖" : " ";
+                line = line.substring(0, first_index - 3) + appendFirst + upRightArrow +"  " + line.substring(first_index);
+                line = line.substring(0, last_index+4)  + "  " + upLeftArrow + appendLast + line.substring(last_index+4);
             }
             board.set(i, line);
         }
@@ -181,19 +187,29 @@ public class Board {
         //append line numbers to top and bottom lines
         String topLine = board.get(0);
         String bottomLine = board.get(board.size()-1);
+        String topNumberLine =getIndent(board.get(0).length()/2);
+        String bottomNumberLine =getIndent(board.get(0).length()/2);
+
+        board.add(0, getIndent(board.get(0).length()/2));
+        board.add(getIndent(board.get(board.size()-1).length()/2));
+
         countUp = 20;
         countDown = 54;
         int first_index = topLine.indexOf("░█"); //both lines are symmetrical (ignoring side numbers)
         int curr_index = first_index + 3;
         for(int i = 0; i <4; i++){
-            topLine = topLine.substring(0,curr_index-1) + countDown + "  " + (countDown-1) + topLine.substring(curr_index+5);
-            bottomLine = bottomLine.substring(0,curr_index-1) + countUp + "  " + (countUp+1) + bottomLine.substring(curr_index+5);
+            topNumberLine = topNumberLine.substring(0,curr_index-1) + countDown + "  " + (countDown-1) +topNumberLine.substring(curr_index+5);
+            bottomNumberLine = bottomNumberLine.substring(0,curr_index-1) + countUp + "  " + (countUp+1) + bottomNumberLine.substring(curr_index+5);
+            topLine = topLine.substring(0,curr_index-1) + " ↙" + "  " + "↘ " +topLine.substring(curr_index+5);
+            bottomLine = bottomLine.substring(0,curr_index-1) + " ↖" + "  " + "↗ " + bottomLine.substring(curr_index+5);
             countDown-=2;
             countUp+=2;
             curr_index += 8;
         }
-        board.set(0, topLine);
-        board.set(board.size()-1, bottomLine);
+        board.set(0, topNumberLine);
+        board.set(1, topLine);
+        board.set(board.size()-1, bottomNumberLine);
+        board.set(board.size()-2, bottomLine);
     }
 
 
