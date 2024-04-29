@@ -1,12 +1,13 @@
+
 package objects;
 
 import java.util.Arrays;
 import math.*;
-
 /**
- *  (Class Description)
+ *  The Box class contains the utilities  needed to construct the logical board
  *
  */
+
 public class Box {
     private final Hexagon[] box;
     public static int BOX_MAX_SIZE = 61;

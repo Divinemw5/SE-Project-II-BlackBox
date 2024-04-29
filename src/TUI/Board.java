@@ -10,18 +10,13 @@ public class Board {
     public static final char rayMarkerReflected = 'R';  //set as white later ...
     public static final char[] pairMarkers = new char[]{'#','≡','!','$','■','¤','«','§','¡','¿','¥','×','ƒ','¶'};
 
-    /**
-     * Function takes parameters
+    /** Duplicates a string x times
      * @param str - String to be duplicated
      * @param x   - Number of times to duplicate
      * @return newly created String
      */
     private static String duplicate(String str, int x) {
-        StringBuilder return_str = new StringBuilder();
-        for(int i = 0; i < x; i++) {
-            return_str.append(str);
-        }
-        return return_str.toString();
+        return String.valueOf(str).repeat(Math.max(0, x));
     }
 
     /**
@@ -30,11 +25,7 @@ public class Board {
      * @return a String of size 2x containing " " characters.
      */
     private static String getIndent(int x){
-        StringBuilder return_val = new StringBuilder();
-        for(int i = 0; i < x; i++){
-            return_val.append("  ");
-        }
-        return return_val.toString();
+        return "  ".repeat(Math.max(0, x));
     }
 
     /**
@@ -42,23 +33,21 @@ public class Board {
      * @return a basic empty board as an ArrayList of type:String
      */
     public static ArrayList<String> getEmptyBoard(){
-        ArrayList<String> empty_board = new ArrayList<>(); //empty string rep. of board //initialize once
+        ArrayList<String> empty_board = new ArrayList<>(); // Used for the String Representation of the Board
 
-        //init string builders
         String one = "    ░█  "; //first line
         String two = "  ░█  ░█"; //single spacing
         String three="░█      "; //triple spacing
 
-        StringBuilder onea = new StringBuilder(duplicate(one,5)); //for appending lines
+        StringBuilder onea = new StringBuilder(duplicate(one,5));
         StringBuilder twoa = new StringBuilder(duplicate(two,5));
         StringBuilder threea = new StringBuilder(duplicate(three,5));
 
-        int indentSize = 8; //initialize indent size
-        int appendLength = 0; //initialize appendLength
+        int indentSize = 8; // Starting Indent
+        int appendLength = 0;
 
         for(int i = 0; i<10; i++) {
-            //System.out.print(indentSize + ",");
-            //System.out.print(appendLength + ",");
+
 
             //update indent (decrement for i < 5, increment for i > 5), update appendLength(opposite inc/dec)
             //top half of board

@@ -5,7 +5,7 @@ import math.*;
 import java.util.ArrayList;
 
 /**
- * (class description)
+ * The Ray Class includes the utilities for implementing the Ray Logic
  */
 public class Ray {
 

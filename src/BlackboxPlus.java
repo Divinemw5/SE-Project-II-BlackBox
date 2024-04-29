@@ -1,18 +1,13 @@
-import TUI.Util;
-import objects.Atom;
-import objects.Box;
-import objects.Player;
-import objects.Ray;
+
+import objects.*;
 import TUI.*;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-
 /**
- *  Main class (contains program flow throughout the game)
+ *  The BlackBoxPlus class contains our program flow throughout the game
  *
  */
+
+
 public class BlackboxPlus {
 
     public static final int MAX_PLAYERS = 4;
@@ -21,9 +16,9 @@ public class BlackboxPlus {
     private int turnsPlayed = 0;
     private int roundsPlayed = 0;
 
-    public static final int DEV = 1;
+    public static final int DEV = 1; // (Can display hidden atoms)
     public static final int USER = 0;
-    public static int PERMISSION_MODE = USER; //default (cannot display hidden atoms)
+    public static int PERMISSION_MODE = USER; // PERMISSION_MODE set to DEV or USER
 
 
     BlackboxPlus(int playerCount){
