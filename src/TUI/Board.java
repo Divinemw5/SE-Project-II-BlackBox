@@ -223,7 +223,9 @@ public class Board {
         int i = 0;
         for(String s : board){
             s += " "; //for checking numbers at end of board with no trailing whitespace
-            if(s.contains(" "+side+" ") || s.contains("█"+side+" ") || s.contains(" "+side+"░")) return i;
+            if(s.contains(" "+side+"↘") || s.contains("↙"+side+" ") || s.contains(" "+side+"→")
+                    || s.contains("←"+side+" ") || s.contains("↖"+side+" ") || s.contains(" "+side+"↗")
+            || s.contains(" "+side+" ")) return i;
             i++;
         }
         return -1;
