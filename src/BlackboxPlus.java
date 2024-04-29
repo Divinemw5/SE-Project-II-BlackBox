@@ -17,18 +17,21 @@ public class BlackboxPlus {
 
     public static final int MAX_PLAYERS = 4;
     private final Player[] players;
-    private int currentPlayer = 0; //set player who goes first
-    private int turnsPlayed = 0;  //total number of turns played
+    private int currentPlayer = 0;
+    private int turnsPlayed = 0;
     private int roundsPlayed = 0;
 
     public static final int DEV = 1;
     public static final int USER = 0;
     public static int PERMISSION_MODE = USER; //default (cannot display hidden atoms)
 
+
     BlackboxPlus(int playerCount){
         if(playerCount > MAX_PLAYERS || playerCount < 1) throw new IllegalArgumentException("BlackboxPlus can be played with 1-4 players only.");
         this.players = new Player[playerCount];
     }
+
+
     private void initializePlayers(){
         for(int i = 0; i < players.length; i++){
             players[i] = Input.getPlayer(i+1);
@@ -36,18 +39,13 @@ public class BlackboxPlus {
     }
     private void play(){
         String userInput = "";
-        //boolean roundComplete = false;
-        //Welcome the user and take player information
 
         Message.printWelcome();
         initializePlayers();
         while(!userInput.equalsIgnoreCase("quit")){
             Message.printPlayerWelcome(players[currentPlayer].getName());
             playTurn();
-            /*if ((currentPlayer + 1) % players.length == 0) {
-                roundComplete = true; // The round will be complete after the current player's turn
-            }*/
-            //determine winner every players.length turns
+
             if(turnsPlayed % players.length == 0){
                 roundsPlayed++;
                 ArrayList<Player> winningPlayers = calculateRoundWinner(players);
@@ -69,11 +67,10 @@ public class BlackboxPlus {
 
     private void playTurn(){
         String userInput = "";
-
-        Atom[] atoms = Atom.generateAtoms(6);   //generate random atoms
-        Box box = new Box(atoms);                   //create the empty board
-        ArrayList<Ray> rays = new ArrayList<>();    //start empty array list (pass to TUI.Util to add ray markers to board)
-        Atom[] userAtoms = new Atom[] {null, null, null, null, null, null}; //setup empty array of user atoms
+        Atom[] atoms = Atom.generateAtoms(6);
+        Box box = new Box(atoms);
+        ArrayList<Ray> rays = new ArrayList<>();
+        Atom[] userAtoms = new Atom[] {null, null, null, null, null, null};
 
         while(!userInput.equalsIgnoreCase("end turn")){
             Message.printBoard(Board.appendRayMarkers(rays, Board.getAtomizedBoard(userAtoms)));
