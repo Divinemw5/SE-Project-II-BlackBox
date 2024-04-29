@@ -357,7 +357,7 @@ public class Board {
         int line_width = 4;
 
         /*loop through box*/
-        for(int i = 0; i < board.size(); i++){
+        for(int i = 1; i < board.size(); i++){
             /*update line info*/
             if(board.get(i).contains("░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█" )){ //line with atom in it after 2
                 z++; //update z by 1 (next line)
@@ -380,6 +380,7 @@ public class Board {
                 String lineUp = board.get(i-1);
                 String line = board.get(i);
                 String lineDown = board.get(i+1);
+
                 /*below variables used for string manipulation*/
                 int first_index = line.indexOf("░█");
                 int curr_index = first_index+3;
