@@ -140,7 +140,10 @@ public class BlackboxPlus {
         int missedAtomsScore = 0;
         int rayMarkersScore = 0;
         for(Atom a : userAtoms) {
-            if(a!=null && !Atom.containsAtom(atoms, a.getLocation())){missedAtomsScore += 5;}
+            if (a == null){
+                missedAtomsScore +=5;
+            }
+            else if(!Atom.containsAtom(atoms, a.getLocation())){missedAtomsScore += 5;}
         }
         for(Ray ray : rays){rayMarkersScore += ray.getNumberOfMarkers();}
         Message.printScoreBreakdown(missedAtomsScore, rayMarkersScore);
