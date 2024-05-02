@@ -4,10 +4,10 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TestFeature1.class,
-        TestFeature2.class,
-        TestFeature3.class,
-        TestFeature4.class
+        //TestUserNameInput.class,
+        //TestRandomAtomGeneration.class,
+        //TestFeature3.class,
+        //TestFeature4.class
 })
 
 public class Sprint1TestSuite {

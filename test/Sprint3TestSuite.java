@@ -7,10 +7,5 @@ import org.junit.runners.Suite;
         BarrierLevelTest.class
 })
 public class Sprint3TestSuite {
-
-
-
-
-
-
+    
 }

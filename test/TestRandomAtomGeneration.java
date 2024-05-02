@@ -1,11 +1,12 @@
 
 import objects.Atom;
 import org.junit.Test;
-
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+//import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class TestFeature2 {
+public class TestRandomAtomGeneration {
     @Test
     public void testGenerateRandomAtoms()
     {
@@ -16,6 +17,5 @@ public class TestFeature2 {
             assertNotNull(atom);
             assertEquals(Atom.class,atom.getClass()); // Check if the atom is an instance of objects.Atom
         }
-
     }
 }
