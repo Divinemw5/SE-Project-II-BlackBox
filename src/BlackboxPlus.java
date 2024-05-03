@@ -121,7 +121,7 @@ public class BlackboxPlus {
             turnsPlayed++;
             //print board with real atom positions (no ray markers)
             Message.printLine("Displaying board with real atom positions ...");
-            Message.printBoard(Board.getAtomizedBoard(atoms));
+            Message.printBoard(Board.appendRayMarkers(rays, Board.getAtomizedBoard(atoms)));
             //score calculation
             players[currentPlayer].setRoundScore(calculateScore(rays, atoms, userAtoms));
             //switch to next player

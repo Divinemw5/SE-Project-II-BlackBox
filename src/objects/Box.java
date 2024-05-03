@@ -4,7 +4,7 @@ import java.util.Arrays;
 import math.*;
 /**
  *  Class Box :
- *  Represents the foundational game logic for the game board + and ontains additional utilities necessary for
+ *  Represents the foundational game logic for the game board + and contains additional utilities necessary for
  *  interacting with the board
  */
 
@@ -134,9 +134,9 @@ public class Box {
     }
 
     /**
-     * Method gets Hexagon referenced by index to box[]
-     * @param index - index of hexagon to grab
-     * @return - hexagon indexed by parameter
+     * Method gets Hexagon referenced by passed index in box[] and takes :
+     * @param index - index of hexagon to grab in box[]
+     * @return - hexagon referenced by box[index] , or null if index out of bounds
      */
     public Hexagon getHexagon(int index){
         for(int i = 0; i < box.length; i++){
@@ -144,8 +144,14 @@ public class Box {
                 return box[i];
             }
         }
-        return null; //index out of bounds
+        return null;
     }
+
+    /**
+     * Method gets Hexagon referenced at location matching passed Coordinate and takes :
+     * @param location - Coordinate (location) of Hexagon to grab
+     * @return Hexagon matching Coordinate, or null if Hexagon is not in Box
+     */
     public Hexagon getHexagonByCoordinate(Coordinate location) {
         for (Hexagon hexagon : box) {
             if (hexagon.getLocation().equals(location)) {
@@ -156,7 +162,6 @@ public class Box {
     }
 
     /**
-     *
      * @return a String representation of the box
      */
     @Override
@@ -169,16 +174,5 @@ public class Box {
             i++;
         }
         return str.toString();
-    }
-
-    public static void main(String[] args) {
-        Atom[] atoms = Atom.generateAtoms(6);
-        Box box1 = new Box(atoms);
-
-        System.out.println(Arrays.toString(atoms));
-        System.out.println(box1);
-        Ray ray = new Ray( 46,box1);
-        System.out.println(ray.getPosition());
-        //System.out.println(Arrays.deepToString(box1.box));
     }
 }
