@@ -1,6 +1,5 @@
 package objects;
 
-import java.util.Arrays;
 import math.*;
 /**
  *  Class Box :

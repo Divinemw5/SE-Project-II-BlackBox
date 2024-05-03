@@ -6,8 +6,8 @@ import objects.*;
 
 public class Board
 {
-    public static final char rayMarkerAbsorbed = 'A';  // set as black later ...
-    public static final char rayMarkerReflected = 'R'; // set as white later ...
+    public static final char rayMarkerAbsorbed = 'A';
+    public static final char rayMarkerReflected = 'R';
     public static final char[] pairMarkers =
         new char[] {'#', '≡', '!', '$', '■', '¤', '«', '§', '¡', '¿', '¥', '×', 'ƒ', '¶'};
 

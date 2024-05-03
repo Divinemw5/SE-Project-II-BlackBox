@@ -1,11 +1,7 @@
 package TUI;
 
-import static TUI.Colours.*;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 import math.Coordinate;
-import math.Vector;
 import objects.*;
 
 public class Util

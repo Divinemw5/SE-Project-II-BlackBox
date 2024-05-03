@@ -1,7 +1,6 @@
 package TUI;
 
 import static TUI.Board.*;
-
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
