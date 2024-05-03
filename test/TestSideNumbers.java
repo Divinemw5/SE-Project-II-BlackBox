@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestSideNumbersSprint2 {
+public class TestSideNumbers{
     /**
      * testing that each index that should be a sideHexagon is an instance of sideHexagon
      */
