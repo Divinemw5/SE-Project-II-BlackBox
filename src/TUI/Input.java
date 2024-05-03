@@ -76,7 +76,7 @@ public class Input {
         Atom atom = null;
         while((atom == null && userInput[0] != -1)){
             try {
-                Message.printLine("Please enter two side numbers to edit an atom where they intersect (‘-1‘ to quit menu) : ");
+                Message.printLine("Please enter two side numbers to edit an atom where their arrows intersect(‘-1‘ to quit menu) : ");
                 Message.print("Enter side number 1 : ");
                 userInput[0] = getInt();
                 if(userInput[0] != -1){
