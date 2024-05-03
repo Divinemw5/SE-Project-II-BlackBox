@@ -3,15 +3,17 @@ import java.util.ArrayList;
 import objects.*;
 
 /**
- *  The BlackBoxPlus class contains our program flow throughout the game
- *
+ *  Class BlackboxPlus:
+ *  contains our program flow throughout the game
  */
 
 public class BlackboxPlus
 {
     public static final int MAX_PLAYERS = 4;
     private final Player[] players;
+
     private int currentPlayer = 0;
+
     private int turnsPlayed = 0;
     private int roundsPlayed = 0;
 
@@ -38,10 +40,12 @@ public class BlackboxPlus
         String userInput = "";
         Message.printWelcome();
         initializePlayers();
+
         while (!userInput.equalsIgnoreCase("quit"))
         {
             Message.printPlayerWelcome(players[currentPlayer].getName());
             playTurn();
+
             if (turnsPlayed % players.length == 0)
             {
                 roundsPlayed++;
@@ -56,29 +60,34 @@ public class BlackboxPlus
         ArrayList<Player> winningList = calculateFinalScore(players);
         Message.printLine("Final Leaderboard: ( rounds played: " + roundsPlayed + " )");
         Message.printFinalLeaderboard(players, winningList);
+
         Message.printGoodbye();
     }
 
     private void playTurn()
     {
-        String userInput = "";
         Atom[] atoms = Atom.generateAtoms(6);
         Box box = new Box(atoms);
+
         ArrayList<Ray> rays = new ArrayList<>();
         Atom[] userAtoms = new Atom[] {null, null, null, null, null, null};
+
+        String userInput = "";
 
         while (!userInput.equalsIgnoreCase("end turn"))
         {
             Message.printBoard(Board.appendRayMarkers(rays, Board.getAtomizedBoard(userAtoms)));
             Message.printTurnMenu();
             userInput = Input.getLine();
+
             if (userInput.equalsIgnoreCase("ray"))
             {
                 try
                 {
                     Ray ray = Input.getRay(box);
-                    Util.printRayResponse(ray);
                     rays.add(ray);
+                    Util.printRayResponse(ray);
+
                 }
                 catch (Exception ex)
                 {
@@ -90,16 +99,27 @@ public class BlackboxPlus
                 try
                 {
                     Atom atomToPlace = Input.getAtomFromUser();
+
                     if (Atom.containsAtom(userAtoms, atomToPlace.getLocation()))
+                    {
                         throw new IllegalStateException("Please ensure no guessed atom is already placed at guessed "
-                                                        + "position.");
+                                + "position.");
+                    }
+
                     int i = 0;
                     while (i < userAtoms.length && userAtoms[i] != null)
+                    {
                         i++;
+                    }
+
                     if (i == userAtoms.length)
+                    {
                         throw new IllegalStateException("Please remove an atom before placing one.");
+                    }
                     else
+                    {
                         userAtoms[i] = atomToPlace;
+                    }
                     Message.printLine("Atom placed successfully!");
                 }
                 catch (Exception ex)
@@ -112,13 +132,20 @@ public class BlackboxPlus
                 try
                 {
                     Atom atomToRemove = Input.getAtomFromUser();
+
                     int i = 0;
                     while (i < userAtoms.length && !userAtoms[i].equals(atomToRemove))
+                    {
                         i++;
+                    }
                     if (i == userAtoms.length)
+                    {
                         throw new IllegalStateException("Please select an atom present on the board.");
+                    }
                     else
+                    {
                         userAtoms[i] = null;
+                    }
                     Message.printLine("Atom removed successfully!");
                 }
                 catch (Exception ex)
@@ -137,10 +164,10 @@ public class BlackboxPlus
             }
         }
         turnsPlayed++;
-        // print board with real atom positions (no ray markers)
+        //output real atom positions
         Message.printLine("Displaying board with real atom positions ...");
         Message.printBoard(Board.appendRayMarkers(rays, Board.getAtomizedBoard(atoms)));
-        // score calculation
+        //calculate score
         players[currentPlayer].setRoundScore(calculateScore(rays, atoms, userAtoms));
         // switch to next player
         currentPlayer = (currentPlayer + 1) % players.length;
@@ -150,6 +177,7 @@ public class BlackboxPlus
     {
         int missedAtomsScore = 0;
         int rayMarkersScore = 0;
+
         for (Atom a : userAtoms)
         {
             if (a == null)
@@ -166,12 +194,13 @@ public class BlackboxPlus
             rayMarkersScore += ray.getNumberOfMarkers();
         }
         Message.printScoreBreakdown(missedAtomsScore, rayMarkersScore);
+
         return missedAtomsScore + rayMarkersScore;
     }
 
-    public static ArrayList<Player> calculateFinalScore(Player players[])
+    public static ArrayList<Player> calculateFinalScore(Player[] players)
     {
-        ArrayList<Player> winnerList = new ArrayList<Player>();
+        ArrayList<Player> winnerList = new ArrayList<>();
         int winningScore = 0;
 
         for (Player player : players)
@@ -201,9 +230,9 @@ public class BlackboxPlus
         return min;
     }
 
-    public static ArrayList<Player> calculateRoundWinner(Player players[])
+    public static ArrayList<Player> calculateRoundWinner(Player[] players)
     {
-        ArrayList<Player> winnerList = new ArrayList<Player>();
+        ArrayList<Player> winnerList = new ArrayList<>();
 
         int min = getLowestScore(players);
 
