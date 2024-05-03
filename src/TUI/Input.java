@@ -2,10 +2,8 @@ package TUI;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import objects.Atom;
-import objects.Box;
-import objects.Player;
-import objects.Ray;
+import objects.*;
+
 
 public class Input
 {
@@ -97,19 +95,10 @@ public class Input
     {
         int[] userInput = {0, 0};
         Atom atom = null;
-<<<<<<< HEAD
 
-        while ((atom == null && userInput[0] != -1))
-        {
-            try
-            {
-                Message.printLine("Please enter two side numbers to edit an atom where they intersect " +
-                        "(‘-1‘ to quit menu) : ");
-=======
         while((atom == null && userInput[0] != -1)){
             try {
-                Message.printLine("Please enter two side numbers to edit an atom where their arrows intersect(‘-1‘ to quit menu) : ");
->>>>>>> d17ce0a5255d76caa353e02c036fe92151ae9913
+                Message.printLine("Please enter two side numbers to edit an atom where their arrows intersect (‘-1‘ to quit menu) : ");
                 Message.print("Enter side number 1 : ");
                 userInput[0] = getInt();
                 if (userInput[0] != -1)

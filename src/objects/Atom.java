@@ -74,7 +74,7 @@ public class Atom
      * This method checks if an Atoms array contains an Atom at the specified Coordinate
      * @param atoms - array of Atoms
      * @param location - Coordinate to check
-     * @return true  - if at least one Atom with the passed location is contained in the atoms array
+     * @return true  - if at least one Atom with the passed location is contained in the atoms array;
      *         false - if no Atom with the passed location is contained in the atoms array
      */
     public static boolean containsAtom(Atom[] atoms, Coordinate location)

@@ -5,7 +5,7 @@ import math.*;
 
 /**
  *  Class Ray :
- *  Represents a Ray sent through a generated Box
+ *  Represents a Ray sent through a generated Box,
  *  Includes utilities for implementing the Ray movement logic
  */
 public class Ray
