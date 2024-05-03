@@ -8,19 +8,18 @@ import java.util.ArrayList;
  *  Represents a Ray sent through a generated Box
  *  Includes utilities for implementing the Ray movement logic
  */
-public class Ray
-{
-    ArrayList<Coordinate> travelledLocations = new ArrayList<>();
+public class Ray {
     Coordinate currentPosition;
     Coordinate startingPosition;
     int movementDirection;
     int entry;
     int exit; //-1 if ray is absorbed
+    ArrayList<Coordinate> travelledLocations = new ArrayList<>();
 
     /**
-     *
-     * @param entry - entry side number (for toString)
-     * @param box - box ray is entering
+     * Constructs a Ray, calculating its Exit from its Entry
+     * @param entry - entry side number
+     * @param box - Box ray is entering
      */
     public Ray(int entry, Box box){
         if(entry < 1 || entry > 54){ //validation check
@@ -28,14 +27,6 @@ public class Ray
         } else this.entry = entry;
         calculateEntryPosition(box);
         calculateExitPosition(box);
-    }
-    
-    /**
-     * @param exit - exit side number
-     */
-    public void setExit(int exit) {
-        if(exit < 1 || exit > 54) throw new IllegalArgumentException("illegal ray exit");
-        else this.exit = exit;
     }
 
     public int getEntry(){
@@ -55,7 +46,12 @@ public class Ray
         return travelledLocations;
     }
 
-    /** Method sets movementDirection and currentPosition
+    public void setExit(int exit) {
+        if(exit < 1 || exit > 54) throw new IllegalArgumentException("illegal ray exit");
+        else this.exit = exit;
+    }
+
+    /** Helper method to set movementDirection, currentPosition and startingPositions
      * @param box - box ray is entering
      */
     private void calculateEntryPosition(Box box){
@@ -74,7 +70,13 @@ public class Ray
         }
     }
 
-
+    /**
+     * Helper method to check if Atom is contained in a Hexagon represented by a Coordinate shifted by Vector
+     * @param box - Box a Ray is moving through
+     * @param position - Coordinate to shift
+     * @param vector - Vector to shift by
+     * @return
+     */
     private boolean checkAtom(Box box, Coordinate position, Vector vector){
         try{
             Hexagon hex = box.getHexagonByCoordinate(position.move(vector));
@@ -87,15 +89,13 @@ public class Ray
     }
 
     /**
-     * calculate exit math.Coordinate (use to set exit)
+     * Helper method to calculate exit Coordinate (used to set exit)
      */
     private void calculateExitPosition(Box box){
-
         Hexagon currentHexagon = box.getHexagonByCoordinate(currentPosition);
-
-        if(startingPosition == currentPosition) {
+        if(startingPosition == currentPosition){
             /*check if starting position contains an atom (edge case : absorbed)*/
-            if (currentHexagon.checkHasAtom()) {
+            if (currentHexagon.checkHasAtom()){
                 // absorbed
                 exit = -1;
                 return;
@@ -174,15 +174,15 @@ public class Ray
         } while(!((currentHexagon instanceof SideHexagon) && (((SideHexagon) currentHexagon).sidesContainDirection(Math.floorMod(movementDirection+3, 6)))));
         /*check if current hexagon is instance of side hexagon with exit side opposite to movement direction
          (set exit to side with direction opposite to current position) (default condition)*/
-        travelledLocations.add(currentPosition); //add last position before exit to array list
+
+        //add last position before exit to array list
+        travelledLocations.add(currentPosition);
         setExit(((SideHexagon) currentHexagon).getSideWithDirection(Math.floorMod(movementDirection+3,6)));
     }
 
-
-
     @Override
     public String toString() {
-        return "objects.Ray{" +
+        return "Ray{" +
                 "entry=" + entry +
                 ", exit=" + exit +
                 '}';
