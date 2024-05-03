@@ -46,7 +46,7 @@ public class Sprint3Tests {
         assertTrue(outContent.toString().toLowerCase().contains("reflected"));
     }
     @Test
-    public void PlaceAtoms()
+    public void TestUserPlacedAtoms()
     {
         Box emptyBox = new Box(new Atom[] {null});
         Atom[] atoms = new Atom[]{Util.getAtom(6,1), Util.getAtom(51,46), Util.getAtom(37,42), Util.getAtom(10,30), Util.getAtom(26,25), Util.getAtom(19,7)};
@@ -61,7 +61,7 @@ public class Sprint3Tests {
        //box1.getHexagonByCoordinate(math.Coordinate());
     }
     @Test
-    public void RayMarkerTest()
+    public void RayMarkerTUITest()
     {
         char[] pairMarkers = new char[]{'#', '≡', '!', '$', '■', '¤', '«', '§', '¡', '¿', '¥', '×', 'ƒ', '¶'};
 

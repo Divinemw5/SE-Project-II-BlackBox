@@ -4,9 +4,9 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        //TestUserNameInput.class,
-        //TestRandomAtomGeneration.class,
-        //TestFeature3.class,
+        TestUserNameInput.class,
+        TestRandomAtomGeneration.class,
+        TestHexagonAtomPlacement.class,
         //TestFeature4.class
 })
 

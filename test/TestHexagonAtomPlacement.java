@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class TestFeature3 {
+public class TestHexagonAtomPlacement {
     @Test
     public void testPlaceHexagonInBox()
     {
