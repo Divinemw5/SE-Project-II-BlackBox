@@ -39,6 +39,7 @@ public class Atom {
      * @return an array of N randomly generated atoms
      */
     public static Atom[] generateAtoms(int N){
+
         Atom[] atoms = new Atom[N];
         int i = 0;
         while(i < N){

@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 /*see image 3 in BlackBoxPlus-Rules.pdf for board set-up*/
 
-public class TestRayTravelSprint2 {
+public class TestRayTravel {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
