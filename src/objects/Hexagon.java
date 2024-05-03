@@ -3,8 +3,8 @@ package objects;
 import math.Coordinate;
 
 /**
- *  (Class Description)
- *
+ *  Class Hexagon :
+ *  Represents Hexagon in Box, contains game logic for a single Hexagon
  */
 public class Hexagon {
     private final boolean hasAtom;
@@ -34,10 +34,8 @@ public class Hexagon {
                 '}';
     }
 
-    public int getBarrierValue() {return barrierValue;}
     public boolean checkHasAtom() {return hasAtom;}
+    public int getBarrierValue() {return barrierValue;}
 
-    public Coordinate getLocation() {
-        return location;
-    }
+    public Coordinate getLocation() {return location;}
 }

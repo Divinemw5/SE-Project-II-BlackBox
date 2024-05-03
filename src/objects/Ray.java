@@ -1,53 +1,21 @@
 package objects;
 
 import math.*;
-
 import java.util.ArrayList;
 
 /**
- * The Ray Class includes the utilities for implementing the Ray Logic
+ *  Class Ray :
+ *  Represents a Ray sent through a generated Box
+ *  Includes utilities for implementing the Ray movement logic
  */
-public class Ray {
-
+public class Ray
+{
     ArrayList<Coordinate> travelledLocations = new ArrayList<>();
     Coordinate currentPosition;
     Coordinate startingPosition;
     int movementDirection;
     int entry;
     int exit; //-1 if ray is absorbed
-
-    /**
-     *
-     * @param exit - exit side number
-     */
-    public void setExit(int exit) {
-        if(exit < 1 || exit > 54){ //validation check
-            throw new IllegalArgumentException("illegal ray exit");
-        } else this.exit = exit;
-    }
-
-    public Coordinate getPosition() {
-        return currentPosition;
-    }
-    public int getEntry(){
-        return this.entry;
-    }
-    public int getExit(){
-        return this.exit;
-    }
-
-    public int getNumberOfMarkers(){
-        if(getEntry() == getExit() || getExit() == -1){
-            return 1;
-        }
-        else{
-            return 2;
-        }
-    }
-
-    public ArrayList<Coordinate> getTravelledLocations(){
-        return travelledLocations;
-    }
 
     /**
      *
@@ -60,6 +28,31 @@ public class Ray {
         } else this.entry = entry;
         calculateEntryPosition(box);
         calculateExitPosition(box);
+    }
+    
+    /**
+     * @param exit - exit side number
+     */
+    public void setExit(int exit) {
+        if(exit < 1 || exit > 54) throw new IllegalArgumentException("illegal ray exit");
+        else this.exit = exit;
+    }
+
+    public int getEntry(){
+        return this.entry;
+    }
+
+    public int getExit(){
+        return this.exit;
+    }
+
+    public int getNumberOfMarkers(){
+        if(getEntry() == getExit() || getExit() == -1) return 1;
+        else return 2;
+    }
+
+    public ArrayList<Coordinate> getTravelledLocations(){
+        return travelledLocations;
     }
 
     /** Method sets movementDirection and currentPosition
