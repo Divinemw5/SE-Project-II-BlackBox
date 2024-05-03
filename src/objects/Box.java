@@ -1,18 +1,22 @@
-
 package objects;
 
 import java.util.Arrays;
 import math.*;
 /**
- *  The Box class contains the utilities  needed to construct the logical board
- *
+ *  Class Box :
+ *  Represents the foundational game logic for the game board + and ontains additional utilities necessary for
+ *  interacting with the board
  */
 
 public class Box {
     private final Hexagon[] box;
-    public static int BOX_MAX_SIZE = 61;
+    public static int BOX_SIZE = 61;
 
-    //static array to store hexagon movement directions (6 directions, each with 3 elements (x, y, z increment)), index with int constants
+    /**
+     * Vector[] directions :
+     * Static array to store hexagon movement directions present in the hexagonal board,
+     * Index with int constants below.
+     */
     public static Vector[] directions = {
             new Vector(1,-1,0), //MOVE DIRECTLY RIGHT (0)
             new Vector(0,-1,1), //MOVE DIAGONAL (DOWN, RIGHT) (1)
@@ -34,52 +38,61 @@ public class Box {
      */
     public Box(Atom[] atoms){
         if(atoms == null) throw new IllegalArgumentException("passed parameter cannot be null");
-        int hexagon = 0;       //index box array
-        box = new Hexagon[61]; //set box size (61 total hexagons)
+        int index = 0;
+        box = new Hexagon[BOX_SIZE];
         for(int z = 0; z < 9; z++){ //fill box with hexagons (start from upper left and go right)
             for(int x = 0; x < 9; x++){
                 for(int y = 0; y < 9; y++){
+                    //valid hexagons
                     if(x+y+z == 12){
-                        //check if side hexagon, if yes generate new side hexagon (atom, barrier value, location)
-                        Coordinate location = new Coordinate(x, y, z); //init variables
-                        int barrierNumber = 0;
+                        //set variables
+                        Coordinate location = new Coordinate(x, y, z);
                         boolean hasAtom = Atom.containsAtom(atoms, location);
-                        for(int w = 0; w < 6; w++){ //check barrier number (check if atoms contains surrounding hexagon coordinates)
+                        //set barrier number (+1 for each atom contained in adjacent hexagons)
+                        int barrierNumber = 0;
+                        for(int w = 0; w < 6; w++){
+                            //ignore exceptions thrown by illegal movement
                             try{
                                 Coordinate next = location.move(directions[w]);
                                 if(Atom.containsAtom(atoms, next)){
                                     barrierNumber++;
                                 }
-                            } catch (IllegalArgumentException ignored){} //if movement out of bounds do nothing
+                            } catch (IllegalArgumentException ignored){}
                         }
-                        box[hexagon] = (x%8 == 0 || y%8 == 0 || z%8 == 0 ) ? new SideHexagon(hasAtom, barrierNumber, location) : new Hexagon(hasAtom, barrierNumber, location);
-                        hexagon++; //next hexagon in box
+                        //use special class for SideHexagons in order to initializeSides()
+                        box[index] = (x%8 == 0 || y%8 == 0 || z%8 == 0 ) ?
+                                  new SideHexagon(hasAtom, barrierNumber, location)
+                                : new Hexagon(hasAtom, barrierNumber, location);
+                        index++; //next hexagon in box
                     }
                 }
             }
         }
+        //set special variables for SideHexagons
         initializeSides();
     }
 
     /**
-     * Method initializes sides array for all SideHexagons (entry, direction, stored as (entry number, direction_index)
+     * Method initializes sides array for all SideHexagons with (2 or 3) tuples (entrySideNumber, directionIndex)
      */
     private void initializeSides(){
-        int sideNumber = 0; //side passed by user (surrounds edge of box)
-        int movementDirection = MOVE_DIAGONAL_DOWN_LEFT; //starting movement direction (circle around board)
-        int sideDirection = MOVE_DIAGONAL_DOWN_RIGHT; //starting side entry direction
-        Coordinate currentLocation = box[0].getLocation(); //starting location
-        int[][] sides; //temp array declaration (used to fill sides)
-
+        int sideNumber = 0;
+        Coordinate currentLocation = box[0].getLocation();//start at upper-left-most hexagon
+        int movementDirection = MOVE_DIAGONAL_DOWN_LEFT; //start moving to the lower left (used to circle around board)
+        int sideDirection = MOVE_DIAGONAL_DOWN_RIGHT;   //initial entry directionIndex (used for sides array)
+        int[][] sides;
+        //initialize sides[] for all 24 SideHexagons
         for(int i = 0; i < 24; i++){
-            //check corner hexagons
+            //Set Corner Hexagons (3 tuples)
             if(i % 4 == 0 && getHexagonByCoordinate(currentLocation) instanceof SideHexagon){
-                //if it‘s the first hexagon (exception)
+                //if it‘s the first hexagon set manually (exception)
                 if (i == 0){
-                    sides = new int[][]{{54, MOVE_DIAGONAL_DOWN_LEFT},{1, MOVE_DIAGONAL_DOWN_RIGHT},{2, MOVE_DIRECTLY_RIGHT}};
+                    sides = new int[][]{{54, MOVE_DIAGONAL_DOWN_LEFT},
+                                        {1,  MOVE_DIAGONAL_DOWN_RIGHT},
+                                        {2,  MOVE_DIRECTLY_RIGHT}};
                     ((SideHexagon) getHexagonByCoordinate(currentLocation)).setSides(sides);
                 }
-                //else not first hexagon
+                //else set automatically
                 else{
                     sides = new int[][]{{sideNumber    , Math.floorMod(sideDirection,6)},
                                         {sideNumber + 1, Math.floorMod(sideDirection-1,6)},
@@ -88,24 +101,25 @@ public class Box {
                 }
                 sideNumber +=3; //increment current side index by 3 (3 sides depleted)
             }
-            //else check side hexagons
+            //Set Side Hexagons (2 tuples)
             else if(getHexagonByCoordinate(currentLocation) instanceof SideHexagon){
                 sides = new int[][]{{sideNumber    , Math.floorMod(sideDirection,6)},
                                     {sideNumber + 1, Math.floorMod(sideDirection-1, 6)}};
                 ((SideHexagon) getHexagonByCoordinate(currentLocation)).setSides(sides);
                 sideNumber+= 2; //increment current side index by 2 (2 sides depleted)
             }
+            //After every corner except the first, change movementDirection and initial entry sideDirection
             if(i % 4 == 0 && i!=0){
                 movementDirection--;
                 sideDirection--;
             }
-            //next position
+            //Next position (circle around edge)
             currentLocation = currentLocation.move(directions[Math.floorMod(movementDirection, 6)]);
         }
     }
 
     /**
-     *
+     * Method gets index of Hexagon referenced by Coordinate in box[] and takes :
      * @param location - location of hexagon to get index of
      * @return index of hexagon referenced by location
      */
@@ -120,7 +134,7 @@ public class Box {
     }
 
     /**
-     *
+     * Method gets Hexagon referenced by index to box[]
      * @param index - index of hexagon to grab
      * @return - hexagon indexed by parameter
      */

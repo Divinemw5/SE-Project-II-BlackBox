@@ -66,7 +66,7 @@ public class Ray {
      * @param box - box ray is entering
      */
     private void calculateEntryPosition(Box box){
-        for(int i = 0; i < Box.BOX_MAX_SIZE; i++){
+        for(int i = 0; i < Box.BOX_SIZE; i++){
             if(box.getHexagon(i) instanceof SideHexagon){
                 int[][] sides = ((SideHexagon) box.getHexagon(i)).getSides();
                 for (int[] side : sides) {

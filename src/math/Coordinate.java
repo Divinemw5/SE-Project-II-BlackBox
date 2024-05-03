@@ -1,15 +1,17 @@
 package math;
 
 /**
+ * Record Coordinate :
  * Allowed to store any (x,y,z) tuple present in board (see constructor)
  */
+
 public record Coordinate(int x, int y, int z) {
 
     /**
      * @param x - x coordinate (between 0 and 8)
      * @param y - y coordinate (between 0 and 8)
      * @param z - z coordinate (between 0 and 8)
-     * @throws IllegalArgumentException if x+y+z != 12
+     * @throws IllegalArgumentException if (x+y+z != 12) or if (x, y, z is not between 0 and 8)
      */
     public Coordinate {
         if ((x + y + z != 12) || (x > 8 || x < 0) || (y > 8 || y < 0) || (z > 8 || z < 0)) {
@@ -18,7 +20,7 @@ public record Coordinate(int x, int y, int z) {
     }
 
     /**
-     * Function shifts stored coordinate by a vector (does not alter current coordinate) and takes :
+     * Shifts stored coordinate by a vector (does not alter current coordinate) and takes :
      *
      * @param vector - movement vector
      * @return coordinate shifted by vector
@@ -28,7 +30,7 @@ public record Coordinate(int x, int y, int z) {
     }
 
     /**
-     * Function shifts stored coordinate by a vector (does not alter current coordinate) and takes :
+     * Shifts stored coordinate by a vector * scalar n (does not alter current coordinate) and takes :
      *
      * @param vector - movement vector
      * @param n      - number of times to move by vector

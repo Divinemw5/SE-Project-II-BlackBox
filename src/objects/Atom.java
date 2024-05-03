@@ -1,12 +1,12 @@
 package objects;
 
 import math.*;
-
 import java.util.Arrays;
 import java.util.Random;
 
 /**
- *  Class to store Objects of type Atom
+ *  Class Atom :
+ *  Stores a Coordinate representing an Atom object + helper methods for dealing with Atoms
  */
 public class Atom {
 
@@ -14,20 +14,24 @@ public class Atom {
     private static final Random rand = new Random();
 
     /**
-     * This constructor generates a new atom and takes a tuple (x,y,z) where:
+     * This constructor generates a new atom and takes a tuple (x,y,z) where :
      * @param x - is the x coordinate
      * @param y - is the y coordinate
      * @param z - is the z coordinate
      * @throws IllegalArgumentException if location is not present in box
      */
     public Atom(int x, int y, int z){location = new Coordinate(x,y,z);}
+
+    /**
+     * New constructor added after adaptation of the Coordinate class :
+     * @param location - Coordinate (x,y,z)
+     */
     public Atom(Coordinate location){ this.location = location;}
 
     //getters
     public Coordinate getLocation() {
         return location;
     }
-
 
     /**
      * This method randomly generates an array of atoms, it takes :
@@ -54,10 +58,11 @@ public class Atom {
     }
 
     /**
-     * @param atoms - array of atoms
-     * @param location - location to check
-     * @return true  - if atom with given location is contained in atoms array
-     *         false - if atom is not contained in array
+     * This method checks if an Atoms array contains an Atom at the specified Coordinate, it takes :
+     * @param atoms - array of Atoms
+     * @param location - Coordinate to check
+     * @return true  - if at least one Atom with the passed location is contained in the atoms array
+     *         false - if no Atom with the passed location is contained in the atoms array
      */
     public static boolean containsAtom(Atom[] atoms, Coordinate location){
         if(atoms == null || location == null) throw new IllegalArgumentException("passed parameters cannot be null");
@@ -69,17 +74,10 @@ public class Atom {
         return false;
     }
 
-
     @Override
     public String toString() {
         return "Atom(" + "x:" + (location.x()-4) + ", y:" + (location.y()-4) + ", z:" + (location.z()-4) + ')';
     }
-
-    public static void main(String[] args) {
-        Atom[] arr = generateAtoms(6); //TESTING
-        System.out.println(Arrays.deepToString(arr)); //TESTING
-    }
-
 
     @Override
     public boolean equals(Object o) {
