@@ -1,21 +1,24 @@
 package TUI;
 
+import java.util.ArrayList;
 import math.*;
 import objects.*;
-import java.util.ArrayList;
 
-public class Board {
+public class Board
+{
+    public static final char rayMarkerAbsorbed = 'A';  // set as black later ...
+    public static final char rayMarkerReflected = 'R'; // set as white later ...
+    public static final char[] pairMarkers =
+        new char[] {'#', '≡', '!', '$', '■', '¤', '«', '§', '¡', '¿', '¥', '×', 'ƒ', '¶'};
 
-    public static final char rayMarkerAbsorbed = 'A';   //set as black later ...
-    public static final char rayMarkerReflected = 'R';  //set as white later ...
-    public static final char[] pairMarkers = new char[]{'#','≡','!','$','■','¤','«','§','¡','¿','¥','×','ƒ','¶'};
-
-    /** Duplicates a string x times
+    /**
+     * Duplicates a string x times
      * @param str - String to be duplicated
      * @param x   - Number of times to duplicate
      * @return newly created String
      */
-    private static String duplicate(String str, int x) {
+    private static String duplicate(String str, int x)
+    {
         return String.valueOf(str).repeat(Math.max(0, x));
     }
 
@@ -24,63 +27,72 @@ public class Board {
      * @param x - desired indent size
      * @return a String of size 2x containing " " characters.
      */
-    private static String getIndent(int x){
+    private static String getIndent(int x)
+    {
         return "  ".repeat(Math.max(0, x));
     }
 
     /**
      * @return a basic empty board as an ArrayList of type:String
      */
-    public static ArrayList<String> getEmptyBoard(){
+    public static ArrayList<String> getEmptyBoard()
+    {
         ArrayList<String> empty_board = new ArrayList<>(); // Used for the String Representation of the Board
 
-        String one = "    ░█  "; //first line
-        String two = "  ░█  ░█"; //single spacing
-        String three="░█      "; //triple spacing
+        String one = "    ░█  ";   // first line
+        String two = "  ░█  ░█";   // single spacing
+        String three = "░█      "; // triple spacing
 
-        StringBuilder onea = new StringBuilder(duplicate(one,5));
-        StringBuilder twoa = new StringBuilder(duplicate(two,5));
-        StringBuilder threea = new StringBuilder(duplicate(three,5));
+        StringBuilder onea = new StringBuilder(duplicate(one, 5));
+        StringBuilder twoa = new StringBuilder(duplicate(two, 5));
+        StringBuilder threea = new StringBuilder(duplicate(three, 5));
 
         int indentSize = 8; // Starting Indent
         int appendLength = 0;
 
-        for(int i = 0; i<10; i++) {
-            //update indent (decrement for i < 5, increment for i > 5), update appendLength(opposite inc/dec)
-            //top half of board
-            if (i < 5) {
-                //store in arraylist (with indent)
+        for (int i = 0; i < 10; i++)
+        {
+            // update indent (decrement for i < 5, increment for i > 5), update appendLength(opposite inc/dec)
+            // top half of board
+            if (i < 5)
+            {
+                // store in arraylist (with indent)
                 empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
                 empty_board.add(getIndent(indentSize) + twoa + duplicate(two, appendLength));
-                empty_board.add(getIndent(indentSize) + threea + duplicate(three, appendLength+1));
-                empty_board.add(getIndent(indentSize) + threea + duplicate(three, appendLength+1));
-                //update counter
+                empty_board.add(getIndent(indentSize) + threea + duplicate(three, appendLength + 1));
+                empty_board.add(getIndent(indentSize) + threea + duplicate(three, appendLength + 1));
+                // update counter
                 indentSize -= 2;
                 appendLength++;
             }
-            //bottom half
-            else {
-                if(i == 5){
+            // bottom half
+            else
+            {
+                if (i == 5)
+                {
                     appendLength--;
                 }
-                empty_board.add(getIndent(indentSize) + threea + duplicate(three, appendLength+1));
+                empty_board.add(getIndent(indentSize) + threea + duplicate(three, appendLength + 1));
                 empty_board.add(getIndent(indentSize) + twoa + duplicate(two, appendLength));
-                if(i != 9) {
+                if (i != 9)
+                {
                     empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
                 }
                 empty_board.add(getIndent(indentSize) + onea + duplicate(one, appendLength));
-                //update counter
-                if(i == 5){
-                    indentSize +=2;
+                // update counter
+                if (i == 5)
+                {
+                    indentSize += 2;
                 }
                 indentSize += 2;
                 appendLength--;
             }
         }
-        for(String str : empty_board){
+        for (String str : empty_board)
+        {
             int index = empty_board.indexOf(str);
-            str += getIndent(5); //indent after string to avoid going out of bounds
-            empty_board.set(index, getIndent(20)+ str); //board indent
+            str += getIndent(5);                         // indent after string to avoid going out of bounds
+            empty_board.set(index, getIndent(20) + str); // board indent
         }
         appendSideNumbers(empty_board);
         empty_board.replaceAll(String::stripTrailing);
@@ -90,116 +102,138 @@ public class Board {
     /**
      * Helper function to append side numbers for the empty board
      */
-    public static void appendSideNumbers(ArrayList<String> board){
+    public static void appendSideNumbers(ArrayList<String> board)
+    {
         int countUp = 1;
         int countDown = 46;
         String appendFirst;
         String appendLast;
 
-        //top half of board
-        for(int i = 0; i < board.size()/2; i++){
+        // top half of board
+        for (int i = 0; i < board.size() / 2; i++)
+        {
 
-            if(i%4 != 0){
+            if (i % 4 != 0)
+            {
                 appendFirst = " ";
                 appendLast = " ";
-
             }
-            else {
-                appendFirst = ""+countUp++;
-                appendLast = ""+countDown--;
+            else
+            {
+                appendFirst = "" + countUp++;
+                appendLast = "" + countDown--;
             }
             String line = board.get(i);
             int first_index = line.indexOf("░█");
             int last_index = line.lastIndexOf("░█");
 
-            if((i+2)%4 == 0 && i != (board.size()/2)-1){ //add + remove append adjust
-                appendFirst = ""+countUp;
-                appendLast = ""+countDown;
-                line = line.substring(0, first_index-2) + appendFirst + "→" + line.substring(first_index);
-                line = line.substring(0, last_index+2) + "←"+ appendLast +line.substring(last_index+4);
-                //adjust counters
+            if ((i + 2) % 4 == 0 && i != (board.size() / 2) - 1)
+            { // add + remove append adjust
+                appendFirst = "" + countUp;
+                appendLast = "" + countDown;
+                line = line.substring(0, first_index - 2) + appendFirst + "→" + line.substring(first_index);
+                line = line.substring(0, last_index + 2) + "←" + appendLast + line.substring(last_index + 4);
+                // adjust counters
                 countUp++;
                 countDown--;
             }
-            else{
-                //diagonals
+            else
+            {
+                // diagonals
                 String downRightArrow = (!appendFirst.equals(" ")) ? "↘" : " ";
                 String downLeftArrow = (!appendLast.equals(" ")) ? "↙" : " ";
 
-                line = line.substring(0, first_index - 4) + appendFirst + downRightArrow +"  " + line.substring(first_index);
+                line = line.substring(0, first_index - 4) + appendFirst + downRightArrow + "  " +
+                       line.substring(first_index);
                 line = line.substring(0, last_index + 4) + downLeftArrow + appendLast + line.substring(last_index + 3);
             }
-
-            board.set(i, "  " +line);
+            board.set(i, "  " + line);
         }
-
-        //middle + bottom half
-        for(int i = board.size()/2; i < board.size(); i++){
-            if((i+6)%4 != 0){
+        // middle + bottom half
+        for (int i = board.size() / 2; i < board.size(); i++)
+        {
+            if ((i + 6) % 4 != 0)
+            {
                 appendFirst = "  ";
                 appendLast = "  ";
             }
-            else {
-                appendFirst = ""+countUp++;
-                appendLast = ""+countDown--;
+            else
+            {
+                appendFirst = "" + countUp++;
+                appendLast = "" + countDown--;
             }
             String line = board.get(i);
             int first_index = line.indexOf("░█");
             int last_index = line.lastIndexOf("░█");
 
-            if(i == (board.size()/2)){ //append sides to middle of board
-                appendFirst = ""+countUp;
-                appendLast = ""+countDown;
-                line = line.substring(0, first_index-2) + " " + appendFirst + "→" + line.substring(first_index);
-                line = line.substring(0, last_index+4)  +  "←" + appendLast + line.substring(last_index+4);
-                //adjust counters
+            // append sides to middle of board
+            if (i == (board.size() / 2))
+            {
+                appendFirst = "" + countUp;
+                appendLast = "" + countDown;
+                line = line.substring(0, first_index - 2) + " " + appendFirst + "→" + line.substring(first_index);
+                line = line.substring(0, last_index + 4) + "←" + appendLast + line.substring(last_index + 4);
+                // adjust counters
                 countUp++;
                 countDown--;
             }
-            else if((i)%4 == 0 && i != board.size()-1 && i != (board.size()/2)+1){ //add + remove append adjust (horizontal)
-                appendFirst = ""+countUp;
-                appendLast = ""+countDown;
-                line = line.substring(0, first_index-1) + appendFirst + "→" + line.substring(first_index);
-                line = line.substring(0, last_index+4) + "←" + appendLast + line.substring(last_index+4);
-                //adjust counters
+            // add + remove append adjust (horizontal)
+            else if ((i) % 4 == 0 && i != board.size() - 1 && i != (board.size() / 2) + 1)
+            {
+                appendFirst = "" + countUp;
+                appendLast = "" + countDown;
+                line = line.substring(0, first_index - 1) + appendFirst + "→" + line.substring(first_index);
+                line = line.substring(0, last_index + 4) + "←" + appendLast + line.substring(last_index + 4);
+                // adjust counters
                 countUp++;
                 countDown--;
             }
-            else{ //append to diagonals + remaining
+            // append to diagonals + remaining
+            else
+            {
                 String upRightArrow = (!appendFirst.equals("  ")) ? "↗" : " ";
-                String upLeftArrow =  (!appendLast.equals("  ")) ? "↖" : " ";
-                line = line.substring(0, first_index - 3) + appendFirst + upRightArrow +"  " + line.substring(first_index);
-                line = line.substring(0, last_index+4)  + "  " + upLeftArrow + appendLast + line.substring(last_index+4);
+                String upLeftArrow = (!appendLast.equals("  ")) ? "↖" : " ";
+                line = line.substring(0, first_index - 3) + appendFirst + upRightArrow + "  " +
+                       line.substring(first_index);
+                line = line.substring(0, last_index + 4) + "  " + upLeftArrow + appendLast +
+                       line.substring(last_index + 4);
             }
             board.set(i, line);
         }
-        //append line numbers to top and bottom lines
+        // append line numbers to top and bottom lines
         String topLine = board.get(0);
-        String bottomLine = board.get(board.size()-1);
-        String topNumberLine =getIndent(board.get(0).length()/2);
-        String bottomNumberLine =getIndent(board.get(0).length()/2);
+        String bottomLine = board.get(board.size() - 1);
+        String topNumberLine = getIndent(board.get(0).length() / 2);
+        String bottomNumberLine = getIndent(board.get(0).length() / 2);
 
-        board.add(0, getIndent(board.get(0).length()/2));
-        board.add(getIndent(board.get(board.size()-1).length()/2));
+        board.add(0, getIndent(board.get(0).length() / 2));
+        board.add(getIndent(board.get(board.size() - 1).length() / 2));
 
         countUp = 20;
         countDown = 54;
 
-        int first_index = topLine.indexOf("░█"); //both lines are symmetrical (ignoring side numbers)
+        int first_index = topLine.indexOf("░█"); // both lines are symmetrical (ignoring side numbers)
         int currIndex = first_index + 3;
-        for(int i = 0; i <4; i++){
-            topNumberLine = topNumberLine.substring(0,currIndex-1) + countDown + "  " + (countDown-1) +topNumberLine.substring(currIndex+5);
-            bottomNumberLine = bottomNumberLine.substring(0,currIndex-1) + countUp + "  " + (countUp+1) + bottomNumberLine.substring(currIndex+5);
-            topLine = topLine.substring(0,currIndex-1) + " ↙" + "  " + "↘ " +topLine.substring(currIndex+5);
-            bottomLine = bottomLine.substring(0,currIndex-1) + " ↖" + "  " + "↗ " + bottomLine.substring(currIndex+5);
-            countDown-=2;
-            countUp+=2;
+        for (int i = 0; i < 4; i++)
+        {
+            topNumberLine = topNumberLine.substring(0, currIndex - 1) + countDown + "  " + (countDown - 1) +
+                            topNumberLine.substring(currIndex + 5);
+            bottomNumberLine = bottomNumberLine.substring(0, currIndex - 1) + countUp + "  " + (countUp + 1) +
+                               bottomNumberLine.substring(currIndex + 5);
+            topLine = topLine.substring(0, currIndex - 1) + " ↙"
+                      + "  "
+                      + "↘ " + topLine.substring(currIndex + 5);
+            bottomLine = bottomLine.substring(0, currIndex - 1) + " ↖"
+                         + "  "
+                         + "↗ " + bottomLine.substring(currIndex + 5);
+            countDown -= 2;
+            countUp += 2;
             currIndex += 8;
         }
         board.set(0, topNumberLine);
         board.set(1, topLine);
-        board.set(board.size()-1, bottomNumberLine);
-        board.set(board.size()-2, bottomLine);
+        board.set(board.size() - 1, bottomNumberLine);
+        board.set(board.size() - 2, bottomLine);
     }
 
     /**
@@ -208,13 +242,16 @@ public class Board {
      * @param board - textual board (must have side numbers appended)
      * @return index of line containing side number if found, and -1 if not found
      */
-    public static int findLineContaining(int side, ArrayList<String> board){
+    public static int findLineContaining(int side, ArrayList<String> board)
+    {
         int i = 0;
-        for(String s : board){
+        for (String s : board)
+        {
             s += " ";
-            if(s.contains(" "+side+"↘") || s.contains("↙"+side+" ") || s.contains(" "+side+"→")
-                    || s.contains("←"+side+" ") || s.contains("↖"+side+" ") || s.contains(" "+side+"↗")
-            || s.contains(" "+side+" ")) return i;
+            if (s.contains(" " + side + "↘") || s.contains("↙" + side + " ") || s.contains(" " + side + "→") ||
+                s.contains("←" + side + " ") || s.contains("↖" + side + " ") || s.contains(" " + side + "↗") ||
+                s.contains(" " + side + " "))
+                return i;
             i++;
         }
         return -1;
@@ -229,29 +266,37 @@ public class Board {
      * @param rays array list of rays
      * @return board with ray markers appended
      */
-    public static ArrayList<String> appendRayMarkers(ArrayList<Ray> rays, ArrayList<String> board){
+    public static ArrayList<String> appendRayMarkers(ArrayList<Ray> rays, ArrayList<String> board)
+    {
         char rayMarker;
         int index;
         int rayPos;
         int currentPair = 0;
 
-        for(Ray ray : rays){
-            if(ray.getExit() == -1){
+        for (Ray ray : rays)
+        {
+            if (ray.getExit() == -1)
+            {
                 rayMarker = rayMarkerAbsorbed;
-            } else if(ray.getExit() == ray.getEntry()) {
-                rayMarker = rayMarkerReflected;
-            } else {
-                //choose character to replace with coloured marker when colouring board
-                rayMarker = pairMarkers[currentPair];
-                currentPair = Math.floorMod(currentPair+1, pairMarkers.length);
             }
+            else if (ray.getExit() == ray.getEntry())
+            {
+                rayMarker = rayMarkerReflected;
+            }
+            else
+            {
+                rayMarker = pairMarkers[currentPair];
+                currentPair = Math.floorMod(currentPair + 1, pairMarkers.length);
+            }
+
             index = findLineContaining(ray.getEntry(), board);
-            rayPos = board.get(index).indexOf(ray.getEntry()+"");
+            rayPos = board.get(index).indexOf(ray.getEntry() + "");
             placeMarker(board, index, rayPos, ray.getEntry(), rayMarker);
-            //if paired ray markers
-            if(!(ray.getExit() == -1 || ray.getExit() == ray.getEntry())){
-                index =  findLineContaining(ray.getExit(), board);
-                rayPos = board.get(index).indexOf(ray.getExit()+"");
+
+            if (!(ray.getExit() == -1 || ray.getExit() == ray.getEntry()))
+            {
+                index = findLineContaining(ray.getExit(), board);
+                rayPos = board.get(index).indexOf(ray.getExit() + "");
                 placeMarker(board, index, rayPos, ray.getExit(), rayMarker);
             }
         }
@@ -266,37 +311,48 @@ public class Board {
      * @param side - ray exit/entry side number
      * @param rayMarker - char to append
      */
-    private static void placeMarker(ArrayList<String> board, int index, int rayPos, int side, char rayMarker){
-        //append to top of board
-        if(side > 46 && side <= 54){
+    private static void placeMarker(ArrayList<String> board, int index, int rayPos, int side, char rayMarker)
+    {
+        // append to top of board
+        if (side > 46 && side <= 54)
+        {
             /*check if ray marker is already placed at position, if yes add empty line*/
-            if(board.get(0).charAt(rayPos) != ' ') board.add(0, getIndent(board.get(0).length()/2));
-            String line = board.get(0).substring(0,rayPos) + rayMarker + board.get(0).substring(rayPos);
+            if (board.get(0).charAt(rayPos) != ' ')
+                board.add(0, getIndent(board.get(0).length() / 2));
+            String line = board.get(0).substring(0, rayPos) + rayMarker + board.get(0).substring(rayPos);
             board.set(0, line);
         }
-        //append to bottom of board
-        else if(side > 19 && side < 28){
-            if(board.get(board.size()-1).charAt(rayPos) != ' ') board.add(board.size(), getIndent(board.get(0).length()/2));
-            String line = board.get(board.size()-1).substring(0,rayPos) +rayMarker + board.get(board.size()-1).substring(rayPos);
-            board.set(board.size()-1, line);
+        // append to bottom of board
+        else if (side > 19 && side < 28)
+        {
+            if (board.get(board.size() - 1).charAt(rayPos) != ' ')
+                board.add(board.size(), getIndent(board.get(0).length() / 2));
+            String line = board.get(board.size() - 1).substring(0, rayPos) + rayMarker +
+                          board.get(board.size() - 1).substring(rayPos);
+            board.set(board.size() - 1, line);
         }
-        //append to sides (right)
-        else if(side >= 28 && side <47){
-            while(board.get(index).charAt(rayPos) != ' '){
-                board.set(index, board.get(index)+" ");
+        // append to sides (right)
+        else if (side >= 28 && side < 47)
+        {
+            while (board.get(index).charAt(rayPos) != ' ')
+            {
+                board.set(index, board.get(index) + " ");
                 rayPos++;
             }
             rayPos++;
-            String line = board.get(index).substring(0, rayPos) + rayMarker +" "+ board.get(index).substring(rayPos);
+            String line = board.get(index).substring(0, rayPos) + rayMarker + " " + board.get(index).substring(rayPos);
             board.set(index, line.stripTrailing());
         }
-        //append to sides (left)
-        else{
-            while(containsPairMarkers(board.get(index).substring(0, rayPos)) || board.get(index).substring(0, rayPos).contains(rayMarker+"")){
+        // append to sides (left)
+        else
+        {
+            while (containsPairMarkers(board.get(index).substring(0, rayPos)) ||
+                   board.get(index).substring(0, rayPos).contains(rayMarker + ""))
+            {
                 rayPos--;
             }
             rayPos--;
-            String line = board.get(index).substring(0, rayPos-1) + rayMarker + board.get(index).substring(rayPos);
+            String line = board.get(index).substring(0, rayPos - 1) + rayMarker + board.get(index).substring(rayPos);
             board.set(index, line);
         }
     }
@@ -306,78 +362,92 @@ public class Board {
      * @param str - String to check
      * @return true if contained in str, false otherwise
      */
-    public static boolean containsPairMarkers(String str){
-        for(char ch : pairMarkers){
-            if(str.contains(ch+"")) return true;
+    public static boolean containsPairMarkers(String str)
+    {
+        for (char ch : pairMarkers)
+        {
+            if (str.contains(ch + ""))
+                return true;
         }
         return false;
     }
 
     /**
-     *
      * @param atoms - array filled with atoms
      * @return a board filled with atoms as an ArrayList of type:String
      */
-    public static ArrayList<String> getAtomizedBoard(Atom[] atoms){
-
+    public static ArrayList<String> getAtomizedBoard(Atom[] atoms)
+    {
         ArrayList<String> board = getEmptyBoard();
         ArrayList<String> atomizedBoard = getEmptyBoard();
 
-        int z = 0; //set z (indexes 1-9)
+        int z = 0; // set z (indexes 1-9)
         int zWait = 0;
 
         Vector right = Box.directions[Box.MOVE_DIRECTLY_RIGHT];
         Vector down_left = Box.directions[Box.MOVE_DIAGONAL_DOWN_LEFT];
         Vector down_right = Box.directions[Box.MOVE_DIAGONAL_DOWN_RIGHT];
 
-        Coordinate first_half = new Coordinate(4,8,0);  //next line reference (first half of board)
-        Coordinate second_half = new Coordinate(0,8,4); //next line reference (second half of board)
-        Coordinate position =  new Coordinate(4,8,0);   //current position 
-        int lineWidth = 4; //starting line width 
+        Coordinate first_half = new Coordinate(4, 8, 0);  // next line reference (first half of board)
+        Coordinate second_half = new Coordinate(0, 8, 4); // next line reference (second half of board)
+        Coordinate position = new Coordinate(4, 8, 0);    // current position
+        int lineWidth = 4;  // starting line width
 
         /*loop through box*/
-        for(int i = 1; i < board.size(); i++){
+        for (int i = 1; i < board.size(); i++)
+        {
             /*update line info*/
-            if(board.get(i).contains("░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█" )){ 
-                z++; //next line
-                zWait = 0; //reset alignment
+            if (board.get(i).contains("░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█  ░█"))
+            {
+                z++; // next line
+                zWait = 0; // reset alignment
+
                 /*update next line width and pos*/
-                if(z < 4 && z!=0){
+                if (z < 4 && z != 0)
+                {
                     lineWidth++;
-                    position = first_half.moveN(down_left, z); //set position to start of next line
-                } else if(z != 0) {
-                    lineWidth--;
-                    position = second_half.moveN(down_right, (z-4));//set position to start of next line
+                    position = first_half.moveN(down_left, z); // set position to start of next line
                 }
-                if(z == 4){
-                    lineWidth+=2;
+                else if (z != 0)
+                {
+                    lineWidth--;
+                    position = second_half.moveN(down_right, (z - 4)); // set position to start of next line
+                }
+                if (z == 4)
+                {
+                    lineWidth += 2;
                 }
             }
             /*check line for atoms*/
-            if((z == 0 && zWait == 3) || (z!= 0 && zWait == 2)){
+            if ((z == 0 && zWait == 3) || (z != 0 && zWait == 2))
+            {
                 /*lines to edit for each atom*/
-                String lineUp = board.get(i-1);
+                String lineUp = board.get(i - 1);
                 String line = board.get(i);
-                String lineDown = board.get(i+1);
+                String lineDown = board.get(i + 1);
+
                 /*below variables used for string manipulation*/
                 int first_index = line.indexOf("░█");
-                int currIndex = first_index+3;
+                int currIndex = first_index + 3;
+
                 /*for each hexagon, check if it contains an atom*/
-                for(int j = 0; j < lineWidth+1; j++){ 
+                for (int j = 0; j < lineWidth + 1; j++)
+                {
                     /*check current position*/
-                    if(Atom.containsAtom(atoms, position.moveN(right,j))){
+                    if (Atom.containsAtom(atoms, position.moveN(right, j)))
+                    {
                         /*update hexagon with atom*/
-                        lineUp = lineUp.substring(0,currIndex-1) + "  ╔╗" + lineUp.substring(3+currIndex);
-                        line = line.substring(0,currIndex-1) + "  ░░" + line.substring(3+currIndex);
-                        lineDown = lineDown.substring(0,currIndex-1) + "  ╚╝" + lineDown.substring(3+currIndex);
+                        lineUp = lineUp.substring(0, currIndex - 1) + "  ╔╗" + lineUp.substring(3 + currIndex);
+                        line = line.substring(0, currIndex - 1) + "  ░░" + line.substring(3 + currIndex);
+                        lineDown = lineDown.substring(0, currIndex - 1) + "  ╚╝" + lineDown.substring(3 + currIndex);
                     }
-                    currIndex +=  8; /*atom offset (string manipulation)*/
+                    currIndex += 8; /*atom offset (string manipulation)*/
                 }
                 atomizedBoard.set(i, line);
-                atomizedBoard.set(i-1, lineUp);
-                atomizedBoard.set(i+1, lineDown);
+                atomizedBoard.set(i - 1, lineUp);
+                atomizedBoard.set(i + 1, lineDown);
             }
-            //increment zWait (changes alignment)
+            // increment zWait (changes alignment)
             zWait++;
         }
 

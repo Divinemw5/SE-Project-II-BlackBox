@@ -1,25 +1,29 @@
 package TUI;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import objects.Atom;
 import objects.Box;
 import objects.Player;
 import objects.Ray;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
-public class Input {
+public class Input
+{
     private static final Scanner input = new Scanner(System.in);
-    public static String getLine(){
+    public static String getLine()
+    {
         return input.nextLine().stripTrailing().stripLeading();
     }
 
-    public static int getInt() throws NumberFormatException{
+    public static int getInt() throws NumberFormatException
+    {
         int x;
-        try{
+        try
+        {
             x = Integer.parseInt(Input.getLine());
         }
-        catch (NumberFormatException ex){
+        catch (NumberFormatException ex)
+        {
             throw new NumberFormatException("Integer not found in input!");
         }
         return x;
@@ -31,19 +35,32 @@ public class Input {
      * @return - ray generated
      * @throws IllegalStateException - if user quit before a valid ray was created
      */
-    public static Ray getRay(Box box) throws IllegalStateException{
+    public static Ray getRay(Box box) throws IllegalStateException
+    {
         int userInput = 0;
         Ray ray = null;
-        while((ray == null && userInput != -1)){
-            try{
+
+        while ((ray == null && userInput != -1))
+        {
+            try
+            {
                 Message.print("Please enter side number (‘-1‘ to quit menu) : ");
                 userInput = Input.getInt();
-                if(userInput != -1) ray = new Ray(userInput, box);
-            }catch (IllegalArgumentException ex){
+                if (userInput != -1)
+                    ray = new Ray(userInput, box);
+            }
+            catch (IllegalArgumentException ex)
+            {
                 Message.printLine(ex.getMessage());
-            }catch (InputMismatchException ignored){}
+            }
+            catch (InputMismatchException ignored)
+            {
+            }
         }
-        if(ray == null) throw new IllegalStateException("User quit before valid ray was created.");
+        if (ray == null)
+        {
+            throw new IllegalStateException("User quit before valid ray was created.");
+        }
         return ray;
     }
 
@@ -52,14 +69,19 @@ public class Input {
      * @param number player index
      * @return acquired player
      */
-    public static Player getPlayer(int number){
+    public static Player getPlayer(int number)
+    {
+        Message.print("Please enter player " + number + " name:\t");
         Player player = null;
-        Message.print("Please enter player "+number+" name:\t");
-        while(player == null){
-            try {
+
+        while (player == null)
+        {
+            try
+            {
                 player = new Player(Input.getLine());
             }
-            catch (IllegalArgumentException e) {
+            catch (IllegalArgumentException e)
+            {
                 Message.printLine(e.getMessage());
             }
         }
@@ -71,15 +93,21 @@ public class Input {
      * @return atom created
      * @throws IllegalStateException if user quit before an atom was created
      */
-    public static Atom getAtomFromUser() throws IllegalStateException{
+    public static Atom getAtomFromUser() throws IllegalStateException
+    {
         int[] userInput = {0, 0};
         Atom atom = null;
-        while((atom == null && userInput[0] != -1)){
-            try {
-                Message.printLine("Please enter two side numbers to edit an atom where they intersect (‘-1‘ to quit menu) : ");
+
+        while ((atom == null && userInput[0] != -1))
+        {
+            try
+            {
+                Message.printLine("Please enter two side numbers to edit an atom where they intersect " +
+                        "(‘-1‘ to quit menu) : ");
                 Message.print("Enter side number 1 : ");
                 userInput[0] = getInt();
-                if(userInput[0] != -1){
+                if (userInput[0] != -1)
+                {
                     Message.print("Enter side number 2 : ");
                     userInput[1] = getInt();
                     int x = userInput[0];
@@ -87,12 +115,18 @@ public class Input {
                     atom = Util.getAtom(x, y);
                 }
             }
-            catch (IllegalArgumentException | IllegalStateException ex) {
+            catch (IllegalArgumentException | IllegalStateException ex)
+            {
                 Message.printLine(ex.getMessage());
             }
-            catch (InputMismatchException ignored){}
+            catch (InputMismatchException ignored)
+            {
+            }
         }
-        if(atom == null) throw new IllegalStateException("User quit before valid atom could be selected for editing");
+        if (atom == null)
+        {
+            throw new IllegalStateException("User quit before valid atom could be selected for editing");
+        }
         return atom;
     }
 }

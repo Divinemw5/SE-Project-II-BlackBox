@@ -5,7 +5,8 @@ import math.Coordinate;
 
 /**
  * Class SideHexagon :
- * Represents a Hexagon on the edge of the board, with an added sides array and helper methods for access
+ * Represents a Hexagon on the edge of the board, with an added sides array and helper methods for
+ * access
  */
 public class SideHexagon extends Hexagon
 {
@@ -17,7 +18,8 @@ public class SideHexagon extends Hexagon
      * @param hasAtom      - If the hexagon contains an atom (true if yes, false if no)
      * @param barrierValue - The number of atom barriers overlapping on the hexagon
      *                        and the second index contains a direction constant (0-5)
-     * @throws IllegalArgumentException if barrierValue is negative, or if number of sides passed is not 2 or 3
+     * @throws IllegalArgumentException if barrierValue is negative, or if number of sides passed is
+     *     not 2 or 3
      */
     SideHexagon(boolean hasAtom, int barrierValue, Coordinate location)
     {
@@ -32,9 +34,13 @@ public class SideHexagon extends Hexagon
     public void setSides(int[][] sides)
     {
         if (sides.length < 2 || sides.length > 3)
+        {
             throw new IllegalArgumentException();
+        }
         else
+        {
             this.sides = sides;
+        }
     }
 
     /**
