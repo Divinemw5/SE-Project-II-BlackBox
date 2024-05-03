@@ -12,7 +12,7 @@ public class SideHexagon extends Hexagon
     private int[][] sides;
 
     /**
-     * This constructor generates a new SideHexagon and takes :
+     * This constructor generates a new SideHexagon
      *
      * @param hasAtom      - If the hexagon contains an atom (true if yes, false if no)
      * @param barrierValue - The number of atom barriers overlapping on the hexagon
@@ -38,7 +38,7 @@ public class SideHexagon extends Hexagon
     }
 
     /**
-     * Method checks if the sides array contains a given movement direction and takes :
+     * Method checks if the sides array contains a given movement direction
      * @param direction to check if contained in sides array
      * @return true (contained in array) or false (not contained in array)
      */
@@ -48,7 +48,7 @@ public class SideHexagon extends Hexagon
     }
 
     /**
-     * Method gets corresponding side number of a specific entry direction in the sides array and takes :
+     * Method gets corresponding side number of a specific entry direction in the sides array
      * @param direction to get side with given direction
      * @return side number (contained in array) or -1 (not contained in array)
      */

@@ -119,22 +119,21 @@ public class Box {
     }
 
     /**
-     * Method gets index of Hexagon referenced by Coordinate in box[] and takes :
+     * Method gets index of Hexagon referenced by Coordinate in box[]
      * @param location - location of hexagon to get index of
      * @return index of hexagon referenced by location
      */
-
     public int getIndexOf(Coordinate location){
         for(int i = 0; i < box.length; i++){
             if(box[i].getLocation().equals(location)){
                 return i;
             }
         }
-        return -1; //hexagon not in box
+        return -1;
     }
 
     /**
-     * Method gets Hexagon referenced by passed index in box[] and takes :
+     * Method gets Hexagon referenced by passed index in box[]
      * @param index - index of hexagon to grab in box[]
      * @return - hexagon referenced by box[index] , or null if index out of bounds
      */
@@ -148,7 +147,7 @@ public class Box {
     }
 
     /**
-     * Method gets Hexagon referenced at location matching passed Coordinate and takes :
+     * Method gets Hexagon referenced at location matching passed Coordinate
      * @param location - Coordinate (location) of Hexagon to grab
      * @return Hexagon matching Coordinate, or null if Hexagon is not in Box
      */
@@ -158,12 +157,9 @@ public class Box {
                 return hexagon;
             }
         }
-        return null; //hexagon not in box
+        return null;
     }
 
-    /**
-     * @return a String representation of the box
-     */
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

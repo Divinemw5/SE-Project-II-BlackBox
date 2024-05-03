@@ -22,6 +22,7 @@ public class Colours {
     public static final String ANSI_BLACK_BG = "\033[40m"; //WHITE BG
     public static final String ANSI_WHITE_BG = "\033[47m"; //BLACK BG
 
+    //constants for colouring the board, can be switched to instance variables to add multiple colour schemes
     public static final String backgroundColour = ANSI_BLACK_BG;
     public static final String boardColour = ANSI_RESET + backgroundColour;
     public static final String atomColour = ANSI_YELLOW + backgroundColour;
@@ -53,14 +54,16 @@ public class Colours {
             board.set(i,stringBuilder.toString());
             i++;
         }
-        //colour atoms
+        //colour atoms and ray markers
         i = 0;
         board.set(0, boardColour+board.get(0));
         for(String str : board){
+            //colour atoms
             str = str.replaceAll("╔╗", atomColour+"╔╗"+boardColour);
             str = str.replaceAll("░░", atomColour+"░░"+boardColour);
             str = str.replaceAll("╚╝", atomColour+"╚╝"+boardColour);
 
+            //colour ray markers
             str = str.replaceAll(String.valueOf(rayMarkerReflected), reflectedColour+rayMarkerReflected+boardColour);
             str = str.replaceAll(String.valueOf(rayMarkerAbsorbed), absorbedColour+rayMarkerAbsorbed+boardColour);
 
@@ -69,7 +72,6 @@ public class Colours {
                     str = str.replace(String.valueOf(pairMarkers[j]), pairColours[j%pairColours.length] + pairMarkers[j] + boardColour);
                 }
             }
-
             board.set(i, str);
             i++;
         }

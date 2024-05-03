@@ -10,8 +10,8 @@ public class Player
     public final int MIN_LENGTH = 3;
     public final int MAX_LENGTH = 16;
     private final String name;
-    private int previousRoundScore = 0;    //player‘s score at end of last round
-    private int numberOfWins = 0;  //player‘s total number of wins against a player 2
+    private int previousRoundScore = 0;
+    private int numberOfWins = 0;
 
     /**
      * @param name - player name

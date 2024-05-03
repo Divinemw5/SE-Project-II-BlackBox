@@ -20,7 +20,7 @@ public record Coordinate(int x, int y, int z) {
     }
 
     /**
-     * Shifts stored coordinate by a vector (does not alter current coordinate) and takes :
+     * Shifts stored coordinate by a vector (does not alter current coordinate)
      *
      * @param vector - movement vector
      * @return coordinate shifted by vector
@@ -30,7 +30,7 @@ public record Coordinate(int x, int y, int z) {
     }
 
     /**
-     * Shifts stored coordinate by a vector * scalar n (does not alter current coordinate) and takes :
+     * Shifts stored coordinate by a vector * scalar n (does not alter current coordinate)
      *
      * @param vector - movement vector
      * @param n      - number of times to move by vector

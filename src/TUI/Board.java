@@ -271,25 +271,20 @@ public class Board {
         if(side > 46 && side <= 54){
             /*check if ray marker is already placed at position, if yes add empty line*/
             if(board.get(0).charAt(rayPos) != ' ') board.add(0, getIndent(board.get(0).length()/2));
-            //System.out.println(board.get(0));
-            //append ray marker at position
             String line = board.get(0).substring(0,rayPos) + rayMarker + board.get(0).substring(rayPos);
             board.set(0, line);
         }
         //append to bottom of board
         else if(side > 19 && side < 28){
             if(board.get(board.size()-1).charAt(rayPos) != ' ') board.add(board.size(), getIndent(board.get(0).length()/2));
-
             String line = board.get(board.size()-1).substring(0,rayPos) +rayMarker + board.get(board.size()-1).substring(rayPos);
             board.set(board.size()-1, line);
         }
         //append to sides (right)
         else if(side >= 28 && side <47){
-            //System.out.println(side);
             while(board.get(index).charAt(rayPos) != ' '){
                 board.set(index, board.get(index)+" ");
                 rayPos++;
-                //System.out.println(rayPos);
             }
             rayPos++;
             String line = board.get(index).substring(0, rayPos) + rayMarker +" "+ board.get(index).substring(rayPos);
