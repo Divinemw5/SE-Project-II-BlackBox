@@ -64,7 +64,6 @@ public class Colours {
             str = str.replaceAll(String.valueOf(rayMarkerReflected), reflectedColour+rayMarkerReflected+boardColour);
             str = str.replaceAll(String.valueOf(rayMarkerAbsorbed), absorbedColour+rayMarkerAbsorbed+boardColour);
 
-            //System.out.println(pairMarkers.length);
             for(int j = 0; j < pairMarkers.length; j++){
                 if(str.contains(pairMarkers[j]+"")) {
                     str = str.replace(String.valueOf(pairMarkers[j]), pairColours[j%pairColours.length] + pairMarkers[j] + boardColour);

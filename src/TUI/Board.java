@@ -57,7 +57,9 @@ public class Board {
                 //update counter
                 indentSize -= 2;
                 appendLength++;
-            } else { //bottom half
+            }
+            //bottom half
+            else {
                 if(i == 5){
                     appendLength--;
                 }

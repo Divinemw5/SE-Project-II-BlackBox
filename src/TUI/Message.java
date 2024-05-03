@@ -30,7 +30,6 @@ public class Message {
             Message.printLine("Its a draw!!! These players tied: ");
             for(Player player : winningPlayers){
                 Message.printLine(player.getName() + ": " + player.getRoundScore());
-               // player.incrementNumberOfWins(); - > done in round score calculation method
             }
         }
         else if (winningPlayers.size() == 1){
@@ -38,7 +37,6 @@ public class Message {
             Message.printLine("The winner of this round is: " + winner.getName());
             Message.printLine("Round score: " + winner.getRoundScore());
             System.out.println();
-           // winner.incrementNumberOfWins(); - > done in round score calculation method
         }
     }
 
@@ -50,7 +48,6 @@ public class Message {
     }
 
     public static void printFinalLeaderboard(Player[] players, ArrayList<Player> winningList){
-        //System.out.println("END OF GAME LEADERBOARD:");
         Message.printLeaderboard(players);
 
         if(winningList.size() > 1) {
