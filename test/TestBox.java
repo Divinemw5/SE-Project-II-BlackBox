@@ -9,12 +9,12 @@ import java.util.Collection;
 import objects.*;
 
 @RunWith(Parameterized.class)
-public class TestAtomPlacement {
+public class TestBox {
     private Atom[] testAtoms;
     private Box testBox;
 
     // Constructor that takes an array of atoms as parameter
-    public TestAtomPlacement(Atom[] atoms) {
+    public TestBox(Atom[] atoms) {
         this.testAtoms = atoms;
     }
 

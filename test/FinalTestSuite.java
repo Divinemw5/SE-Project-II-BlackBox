@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         TestUserNameInput.class,
-        TestAtomPlacement.class,
+        TestBox.class,
         TestUserPlacedAtoms.class,
         TestRayReaction.class,
         TestScoreCalculation.class,
