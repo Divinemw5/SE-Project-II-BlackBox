@@ -67,7 +67,6 @@ public class TestRayTravel {
 
     @Test
     public void testAnnouncementAbsorption() {
-        // Assuming you have a constructor for objects.Ray where you can set the exit to -1
         Ray absorbedRay = new Ray(10, box);
         Util.printRayResponse(absorbedRay);
         assertTrue(outContent.toString().toLowerCase().contains("absorbed"));

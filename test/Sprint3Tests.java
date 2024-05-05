@@ -37,11 +37,13 @@ public class Sprint3Tests {
             new Atom(4,0,8)
     };
     Box box = new Box(TestAtoms);
+
     Box box1 = new Box(TestAtoms2);
 
     @Test
     public void RayResponse(){
-        Ray ray = new Ray(35,box1);
+        //System.out.println(Board.getAtomizedBoard());
+        Ray ray = new Ray(35, box1);
         Util.printRayResponse(ray);
         assertTrue(outContent.toString().toLowerCase().contains("reflected"));
     }
@@ -50,7 +52,7 @@ public class Sprint3Tests {
     {
         Box emptyBox = new Box(new Atom[] {null});
         Atom[] atoms = new Atom[]{Util.getAtom(6,1), Util.getAtom(51,46), Util.getAtom(37,42), Util.getAtom(10,30), Util.getAtom(26,25), Util.getAtom(19,7)};
-        System.out.println(Util.getAtom(6,1).toString());
+        //System.out.println(Util.getAtom(6,1).toString());
         Box box1 = new Box(atoms);
         Hexagon hex = box1.getHexagonByCoordinate(new Coordinate(4,6,2));
         Hexagon hex1 = box1.getHexagonByCoordinate(new Coordinate(6,4,2));
