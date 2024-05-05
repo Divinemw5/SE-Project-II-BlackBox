@@ -7,6 +7,7 @@ import org.junit.runners.Suite;
         TestUserNameInput.class,
         //add test for round control
         TestAtomPlacement.class,
+        TestUserPlacedAtoms.class,
         TestRayReaction.class,
         TestScoreCalculation.class
 })
