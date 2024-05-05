@@ -5,7 +5,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         TestUserNameInput.class,
-        //add test for round control
         TestAtomPlacement.class,
         TestUserPlacedAtoms.class,
         TestRayReaction.class,
