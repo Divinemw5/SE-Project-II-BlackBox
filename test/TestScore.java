@@ -1,11 +1,7 @@
-/*import objects.Atom;
 import objects.*;
 import org.junit.Test;
-
 import java.util.ArrayList;
-
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class TestScore {
     private Box box;
@@ -39,7 +35,7 @@ public class TestScore {
         ray.add(ray2);
         ray.add(ray3);
         ray.add(ray4);
-        assertEquals(20, BlackboxPlus.calculateScore(ray, atoms, userAtom));
+        assertEquals(20, BlackboxPlus.calculateRoundScore(ray, atoms, userAtom));
 
 
     }
@@ -64,7 +60,7 @@ public class TestScore {
         ray.add(ray2);
         ray.add(ray3);
         ray.add(ray4);
-        assertEquals(35, BlackboxPlus.calculateScore(ray, atoms, userAtom));
+        assertEquals(35, BlackboxPlus.calculateRoundScore(ray, atoms, userAtom));
 
 
     }
@@ -88,10 +84,9 @@ public class TestScore {
         ray.add(ray2);
         ray.add(ray3);
         ray.add(ray4);
-        assertEquals(5, BlackboxPlus.calculateScore(ray, atoms, userAtom));
+        assertEquals(5, BlackboxPlus.calculateRoundScore(ray, atoms, userAtom));
 
     }
 
 }
 
- */
