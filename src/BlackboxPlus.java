@@ -1,5 +1,7 @@
 import TUI.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import objects.*;
 
 /**
@@ -167,6 +169,9 @@ public class BlackboxPlus
     }
 
     static void removeAtom(Atom[] userAtoms, Atom atomToRemove) {
+        if( Arrays.stream(userAtoms).allMatch(item -> item == null)){
+            throw new IllegalArgumentException("No atoms on board");
+        }
         int i = 0;
         while (i < userAtoms.length && !userAtoms[i].equals(atomToRemove))
         {
