@@ -9,7 +9,8 @@ import org.junit.runners.Suite;
         TestAtomPlacement.class,
         TestUserPlacedAtoms.class,
         TestRayReaction.class,
-        TestScoreCalculation.class
+        TestScoreCalculation.class,
+        TestTUI.class
 })
 
 public class FinalTestSuite {

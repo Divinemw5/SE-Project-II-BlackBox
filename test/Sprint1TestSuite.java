@@ -7,7 +7,6 @@ import org.junit.runners.Suite;
         TestUserNameInput.class,
         TestRandomAtomGeneration.class,
         TestHexagonAtomPlacement.class,
-        TestTui.class
 })
 
 public class Sprint1TestSuite {

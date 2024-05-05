@@ -11,7 +11,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-public class Sprint3Tests {
+public class Sprint3Tests
+{
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     @Before
@@ -41,18 +42,18 @@ public class Sprint3Tests {
     Box box1 = new Box(TestAtoms2);
 
     @Test
-    public void RayResponse(){
-        //System.out.println(Board.getAtomizedBoard());
+    public void RayResponse()
+    {
         Ray ray = new Ray(35, box1);
         Util.printRayResponse(ray);
         assertTrue(outContent.toString().toLowerCase().contains("reflected"));
     }
+
     @Test
     public void TestUserPlacedAtoms()
     {
-        Box emptyBox = new Box(new Atom[] {null});
         Atom[] atoms = new Atom[]{Util.getAtom(6,1), Util.getAtom(51,46), Util.getAtom(37,42), Util.getAtom(10,30), Util.getAtom(26,25), Util.getAtom(19,7)};
-        //System.out.println(Util.getAtom(6,1).toString());
+
         Box box1 = new Box(atoms);
         Hexagon hex = box1.getHexagonByCoordinate(new Coordinate(4,6,2));
         Hexagon hex1 = box1.getHexagonByCoordinate(new Coordinate(6,4,2));
@@ -62,19 +63,22 @@ public class Sprint3Tests {
 
        //box1.getHexagonByCoordinate(math.Coordinate());
     }
+
     @Test
     public void RayMarkerTUITest()
     {
-        char[] pairMarkers = new char[]{'#', '≡', '!', '$', '■', '¤', '«', '§', '¡', '¿', '¥', '×', 'ƒ', '¶'};
+        char[] pairMarkers = Board.pairMarkers;
 
         Ray ray1 = new Ray(35, box1);
         Ray ray2 = new Ray(3,box1);
         Ray ray3 = new Ray(44,box1);
+
         ArrayList<Ray> rays = new ArrayList<>();
         rays.add(ray1);
         rays.add(ray2);
         rays.add(ray3);
         rays.add(new Ray(29,box1));
+
         ArrayList<String> board = Board.appendRayMarkers(rays, Board.getAtomizedBoard(TestAtoms));
         int count =0;
         for(String str : board) {
@@ -88,6 +92,7 @@ public class Sprint3Tests {
                 }
             }
         }
+
         int count2=0;
         for(String str : board) {
             char[] charArray = str.toCharArray(); // Convert the String to a char array
@@ -97,12 +102,13 @@ public class Sprint3Tests {
                 }
             }
         }
+
         assertEquals(count,4);
         assertEquals(count2,2);
     }
 
 
-    }
+}
 
 
 

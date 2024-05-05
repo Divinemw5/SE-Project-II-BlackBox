@@ -1,6 +1,7 @@
 import TUI.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import objects.*;
 
@@ -144,7 +145,8 @@ public class BlackboxPlus
     }
 
 
-    static void addAtom(Atom[] userAtoms, Atom atomToPlace) {
+    static void addAtom(Atom[] userAtoms, Atom atomToPlace)
+    {
         if (Atom.containsAtom(userAtoms, atomToPlace.getLocation()))
         {
             throw new IllegalStateException("Please ensure no guessed atom is already placed at guessed "
@@ -165,18 +167,23 @@ public class BlackboxPlus
         {
             userAtoms[i] = atomToPlace;
         }
+
         Message.printLine("Atom placed successfully!");
     }
 
-    static void removeAtom(Atom[] userAtoms, Atom atomToRemove) {
-        if( Arrays.stream(userAtoms).allMatch(item -> item == null)){
+    static void removeAtom(Atom[] userAtoms, Atom atomToRemove)
+    {
+        if(Arrays.stream(userAtoms).allMatch(Objects::isNull))
+        {
             throw new IllegalArgumentException("No atoms on board");
         }
+
         int i = 0;
         while (i < userAtoms.length && !userAtoms[i].equals(atomToRemove))
         {
             i++;
         }
+
         if (i == userAtoms.length)
         {
             throw new IllegalStateException("Please select an atom present on the board.");
@@ -185,6 +192,7 @@ public class BlackboxPlus
         {
             userAtoms[i] = null;
         }
+
         Message.printLine("Atom removed successfully!");
     }
 
