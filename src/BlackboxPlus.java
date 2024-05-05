@@ -4,7 +4,7 @@ import objects.*;
 
 /**
  *  Class BlackboxPlus:
- *  contains our program flow throughout the game
+ *  Contains our program flow throughout the game + helper methods for calculating score
  */
 
 public class BlackboxPlus
@@ -35,6 +35,9 @@ public class BlackboxPlus
             players[i] = Input.getPlayer(i + 1);
         }
     }
+
+    /*Program Flow*/
+
     private void play()
     {
         String userInput = "";
@@ -99,28 +102,7 @@ public class BlackboxPlus
                 try
                 {
                     Atom atomToPlace = Input.getAtomFromUser();
-
-                    if (Atom.containsAtom(userAtoms, atomToPlace.getLocation()))
-                    {
-                        throw new IllegalStateException("Please ensure no guessed atom is already placed at guessed "
-                                + "position.");
-                    }
-
-                    int i = 0;
-                    while (i < userAtoms.length && userAtoms[i] != null)
-                    {
-                        i++;
-                    }
-
-                    if (i == userAtoms.length)
-                    {
-                        throw new IllegalStateException("Please remove an atom before placing one.");
-                    }
-                    else
-                    {
-                        userAtoms[i] = atomToPlace;
-                    }
-                    Message.printLine("Atom placed successfully!");
+                    addAtom(userAtoms, atomToPlace);
                 }
                 catch (Exception ex)
                 {
@@ -132,21 +114,7 @@ public class BlackboxPlus
                 try
                 {
                     Atom atomToRemove = Input.getAtomFromUser();
-
-                    int i = 0;
-                    while (i < userAtoms.length && !userAtoms[i].equals(atomToRemove))
-                    {
-                        i++;
-                    }
-                    if (i == userAtoms.length)
-                    {
-                        throw new IllegalStateException("Please select an atom present on the board.");
-                    }
-                    else
-                    {
-                        userAtoms[i] = null;
-                    }
-                    Message.printLine("Atom removed successfully!");
+                    removeAtom(userAtoms, atomToRemove);
                 }
                 catch (Exception ex)
                 {
@@ -168,12 +136,56 @@ public class BlackboxPlus
         Message.printLine("Displaying board with real atom positions ...");
         Message.printBoard(Board.appendRayMarkers(rays, Board.getAtomizedBoard(atoms)));
         //calculate score
-        players[currentPlayer].setRoundScore(calculateScore(rays, atoms, userAtoms));
+        players[currentPlayer].setRoundScore(calculateRoundScore(rays, atoms, userAtoms));
         // switch to next player
         currentPlayer = (currentPlayer + 1) % players.length;
     }
 
-    public static int calculateScore(ArrayList<Ray> rays, Atom[] atoms, Atom[] userAtoms)
+
+    private static void addAtom(Atom[] userAtoms, Atom atomToPlace) {
+        if (Atom.containsAtom(userAtoms, atomToPlace.getLocation()))
+        {
+            throw new IllegalStateException("Please ensure no guessed atom is already placed at guessed "
+                    + "position.");
+        }
+
+        int i = 0;
+        while (i < userAtoms.length && userAtoms[i] != null)
+        {
+            i++;
+        }
+
+        if (i == userAtoms.length)
+        {
+            throw new IllegalStateException("Please remove an atom before placing one.");
+        }
+        else
+        {
+            userAtoms[i] = atomToPlace;
+        }
+        Message.printLine("Atom placed successfully!");
+    }
+
+    private static void removeAtom(Atom[] userAtoms, Atom atomToRemove) {
+        int i = 0;
+        while (i < userAtoms.length && !userAtoms[i].equals(atomToRemove))
+        {
+            i++;
+        }
+        if (i == userAtoms.length)
+        {
+            throw new IllegalStateException("Please select an atom present on the board.");
+        }
+        else
+        {
+            userAtoms[i] = null;
+        }
+        Message.printLine("Atom removed successfully!");
+    }
+
+    /*Score Calculation Helper Methods*/
+
+    public static int calculateRoundScore(ArrayList<Ray> rays, Atom[] atoms, Atom[] userAtoms)
     {
         int missedAtomsScore = 0;
         int rayMarkersScore = 0;
@@ -196,27 +208,6 @@ public class BlackboxPlus
         Message.printScoreBreakdown(missedAtomsScore, rayMarkersScore);
 
         return missedAtomsScore + rayMarkersScore;
-    }
-
-    public static ArrayList<Player> calculateFinalScore(Player[] players)
-    {
-        ArrayList<Player> winnerList = new ArrayList<>();
-        int winningScore = 0;
-
-        for (Player player : players)
-        {
-            if (player.getNumberOfWins() > winningScore)
-            {
-                winningScore = player.getNumberOfWins();
-                winnerList.clear();
-                winnerList.add(player);
-            }
-            else if (player.getNumberOfWins() == winningScore)
-            {
-                winnerList.add(player);
-            }
-        }
-        return winnerList;
     }
 
     public static int getLowestScore(Player[] players)
@@ -247,6 +238,28 @@ public class BlackboxPlus
         }
         return winnerList;
     }
+
+    public static ArrayList<Player> calculateFinalScore(Player[] players)
+    {
+        ArrayList<Player> winnerList = new ArrayList<>();
+        int winningScore = 0;
+
+        for (Player player : players)
+        {
+            if (player.getNumberOfWins() > winningScore)
+            {
+                winningScore = player.getNumberOfWins();
+                winnerList.clear();
+                winnerList.add(player);
+            }
+            else if (player.getNumberOfWins() == winningScore)
+            {
+                winnerList.add(player);
+            }
+        }
+        return winnerList;
+    }
+
 
     public static void main(String[] args)
     {
