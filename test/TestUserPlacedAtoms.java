@@ -1,50 +1,53 @@
-import TUI.Util;
-import math.Coordinate;
 import objects.Atom;
-import objects.Box;
-import objects.Hexagon;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
+
+import static org.junit.Assert.*;
 
 public class TestUserPlacedAtoms {
-    private Box box1;
+    private Atom[] userAtoms;
 
     @Before
     public void setUp() {
-        Atom[] atoms = new Atom[] {
-                Util.getAtom(6,1), // Suppose this creates an Atom at coordinate (4,6,2)
-                Util.getAtom(51,46), // Suppose this creates an Atom at coordinate (6,4,2)
-                Util.getAtom(37,42),
-                Util.getAtom(10,30),
-                Util.getAtom(26,25),
-                Util.getAtom(19,7)
-        };
-        box1 = new Box(atoms);
+        // Initialize an empty array for every test to avoid shared state between tests
+        userAtoms = new Atom[] {null, null, null, null, null, null};
     }
 
     @Test
-    public void testAtomIsCorrectlyPlacedAtCoordinate46_2() {
-        Hexagon hex = box1.getHexagonByCoordinate(new Coordinate(4,6,2));
-        assertNotNull("Hexagon should not be null", hex);
-        assertTrue("Hexagon at (4,6,2) should have an atom", hex.checkHasAtom());
+    public void testAddAtomSuccessfully() {
+        Atom atom = new Atom(4,6,2);  // Example atom
+        BlackboxPlus.addAtom(userAtoms, atom);
+        assertNotNull("Atom should be added successfully", userAtoms[0]);
     }
 
-    @Test
-    public void testAtomIsCorrectlyPlacedAtCoordinate64_2() {
-        Hexagon hex1 = box1.getHexagonByCoordinate(new Coordinate(6,4,2));
-        assertNotNull("Hexagon should not be null", hex1);
-        assertTrue("Hexagon at (6,4,2) should have an atom", hex1.checkHasAtom());
-    }
-
-    //test initialising more than maximum atoms
-    /*
     @Test(expected = IllegalArgumentException.class)
-    public void testAddingSeventhAtomThrowsException() {
-        // Trying to add a seventh Atom
-        box1.atom(new Atom(5, 4, 3)); // This should throw IllegalArgumentException
+    public void testAddAtomBeyondCapacity() {
+        for (int i = 0; i < 6; i++) {
+            userAtoms[i] = new Atom(i, i+1, i+2);  // Fill the array
+        }
+        Atom newAtom = new Atom(7, 7, 7); // Seventh atom
+        BlackboxPlus.addAtom(userAtoms, newAtom);  // Expect an exception here
     }
 
-     */
+    @Test(expected = IllegalStateException.class)
+    public void testAddDuplicateAtom() {
+        Atom atom = new Atom(4,6,2);
+        BlackboxPlus.addAtom(userAtoms, atom);
+        BlackboxPlus.addAtom(userAtoms, atom);  // Trying to add the same atom again
+    }
+
+    @Test
+    public void testRemoveAtomSuccessfully() {
+        Atom atom = new Atom(4,6,2);
+        BlackboxPlus.addAtom(userAtoms, atom);
+        BlackboxPlus.removeAtom(userAtoms, atom);
+        assertNull("Atom should be removed successfully", userAtoms[0]);
+    }
+
+    //tests nonexistent and 0 atoms left
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoveNonexistentAtom() {
+        Atom atom = new Atom(4,6,2);
+        BlackboxPlus.removeAtom(userAtoms, atom);  // No atom to remove
+    }
 }

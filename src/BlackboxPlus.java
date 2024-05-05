@@ -142,7 +142,7 @@ public class BlackboxPlus
     }
 
 
-    private static void addAtom(Atom[] userAtoms, Atom atomToPlace) {
+    static void addAtom(Atom[] userAtoms, Atom atomToPlace) {
         if (Atom.containsAtom(userAtoms, atomToPlace.getLocation()))
         {
             throw new IllegalStateException("Please ensure no guessed atom is already placed at guessed "
@@ -166,7 +166,7 @@ public class BlackboxPlus
         Message.printLine("Atom placed successfully!");
     }
 
-    private static void removeAtom(Atom[] userAtoms, Atom atomToRemove) {
+    static void removeAtom(Atom[] userAtoms, Atom atomToRemove) {
         int i = 0;
         while (i < userAtoms.length && !userAtoms[i].equals(atomToRemove))
         {

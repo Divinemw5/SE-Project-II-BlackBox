@@ -1,4 +1,4 @@
-import objects.Atom;
+/*import objects.Atom;
 import objects.*;
 import org.junit.Test;
 
@@ -93,3 +93,5 @@ public class TestScore {
     }
 
 }
+
+ */

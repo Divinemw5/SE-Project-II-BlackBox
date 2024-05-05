@@ -54,4 +54,5 @@ public class TestAtomPlacement {
                     testBox.getHexagon(index).checkHasAtom());
         }
     }
+
 }
