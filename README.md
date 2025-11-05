@@ -40,5 +40,5 @@ This means I worked on the system that ensures the game *behaves correctly and f
 
 1. Open a terminal/command prompt  
 2. Navigate to the directory containing `Blackbox.jar`  
-3. Run:
+3. Run: `java -jar Blackbox.jar -D`
 
